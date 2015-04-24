@@ -1,0 +1,35 @@
+Reaalsuses on see.
+Ma räägin, mis on story selle taga.
+Ja siis räägin ülesehitusest.
+
+näitas youtube videot, kus oli ipad/video timeline ja kastikesed olid all
+
+khanacademy - õpikeskkond
+
+eliademy
+digididaktika?
+kastikeste lohistamine
+
+sticky notes
+
+leplannerproject.wordpress.com
+
+vajutab peale kastikesele ja läheb suureks
+lohistamiseks kasutada jquery
+Droppable
+
+google_stylegyde
+
+github koodi hoidmiseks
+seal on ka mugav ülesandeid jaotada, ticketeid teha
+
+asana.com - project juhtimiseks
+
+draw.io joonistamiseks moqups
+
+sahtlite hoidmine
+json - backend
+otsimine?
+logimine?
+
+eDidaktikum.ee
