@@ -71,6 +71,12 @@ app.get('/api/me', auth, function(req, res){
   return res.json(req.session.passport.user);
 });
 
+app.get('/api/logout', auth, function(req, res){
+  console.log('logged out');
+  req.logOut();
+  res.status(200).send({success: 'success'});
+});
+
 
 var server = app.listen(config.port, function(){
 
