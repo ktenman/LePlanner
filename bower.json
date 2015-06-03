@@ -1,0 +1,13 @@
+{
+  "name": "LePlanner",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ktenman/LePlanner",
+  "authors": [
+    "ophyneus <ophyneus@tlu.ee>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular": "~1.4.0"
+  }
+}
