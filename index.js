@@ -15,8 +15,8 @@ passport.use(new GoogleStrategy({
     clientID: config.googleAuth.clientID
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
-
+    //console.log(profile);
+    console.log('logged in successfully');
     done(null,profile);
   }
 ));
@@ -59,6 +59,17 @@ app.get('/api/oauth2callback',
     res.redirect('/#/');
   });
 
+var auth = function(req, res, next){
+  if(!req.isAuthenticated()){
+    res.status(401).send({error: 'unauthorized'});
+  }else{
+    next();
+  }
+};
+
+app.get('/api/me', auth, function(req, res){
+  return res.json(req.session.passport.user);
+});
 
 
 var server = app.listen(config.port, function(){
