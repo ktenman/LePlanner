@@ -4,8 +4,8 @@ var leplannerApp = angular.module('leplannerApp', [
   'ngRoute'
   ]);
 
-leplannerApp.config(['$routeProvider','$locationProvider','$resourseProvider',
-  function($routeProvider, $locationProvider, $resourseProvider){
+leplannerApp.config(['$routeProvider','$locationProvider','$resourceProvider',
+  function($routeProvider, $locationProvider, $resourceProvider){
 
     $routeProvider
     .when('/', {
