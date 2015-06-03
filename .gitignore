@@ -1,3 +1,4 @@
 config.js
 app/assets/libs
 node_modules/
+.DS_Store

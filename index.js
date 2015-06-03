@@ -77,10 +77,10 @@ app.get('/api/oauth2callback',
     return res.json(req.session.passport.user);
   });
 
-  app.get('/api/logout', function(req, res) {
+  app.get('/api/logout', auth, function(req, res) {
     console.log('Logged out');
     req.logOut();
-    req.status(200).send({success: 'Success'});
+    res.status(200).send({success: 'Success'});
   })
 
 var server = app.listen(config.port, function() {
