@@ -1,21 +1,22 @@
 // angular
 var leplannerApp = angular.module('leplannerApp', [
   'ngResource',
-  'ngRoute'
+  'ngRoute',
+  'leplannerControllers'
 ]);
 
 leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
   function($routeProvider, $locationProvider, $resourceProvider){
     $routeProvider
       .when('/', {
-        templateUrl: '/views/home.html'
+        templateUrl: '/views/home.html',
+        controller: 'homeCtrl'
       })
       .when('/login', {
-        templateUrl: '/views/login.html'
+        templateUrl: '/views/login.html',
+        controller: 'loginCtrl'
       })
-      .otherwise('/login', {
+      .otherwise({
         redirectTo: '/'
       });
-
-
 }]);
