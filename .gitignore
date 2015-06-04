@@ -2,7 +2,7 @@ config.js
 app/assets/libs
 node_modules/
 
-### OSX ###
+######## OSX ########
 .DS_Store
 .DS_Store?
 .AppleDouble
@@ -31,7 +31,7 @@ Temporary Items
 .apdisk
 
 
-### Windows ###
+######## Windows ########
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -53,7 +53,7 @@ $RECYCLE.BIN/
 
 
 
-### Linux ###
+######## Linux ########
 *~
 
 # KDE directory preferences
@@ -63,15 +63,8 @@ $RECYCLE.BIN/
 .Trash-*
 
 
-### Dreamweaver ###
-# DW Dreamweaver added files
-_notes
-dwsync.xml
 
-
-
-
-### Node ###
+######## Node ########
 # Logs
 logs
 *.log
