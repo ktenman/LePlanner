@@ -8,7 +8,21 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
+// Facebook Auth
+passport.use(new FacebookStrategy({
+    clientID: config.facebookAuth.clientID,
+    clientSecret: config.facebookAuth.clientSecret,
+    callbackURL: config.facebookAuth.callbackURL
+  },
+  function(accessToken, refreshToken, profile, done){
+    console.log(profile);
+    done(null, profile);
+  }
+));
+
+// Google Auth
 passport.use(new GoogleStrategy({
 
     callbackURL: config.googleAuth.callbackURL,
@@ -45,6 +59,19 @@ app.use(cookieParser(config.secret));
 app.use(session(sessionOpt));
 app.use(passport.initialize());
 app.use(passport.session());
+// FACEBOOK AUTH
+app.get('/api/auth/facebook',
+  passport.authenticate('facebook', function(req, res){
+    // The request will be redirected to Facebook for authentication, so this
+    // function will not be called.
+  }));
+
+app.get('/api/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/#/login'}),
+  function(req, res){
+    res.redirect('/#/');
+  });
+
 //  GOOGLE AUTH
 app.get('/api/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',

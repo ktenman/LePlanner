@@ -9,6 +9,8 @@ leplannerControllers.controller('MainCtrl', [
     success(function(data, status, headers, config){
       console.log('User logged in');
       $scope.user = data.displayName;
+      $scope.locale = data._json.locale;
+      console.log(data);
     }).
     error(function(data, status, headers, config){
       console.log(data);
