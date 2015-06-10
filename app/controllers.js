@@ -9,8 +9,7 @@ leplannerControllers.controller('MainCtrl',[
       $http.get('/api/me').
       success(function(data,status,headers,config){
         console.log(data);
-        $scope.user = data.displayName;
-        $scope.gender = data._json.gender;
+        $scope.user = data.first_name;
       }).
       error(function(data,status,headers,config){
         console.log(data);
