@@ -156,7 +156,7 @@ app.get('/api/me', auth, function(req, res){
 app.get('/api/logout', auth, function(req, res){
   console.log('logged out');
   req.logout();
-  //res.status(200).send({success: 'success'});
+  res.status(200).send({success: 'success'});
   res.redirect('/#/');
 });
 

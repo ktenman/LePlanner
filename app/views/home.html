@@ -1,7 +1,7 @@
 <a ng-hide=user href="/#/login">Logi sisse</a>
-
+<a ng-show=user href="/#/add">Create scenario</a>
 
 <div ng-show=user>
-  <p>Tere, {{user}} <a href="./api/logout">Log out</a></p>
+  <p>Tere, {{user}} <a ng-click="logout()" href="#">Log out</a></p>
   <p>Provider: {{provider}}</p>
 </div>
