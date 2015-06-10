@@ -130,8 +130,8 @@ app.get('/api/me', auth, function(req, res){
 app.get('/api/logout', auth, function(req, res){
   console.log('logged out');
   req.logOut();
-  //res.status(200).send({success: 'success'});
-  res.redirect('/#/');
+  res.status(200).send({success: 'success'});
+  //res.redirect('/#/');
 });
 
 
