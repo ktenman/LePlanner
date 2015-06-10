@@ -1,5 +1,12 @@
 
-<a ng-hide=user href="/#/login">Logi sisse</a>
-<a ng-show=user href="/#/add">Loo õpiststenaarium</a>
+<ul class="subjects">
+  <li ng-repeat="subject in subjects">
+    <span ng-click="filterBySubject(subject)">{{subject}}</span>
+  </li>
+</ul>
 
-<p ng-show=user>Tere, {{user}} <a ng-click="logout()" href="#">Logi välja</a></p>
+<div class="col-xs-4 col-md-3" ng-repeat="scenario in scenarios | filter:query | orderBy:'rating':true">
+  <div class="text-center">
+    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a>
+  </div>
+</div>

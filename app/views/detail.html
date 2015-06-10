@@ -1,0 +1,25 @@
+
+          <div ng-if="user">
+            <div ng-if="!isSubscribed()">
+              <button ng-click="subscribe()" >
+              Subscribe
+              </button>
+            </div>
+            <div ng-if="isSubscribed()">
+              <button ng-click="unsubscribe()">
+                Unsubscribe
+              </button>
+            </div>
+          </div>
+
+
+          <div ng-show="!user">
+            <a href="/#/login">Login to Subscribe</a>
+          </div>
+
+        <div >
+          <h2>
+            {{scenario.name}}
+            <span> {{scenario.rating}}</span>
+          </h2>
+        </div>
