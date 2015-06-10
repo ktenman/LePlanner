@@ -1,29 +1,26 @@
 var leplannerControllers = angular.module('leplannerControllers', []);
 
-leplannerControllers.controller('MainCtrl',[
+leplannerControllers.controller('MainCtrl', [
   '$scope',
   '$http',
-  function($scope,$http){
-
-  // user auth
-  $http.get('/api/me').
-  success(function(data,status,headers,config){
-    console.log('user logged in');
-
-    $scope.user = data.displayName;
-  }).
-  error(function(data,status,headers,config){
-    console.log(data);
-  });
-
+  function($scope, $http){
+    // user auth
+    $http.get('/api/me').
+    success(function(data, status, headers, config){
+      console.log('User logged in');
+      $scope.user = data.displayName;
+      $scope.locale = data._json.locale;
+      console.log(data);
+    }).
+    error(function(data, status, headers, config){
+      console.log(data);
+    });
   }
 ]);
 
-leplannerControllers.controller('homeCtrl',[
+leplannerControllers.controller('homeCtrl', [
   '$scope',
   function($scope){
-
     $scope.message = 'Tere';
-
   }
 ]);
