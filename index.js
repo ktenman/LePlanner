@@ -16,6 +16,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, db.error));
 
 var User = require('./models/user');
+var Scenario = require('./models/scenario');
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 passport.use(new GoogleStrategy({
@@ -130,9 +131,26 @@ app.get('/api/me', auth, function(req, res){
 app.get('/api/logout', auth, function(req, res){
   console.log('logged out');
   req.logOut();
-  //res.status(200).send({success: 'success'});
-  res.redirect('/#/');
+  res.status(200).send({success: 'success'});
+  //res.redirect('/#/');
 });
+
+
+app.post('/api/savescenario', auth, function(req, res, next){
+
+  var scenariodata = req.body;
+
+  var scenario = new Scenario(scenariodata);
+
+  scenario.save(function(err,user){
+    if(err) {return done(err); }
+    console.log('scenario saved');
+    res.status(200);
+  });
+
+  //res.redirect('/#/');
+});
+
 
 
 var server = app.listen(config.port, function(){
