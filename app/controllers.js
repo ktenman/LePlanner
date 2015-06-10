@@ -70,7 +70,26 @@ leplannerControllers.controller('loginCtrl',[
 
 leplannerControllers.controller('addCtrl',[
     '$scope',
-    function($scope){
+    '$http',
+    function($scope, $http){
+
+      $scope.saveScenario = function(){
+        if($scope.scenario_name){
+          var scenario = {
+            name: $scope.scenario_name,
+            category: $scope.scenario_category
+          };
+
+          $http.post('/api/savescenario', scenario).
+          success(function(data,status,headers,config){
+            console.log('saved');
+          }).
+          error(function(data,status,headers,config){
+            console.log(data);
+          });
+
+        }
+      };
 
     }
 ]);
