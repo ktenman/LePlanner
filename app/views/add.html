@@ -1,5 +1,6 @@
 <p ng-hide=user>Please login to add scenario</p>
-<form ng-show=user ng-submit="SaveScenario()">
-  <input type="text" ng-model="scenario_name" name="scenario_name">
-  <input type="text" ng-model="scenario_category" name="scenario_category">
+<form ng-show=user ng-submit="saveScenario()">
+  Name <input type="text" ng-model="scenario_name" name="scenario_name"><br>
+  Category <input type="text" ng-model="scenario_category" name="scenario_category"><br>
+  <input type="submit" value="Save">
 </form>

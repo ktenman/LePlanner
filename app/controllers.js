@@ -40,7 +40,7 @@ leplannerControllers.controller('homeCtrl', [
           $scope.user = null;
           Auth.unsetUser();
 
-          $location.path('/');
+          $location.path('/#/');
         });
     };
   }
@@ -52,13 +52,32 @@ leplannerControllers.controller('loginCtrl', [
   '$location',
   function($scope, $rootScope, $location){
     if($rootScope.user){
-      console.log('asd');
+      $location.path('/');
     }
   }
 ]);
-leplannerControllers.controller('addCtrl', [
-  '$scope',
-  function($scope){
 
-  }
+leplannerControllers.controller('addCtrl',[
+    '$scope',
+    '$http',
+    function($scope, $http){
+      $scope.saveScenario = function(){
+        if($scope.scenario_name){
+          var scenario = {
+            name: $scope.scenario_name,
+            category: $scope.scenario_category
+          };
+
+          $http.post('/api/savescenario', scenario).
+          success(function(data,status,headers,config){
+            console.log('saved');
+          }).
+          error(function(data,status,headers,config){
+            console.log(data);
+          });
+
+        }
+      };
+
+    }
 ]);
