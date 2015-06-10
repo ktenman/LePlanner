@@ -1,8 +1,5 @@
+
 <a ng-hide=user href="/#/login">Logi sisse</a>
+<a ng-show=user href="/#/add">Loo õpiststenaarium</a>
 
-
-<div ng-show=user>
-  <p>Tere, {{user}}</p>
-  <p>Gender: {{gender}}</p>
-  <a href="./api/logout">Log out</a>
-</div>
+<p ng-show=user>Tere, {{user}} <a ng-click="logout()" href="#">Logi välja</a></p>
