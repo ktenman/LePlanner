@@ -46,7 +46,7 @@ leplannerControllers.controller('homeCtrl',[
           $scope.$parent.user = null;
           Auth.unsetUser();
 
-          $location.path('/');
+          $location.path('/#/');
 
         }).
         error(function(data,status,headers,config){
