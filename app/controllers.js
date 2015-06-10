@@ -8,8 +8,7 @@ leplannerControllers.controller('MainCtrl', [
     $http.get('/api/me').
     success(function(data, status, headers, config){
       console.log('User logged in');
-      $scope.user = data.displayName;
-      $scope.provider = data.provider;
+      $scope.user = data.first_name;
       console.log(data);
     }).
     error(function(data, status, headers, config){

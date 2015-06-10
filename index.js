@@ -7,6 +7,18 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
+//  Database connection
+mongoose.connect(config.db, function(err){
+  if(err) throw err;
+  console.log('Successfully connected to Mongo DB');
+});
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, db.error));
+
+var User = require('./models/user');
+//  ---------------------------
+
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -21,7 +33,7 @@ passport.use(new FacebookStrategy({
     done(null, profile);
   }
 ));
-
+//  ---------------------------
 // Google Auth
 passport.use(new GoogleStrategy({
 
@@ -31,17 +43,52 @@ passport.use(new GoogleStrategy({
     clientID: config.googleAuth.clientID
   },
   function(accesstoken, refreshToken, profile, done) {
-    console.log(profile);
-    done(null, profile);
+    console.log('logged in with google');
+    var new_user = new User({
+      first_name: profile.name.givenName,
+      last_name: profile.name.familyName,
+      email: profile.emails[0].value,
+      google: {
+        id: profile.id,
+        email: profile.emails[0].value
+      }
+    });
+
+    console.log(new_user);
+
+    User.findOne({email: new_user.email}, function(err, user){
+      if(err) {return done(err);}
+      console.log(user);
+      if(!user){
+        new_user.save(function(err, user){
+          if(err) {return done(err);}
+          console.log('created new user with id: '+user._id);
+          //  passport.serializeUser
+          done(null, user);
+        });
+      }
+      else{
+        console.log(user);
+        console.log('got user from db with id: '+user._id);
+        //  passport.serializeUser
+        done(null, user);
+      }
+    });
   }
 
 ));
+//  ---------------------------
+//  Creates User session ID
 passport.serializeUser(function(user, done) {
-done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+//  Get User session by ID
+passport.deserializeUser(function(user, done) {
+  User.findById(user, function(err, user){
+    if(err){return res.json({error: err});}
+    done(err, user);
+  });
 });
 
 var sessionOpt = {
@@ -69,9 +116,10 @@ app.get('/api/auth/facebook',
 app.get('/api/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/#/login'}),
   function(req, res){
+    // Successful authentication, redirect home.
     res.redirect('/#/');
   });
-
+//  ---------------------------
 //  GOOGLE AUTH
 app.get('/api/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
@@ -83,7 +131,7 @@ app.get('/api/oauth2callback',
     // Successful authentication, redirect home.
     res.redirect('/#/');
   });
-
+//  ---------------------------
 var auth = function(req, res, next){
   if(!req.isAuthenticated()){
     res.status(401).send({error:'unauthorized'});
@@ -93,7 +141,16 @@ var auth = function(req, res, next){
 };
 
 app.get('/api/me', auth, function(req, res){
-  return res.json(req.session.passport.user);
+  User.findById(req.session.passport.user, function(err, user){
+    if(err) {return res.json({error: err});}
+
+    if(user){
+      return res.json(user);
+    }
+    else{
+      return res.json({error: 'Not logged in'});
+    }
+  });
 });
 
 app.get('/api/logout', auth, function(req, res){
