@@ -67,11 +67,11 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
 
         setUser : function(user){
             $rootScope.user = user;
-            console.log('rootscope user saved');
+            //console.log('rootscope user saved');
         },
         unsetUser : function(){
             $rootScope.user = null;
-            console.log('rootscope user unset');
+            //console.log('rootscope user unset');
         }
       };
   }]);
@@ -82,11 +82,11 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
         $http({url: '/api/me', method: 'GET'})
         .success(function (data, status, headers, config) {
           if(!$rootScope.user){
-            console.log('saved to rootscope');
+            //console.log('saved to rootscope');
             $rootScope.user = data;
           }
-          console.log('routechange still logged in');
-          console.log($rootScope.user);
+          //console.log('routechange still logged in');
+          //console.log($rootScope.user);
 
         })
         .error(function (data, status, headers, config) {
