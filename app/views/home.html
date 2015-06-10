@@ -1,4 +1,8 @@
-
 <a ng-hide=user href="/#/login">Logi sisse</a>
 
-<p ng-show=user>Tere, {{user}}</p>
+
+<div ng-show=user>
+  <p>Tere, {{user}}</p>
+  <p>Gender: {{gender}}</p>
+  <a href="./api/logout">Log out</a>
+</div>

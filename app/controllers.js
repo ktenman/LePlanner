@@ -10,6 +10,7 @@ leplannerControllers.controller('MainCtrl',[
       success(function(data,status,headers,config){
         console.log(data);
         $scope.user = data.displayName;
+        $scope.gender = data._json.gender;
       }).
       error(function(data,status,headers,config){
         console.log(data);
