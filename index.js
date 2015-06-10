@@ -7,6 +7,16 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
+mongoose.connect(config.db, function(err) {
+  if (err) throw err;
+  console.log('Successfully connected to Mongo db');
+});
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, db.error));
+
+var User = require('./models/user');
+
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -31,17 +41,51 @@ passport.use(new GoogleStrategy({
     clientID: config.googleAuth.clientID
   },
   function(accesstoken, refreshToken, profile, done) {
-    console.log(profile);
-    done(null, profile);
+    console.log("Logged in successfully");
+    //console.log(profile);
+
+    var new_user = new User({
+      first_name: profile.name.givenName,
+      last_name: profile.name.familyName,
+      email: profile.emails[0].value,
+      google: {
+        id: profile.id,
+        email: profile.emails[0].value,
+      }
+
+    });
+
+    User.findOne({ email: new_user.email }, function(err, user){
+      if (err) {return done(err);}
+      console.log(user);
+      if(!user){
+
+        new_user.save(function(err,user){
+          if (err) {return done(err);}
+
+          console.log('Created new user with id: '+user._id);
+          done(null, user);
+        });
+
+      }else{
+        console.log(user);
+        console.log('Got user from db with id: '+user._id);
+        done(null, user);
+      }
+      });
+
   }
 
 ));
 passport.serializeUser(function(user, done) {
-done(null, user);
+done(null, user.id);
 });
 
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user){
+    if (err) {return res.json({error: err}); }
+    done(err, user);
+  });
 });
 
 var sessionOpt = {
@@ -93,13 +137,24 @@ var auth = function(req, res, next){
 };
 
 app.get('/api/me', auth, function(req, res){
-  return res.json(req.session.passport.user);
+  //req.session.passport.user = [serializeUser ==> user.id ]
+  User.findById(req.session.passport.user, function(err, user){
+    if(err) {return res.json({error: err});}
+
+    if(user){
+      return res.json(user);
+    }
+    else{
+      return res.json({error: 'Not logged in'});
+    }
+  });
 });
 
 app.get('/api/logout', auth, function(req, res){
   console.log('logged out');
   req.logout();
-  res.status(200).send({success: 'success'});
+  //res.status(200).send({success: 'success'});
+  res.redirect('/#/');
 });
 
 var server = app.listen(config.port, function(){
