@@ -5,7 +5,7 @@
   </li>
 </ul>
 
-<div class="col-xs-4 col-md-3" ng-repeat="scenario in scenarios | filter:query | orderBy:'rating':true">
+<div class="col-xs-4 col-md-3" ng-repeat="scenario in scenarios | filter:query">
   <div class="text-center">
     <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a>
   </div>

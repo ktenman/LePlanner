@@ -1,22 +1,23 @@
 var config = require('./config/config');
 
 var express = require('express');
-
-
-/* DATABASE */
 var mongoose = require('mongoose');
-mongoose.connect(config.db, function(err) {
-    if (err) throw err;
-    console.log('Successfully connected to MongoDB');
+var passport = require('passport');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var morgan = require('morgan');
+
+mongoose.connect(config.db, function(err){
+  if(err) throw err;
+  console.log('successfully connected to Mongo db');
 });
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, db.error));
 
 var User = require('./models/user');
 var Scenario = require('./models/scenario');
-
-var passport = require('passport');
-
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 passport.use(new GoogleStrategy({
@@ -26,134 +27,117 @@ passport.use(new GoogleStrategy({
     clientID: config.googleAuth.clientID
   },
   function(accessToken, refreshToken, profile, done) {
-  //  console.log(profile);
+    //console.log(profile);
+    console.log('logged in successfully');
 
-    var google_id = profile.id;
-    var last_name = profile.name.familyName;
-    var first_name = profile.name.givenName;
-    var email = profile.emails[0].value;
+    var new_user = new User({
+      first_name: profile.name.givenName,
+      last_name: profile.name.familyName,
+      email: profile.emails[0].value,
+      google: {
+        id: profile.id,
+        email: profile.emails[0].value,
+      }
+    });
 
-    User.findOne({ google: {id: google_id }}, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        console.log('Creating new user');
-        var new_user = new User({
-          first_name: first_name,
-          last_name: last_name,
-          email: email,
-          google: {
-            id: google_id
-          }
-        });
+    User.findOne({ email: new_user.email }, function(err, user){
+      if(err) {return done(err); }
+      if(!user){
 
-        new_user.save(function(err, user){
-          if(err){ return done(err); }
+        new_user.save(function(err,user){
+          if(err) {return done(err); }
 
           console.log('created new user with id: '+user._id);
-          done(null, user);
+          done(null,user);
         });
 
-
-
       }else{
-        console.log('existing user with id: '+user._id);
-        done(null, user);
+        console.log('got user from db with id: '+user._id);
+        done(null,user);
+
       }
 
     });
 
+
   }
 ));
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
 
-var morgan       = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user){
+    if(err) {return res.json({error: err}); }
+    done(err, user);
 
-var sessionOpts = {
-  saveUninitialized: true, // saved new sessions
-  resave: false, // do not automatically write to the session store
+  });
+
+
+});
+
+var sessionOpt = {
   secret: config.secret,
-  cookie : { httpOnly: true, maxAge: 2419200000 } // configure when sessions expires
+  resave: false,
+  saveUninitialized: true,
+  cookie: {httpOnly: true, maxAge: 2419200000}
 };
 
+
 var app = express();
+// logging for developing
 app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser(config.secret));
-app.use(session(sessionOpts));
+app.use(session(sessionOpt));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
-  console.log('teeb bitideks');
-  done(null, user.id);
-});
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    console.log('tagastab user-i');
-    done(err, user);
-  });
-});
-
-// Define a middleware function to be used for every secured routes
-var auth = function(req, res, next){
-  //console.log(req.session);
-  if (!req.isAuthenticated())
-    res.status(401).send({error: 'unauthorized'});
-  else
-    next();
-};
-
-
-//Other routes
-app.get('/api/loggedin', auth, function(req, res) {
-  console.log(req.user);
-  console.log(req.session.passport.user);
-
-  res.send('hello world ');
-  //{ user: req.user }
-});
-
-app.get('/api/me', auth, function(req, res) {
-  console.log('/api/me', req.session.passport.user);
-  User.findById(req.session.passport.user, function (err, user){
-    if (err) return res.json({error: err});
-    if (!user) return res.json({error: 'not logged in'});
-
-    return res.json(user);
-
-  });
-  //console.log(req.user);
-  //console.log(req.session.passport.user);
-
-});
-
-// route to log out
-app.get('/api/logout', function(req, res){
-  console.log('logout');
-  req.logOut();
-  res.send(200);
-});
-
-app.get('/api/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']}),
-  function(req, res) {
-    //res.json({success: 'Login succesfull'});
-
-});
+app.get('/api/auth/google',
+  passport.authenticate('google', { scope: [
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email'
+  ]}));
 
 app.get('/api/oauth2callback',
-  passport.authenticate('google', { failureRedirect: '/#/login'}),
+  passport.authenticate('google', { failureRedirect: '/#/login' }),
   function(req, res) {
-
-    console.log('Successful login');
-
-
+    // Successful authentication, redirect home.
     res.redirect('/#/');
   });
+
+var auth = function(req, res, next){
+  if(!req.isAuthenticated()){
+    res.status(401).send({error: 'unauthorized'});
+  }else{
+    next();
+  }
+};
+
+app.get('/api/me', auth, function(req, res){
+  //req.session.passport.user = [serializeUser ==> user.id ]
+  User.findById(req.session.passport.user, function(err, user){
+    if(err) {return res.json({error: err}); }
+    if(user){
+      return res.json(user);
+    }else{
+      return res.json({error: "not logged in"});
+    }
+
+  });
+
+});
+
+app.get('/api/logout', auth, function(req, res){
+  console.log('logged out');
+  req.logOut();
+  res.status(200).send({success: 'success'});
+  //res.redirect('/#/');
+});
+
 
   app.get('/api/scenarios', function(req, res, next) {
     var query = Scenario.find();
