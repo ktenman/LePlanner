@@ -1,6 +1,7 @@
-<h1>{{message}}</h1>
-
-<a ng-hide=user href="/#/login">Logi Sisse</a>
+<a ng-hide=user href="/#/login">Logi sisse</a>
 
 
-<p ng-show=user>Tere, {{user}}</p>
+<div ng-show=user>
+  <p>Tere, {{user}} <a href="./api/logout">Log out</a></p>
+  <p>Provider: {{provider}}</p>
+</div>
