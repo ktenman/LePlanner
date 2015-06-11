@@ -170,3 +170,26 @@ leplannerControllers.controller('DetailCtrl', [
 
     });
 }]);
+
+//  Scenario Editing controller
+leplannerControllers.controller('EditCtrl', [
+  '$scope',
+  '$rootScope',
+  '$routeParams',
+  'Scenario',
+  function($scope, $rootScope, $routeParams, Scenario) {
+
+    if(!$rootScope.user && $scope.$parent.user){
+      $scope.$parent.user = null;
+      console.log("disabled use");
+    }
+
+    $scope.user = $rootScope.user;
+
+    Scenario.get({ _id: $routeParams.id }, function(scenario) {
+      $scope.scenario = scenario;
+
+
+
+    });
+}]);
