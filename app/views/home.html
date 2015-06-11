@@ -7,8 +7,8 @@
 <div>
   <input type="text" name="search" ng-model="name" placeholder="Search"><input type="submit" value="Search" ng-click="searchScenario(name)">
 </div>
-<div class="col-xs-4 col-md-3" id="scenarios_list" ng-repeat="scenario in scenarios | filter:query">
-  <div id="{{scenario._id}}" class="text-center">
+<div class="col-xs-4 col-md-3" id="scenarios_list">
+  <div id="{{scenario._id}}" class="text-center" ng-repeat="scenario in scenarios | filter:query">
     <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
   </div>
 </div>
