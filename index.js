@@ -151,6 +151,7 @@ app.get('/api/logout', auth, function(req, res){
       
       query.where({ name: regex});
     }else {
+      query.where({ deleted: false });
       query.limit(12);
     }
     if(req.query._id){

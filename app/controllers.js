@@ -43,7 +43,8 @@ leplannerControllers.controller('homeCtrl', [
   '$rootScope',
   'Scenario',
   'Delete',
-  function($scope, $rootScope,Scenario, Delete){
+  '$location',
+  function($scope, $rootScope,Scenario, Delete, $location){
 
     if(!$rootScope.user && $scope.$parent.user){
       $scope.$parent.user = null;
@@ -64,7 +65,9 @@ leplannerControllers.controller('homeCtrl', [
     };
     $scope.delete = function(id){
       Delete.scenario(id).success(function() {
-          $scope.scenario.deleted = true;
+                 
+          document.getElementById('scenarios_list').removeChild(document.getElementById(id));
+          
         }).error(function(data, status, headers, config) {
           alert('not logged in');
         });
