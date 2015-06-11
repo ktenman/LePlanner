@@ -1,6 +1,8 @@
-<p ng-hide=user>Please login to add scenario</p>
-<form ng-show=user ng-submit="saveScenario()">
-  Name <input type="text" ng-model="scenario_name" name="scenario_name"><br>
-  Category <input type="text" ng-model="scenario_category" name="scenario_category"><br>
-  <input type="submit" value="Save">
+<p ng-hide="user"> Please login to add scenario</p>
+<form ng-show="user" ng-submit="submit()" ng-controller="AddCtrl">
+  Enter the title :
+  <input type="text" ng-model="name" name="name" value="Test Scenario" /></br>
+  Enter the subject :
+  <input type="text" ng-model="subject" name="subject" value="Math" />
+  <input type="submit" id="submit" value="Submit" />
 </form>

@@ -1,7 +1,12 @@
-<a ng-hide=user href="/#/login">Logi sisse</a>
-<a ng-show=user href="/#/add">Create scenario</a>
 
-<div ng-show=user>
-  <p>Tere, {{user}} <a ng-click="logout()" href="#">Log out</a></p>
-  <p>Provider: {{provider}}</p>
+<ul class="subjects">
+  <li ng-repeat="subject in subjects">
+    <span ng-click="filterBySubject(subject)">{{subject}}</span>
+  </li>
+</ul>
+
+<div class="col-xs-4 col-md-3" ng-repeat="scenario in scenarios | filter:query">
+  <div class="text-center">
+    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a>
+  </div>
 </div>
