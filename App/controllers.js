@@ -114,6 +114,7 @@ leplannerControllers.controller('AddCtrl', [
 
 ]);
 
+
 leplannerControllers.controller('DetailCtrl', [
   '$scope',
   '$rootScope',

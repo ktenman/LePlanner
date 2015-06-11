@@ -95,17 +95,12 @@ app.use(session(sessionOpt));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(__dirname + '/app'));
 
 app.get('/api/auth/google',
   passport.authenticate('google', { scope: [
     'https://www.googleapis.com/auth/userinfo.profile',
     'https://www.googleapis.com/auth/userinfo.email'
   ]}));
-
-app.get('*', function(req, res) {
-  res.sendFile(__dirname + '/public/app/views/index.html');
-});
 
 app.get('/api/oauth2callback',
   passport.authenticate('google', { failureRedirect: '/#/login' }),
@@ -129,7 +124,7 @@ app.get('/api/me', auth, function(req, res){
     if(user){
       return res.json(user);
     }else{
-      return res.json({error: "Not logged in"});
+      return res.json({error: "not logged in"});
     }
 
   });
@@ -199,7 +194,7 @@ app.get('/api/logout', auth, function(req, res){
         res.sendStatus(200);
       });
     });
-  });
+  }); 
 
 
 var server = app.listen(config.port, function () {

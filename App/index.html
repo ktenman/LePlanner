@@ -2,14 +2,13 @@
 <html lang="en" ng-app="leplannerApp" ng-controller="MainCtrl as main">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="../../favicon.ico">
-
   <title>LePlanner</title>
+  <script src="assets/libs/angular/angular.min.js" charset="utf-8"></script>
+  <script src="assets/libs/angular-route/angular-route.min.js" charset="utf-8"></script>
+  <script src="assets/libs/angular-resource/angular-resource.min.js" charset="utf-8"></script>
+  <script src="controllers.js" charset="utf-8"></script>
+  <script src="app.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -26,42 +25,55 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <script src="assets/libs/angular/angular.min.js" charset="utf-8"></script>
-  <script src="assets/libs/angular-route/angular-route.min.js" charset="utf-8"></script>
-  <script src="assets/libs/angular-resource/angular-resource.min.js" charset="utf-8"></script>
-  <script src="controllers.js" charset="utf-8"></script>
-  <script src="app.js" charset="utf-8"></script>
+
+
 
 </head>
 <body>
 
-<!-- ////////////////////// -->
-<!-- ||||||   MENU   |||||| -->
-<!-- ////////////////////// -->
 
+      <!-- ////////////////////// -->
+      <!-- ||||||   MENU   |||||| -->
+      <!-- ////////////////////// -->
 
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
+
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"></a>
+
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-<ul class="nav navbar-nav">
-  <div class="col-sm-1 col-sm-offset-1">
-    <img class="first-page-banner" src="./assets/logo.png" height="50" >
-</ul>
+      <!--<ul class="nav navbar-nav">
+<li><a href="home.php">Avaleht</a></li><li><a href="search.php">Otsi</a></li><li><a href="subject.php">Aine</a></li><li><a href="member.php">Kasutaja</a></li><li><a href="scenario.php"> Stsenaarium</a></li><li><a href="dashboard.php"> Sisse logitud</a></li>
+</ul>-->
 
-      <a ng-hide=user class="header-login pull-right" href="/#/login">Logi sisse</a><br>
+      <ul class="nav navbar-nav">
+        <li ><a class="navbar-brand" href="#/"><h2 style="padding-left:100% ">Leplanner</h2></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li><a href="home.php">Avaleht</a></li><li><a href="search.php">Otsi</a></li><li><a href="subject.php">Aine</a></li><li><a href="member.php">Kasutaja</a></li><li><a href="scenario.php"> Stsenaarium</a></li><li><a href="dashboard.php"> Sisse logitud</a></li>  </ul>
+        </li>
+      </ul>
+      <!--<ul class="nav navbar-nav navbar-right">
+        <li class="login-home">
+           <a href="login.php" class="btn btn-primary btn-sm login-top"> LOGI SISSE</a>
+          <span class="login-or-create">või</span>
+          <a href="#" class="btn btn-default btn-sm create-new-user-top"> LOO KASUTAJA</a>
+        </li>
+      </ul>-->
+
+      <a ng-hide=user class="header-login pull-right" href="/#/login"> Logi sisse</a>
+      <a ng-show=user ng-click="logout()"  class="header-login pull-right" href="/#"> Logi välja</a>
+
 
       <div class="header-search inner-addon right-addon pull-right">
         <a href="search.php"><i class="glyphicon glyphicon-search"></i></a>
@@ -74,66 +86,7 @@
 
 </nav>
 
-<!-- ///////////////////////// -->
-<!-- ||||||   CONTENT   |||||| -->
-<!-- ///////////////////////// -->
-
-<div class="container main-content">
-
-  <!-- Jumbotron -->
-  <div class="jumbotron">
-    <div class="row">
-      <div class="col-sm-1 col-sm-offset-1">
-        <img class="first-page-preview" src="./assets/preview.png">
-      </div>
-      <div class="col-sm-6">
-        <h2>Loo. Jaga. Avasta. Õpistsenaariumid</h2>
-        <p class="lead home-intro" class="thumbnail-caption">Cras justo odio, dapibus ac facilisis in, egestas eget quam. todio, dapibus ac facilisis in, egestas eget quam.</p>
-
-        <div ng-show=user>
-        <p><a class="btn btn-sm  btn-success" href="/#/add" role="button">LOO ÕPISTSENAARIUM<span class="glyphicon glyphicon-chevron-right"></span></a></p>
-          <p> {{user.first_name}}, <a ng-click="logout()" href="#">Log Out</a> </p>
-        </div>
-
-        <div ng-view></div>
-
-      </div>
-    </div>
-  </div>
-
-
-
-  <!-- /////////////////////// -->
-  <!-- ||||||   FOOTER   |||||| -->
-  <!-- //////////////////////// -->
-
-  <div class="container footer">
-
-    <div class="col-md-8">
-      <a href="#">Abi</a>
-    </div>
-
-    <div class="col-md-4">
-      <p class="pull-right">2015 LePLanner. Creative Commons</p>
-    </div>
-
-  </div>
-
-  <!-- Bootstrap core JavaScript
-   ================================================== -->
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-
- <!-- <a ng-hide=user href="/#/login">Logi sisse</a><br>
-
-  <div ng-show=user>
-    <p> <a href="/#/add">Loo õpistsenaarium</a> </p>
-     <p> <h1>{{user.first_name}}, <a ng-click="logout()" href="#">Logi välja</a> </h1></p>
-  </div>
-
-  <div ng-view></div>  -->
+<div ng-view></div>
 
 </body>
 </html>
