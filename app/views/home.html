@@ -9,6 +9,6 @@
 </div>
 <div class="col-xs-4 col-md-3" ng-repeat="scenario in scenarios | filter:query">
   <div class="text-center">
-    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a>
+    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
   </div>
 </div>

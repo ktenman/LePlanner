@@ -86,7 +86,7 @@ var sessionOpt = {
 
 var app = express();
 // logging for developing
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -142,11 +142,23 @@ app.get('/api/logout', auth, function(req, res){
   app.get('/api/scenarios', function(req, res, next) {
     var query = Scenario.find();
     if (req.query.subject) {
-      query.where({ subject: req.query.subject });
+      query.where({ subject: req.query.subject, deleted: false });
     } else if(req.query.name){
-      query.where({ name: req.query.name });
-    } else {
+      function escapeRegExp(str){
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+      }
+      var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i');
+      
+      query.where({ name: regex});
+    }else {
       query.limit(12);
+    }
+    if(req.query._id){
+      Scenario.findByIdAndUpdate(req.queri._id, {deleted: true}, function(err, scenario) {
+        if (err) {
+          return next(err);
+        }
+      });
     }
     query.exec(function(err, scenarios) {
       if (err) return next(err);
@@ -158,6 +170,17 @@ app.get('/api/logout', auth, function(req, res){
     Scenario.findById(req.params.id, function(err, scenario) {
       if (err) return next(err);
       res.send(scenario);
+    });
+  });
+  
+  app.post('/api/deletescenario', function(req, res, next) {
+    Scenario.findById(req.body.scenarioId, function(err, scenario) {
+      console.log(req.body.scenarioId);
+      scenario.deleted = true;
+      scenario.save(function(err) {
+        if (err) return next(err);
+        res.sendStatus(200);
+      });
     });
   });
 

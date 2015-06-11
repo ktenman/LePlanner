@@ -42,7 +42,8 @@ leplannerControllers.controller('homeCtrl', [
   '$scope',
   '$rootScope',
   'Scenario',
-  function($scope, $rootScope,Scenario){
+  'Delete',
+  function($scope, $rootScope,Scenario, Delete){
 
     if(!$rootScope.user && $scope.$parent.user){
       $scope.$parent.user = null;
@@ -58,8 +59,15 @@ leplannerControllers.controller('homeCtrl', [
     $scope.filterBySubject = function(subject) {
       $scope.scenarios = Scenario.query({ subject: subject });
     };
-    $scope.searchScenario = function(sname) {
-      $scope.scenarios = Scenario.query({ name: sname });
+    $scope.searchScenario = function(name) {
+      $scope.scenarios = Scenario.query({ name: name });
+    };
+    $scope.delete = function(id){
+      Delete.scenario(id).success(function() {
+          $scope.scenario.deleted = true;
+        }).error(function(data, status, headers, config) {
+          alert('not logged in');
+        });
     };
   }
 ]);
