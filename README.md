@@ -2,13 +2,8 @@
 Suvepraktika rühmatöö 2015
 
 Liikmed:
-Vladislav Minajev / disain;
-
+Vladislav Minajev / dizain; 
 Andre Post / arendus; 
-
 Marten Rebane / arendus; 
-
 Konstantin Tenman / arendus, dokumentatsioon; 
-
-Elinda Tragel / disain, testimine; 
-
+Elinda Tragel / dizain, testimine; 
