@@ -6,6 +6,7 @@ var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var morgan = require('morgan');
 
 mongoose.connect(config.db, function(err){
   if(err) throw err;
@@ -84,6 +85,9 @@ var sessionOpt = {
 
 
 var app = express();
+// logging for developing
+app.use(morgan('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser(config.secret));
@@ -92,7 +96,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-/* GOOGLE AUTH */
 app.get('/api/auth/google',
   passport.authenticate('google', { scope: [
     'https://www.googleapis.com/auth/userinfo.profile',
@@ -136,28 +139,69 @@ app.get('/api/logout', auth, function(req, res){
 });
 
 
-app.post('/api/savescenario', auth, function(req, res, next){
-
-  var scenariodata = req.body;
-
-  var scenario = new Scenario(scenariodata);
-
-  scenario.save(function(err,user){
-    if(err) {return done(err); }
-    console.log('scenario saved');
-    res.status(200);
+  app.get('/api/scenarios', function(req, res, next) {
+    var query = Scenario.find();
+    if (req.query.subject) {
+      query.where({ subject: req.query.subject });
+    } else {
+      query.limit(12);
+    }
+    query.exec(function(err, scenarios) {
+      if (err) return next(err);
+      res.send(scenarios);
+    });
   });
 
-  //res.redirect('/#/');
-});
+  app.get('/api/scenarios/:id', function(req, res, next) {
+    Scenario.findById(req.params.id, function(err, scenario) {
+      if (err) return next(err);
+      res.send(scenario);
+    });
+  });
+
+  app.post('/api/savescenario', auth, function(req, res, next) {
+    var scenariodata = req.body;
+    console.log(scenariodata);
+
+    var scenario = new Scenario(scenariodata);
+
+    scenario.save(function(err, s){
+      if(err){ return next(err); }
+
+      console.log('saved sceanrio '+s._id);
+      res.sendStatus(200);
+    });
+  });
+
+  app.post('/api/subscribe', auth, function(req, res, next) {
+    Scenario.findById(req.body.scenarioId, function(err, scenario) {
+      if (err) return next(err);
+      scenario.subscribers.push(req.user._id);
+      scenario.save(function(err) {
+        if (err) return next(err);
+        res.sendStatus(200);
+      });
+    });
+  });
+
+  app.post('/api/unsubscribe', auth, function(req, res, next) {
+    Scenario.findById(req.body.scenarioId, function(err, scenario) {
+      if (err) return next(err);
+      var index = scenario.subscribers.indexOf(req.user._id);
+      scenario.subscribers.splice(index, 1);
+      scenario.save(function(err) {
+        if (err) return next(err);
+        res.sendStatus(200);
+      });
+    });
+  }); 
 
 
-
-var server = app.listen(config.port, function(){
+var server = app.listen(config.port, function () {
 
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log('Server app running at http://%s:%s', host, port);
+  console.log('Example app listening at http://%s:%s', host, port);
 
 });
