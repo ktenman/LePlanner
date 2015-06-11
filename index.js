@@ -143,6 +143,8 @@ app.get('/api/logout', auth, function(req, res){
     var query = Scenario.find();
     if (req.query.subject) {
       query.where({ subject: req.query.subject });
+    } else if(req.query.name){
+      query.where({ name: req.query.name });
     } else {
       query.limit(12);
     }
