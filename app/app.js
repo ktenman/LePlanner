@@ -36,6 +36,10 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
         templateUrl: 'views/detail.html',
         controller: 'DetailCtrl'
       })
+      .when('/edit/:id', {
+        templateUrl: 'views/edit.html',
+        controller: 'EditCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

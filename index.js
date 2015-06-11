@@ -143,7 +143,7 @@ app.get('/api/logout', auth, function(req, res){
     var query = Scenario.find();
     if (req.query.subject) {
       query.where({ subject: req.query.subject, deleted: false });
-    } else if(req.query.name){
+    } else if(req.query.name){  //IF SCENARIO NAME IS SEND ON HOME PAGE TO THE SEARCH BOX
       function escapeRegExp(str){
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
       }
@@ -174,6 +174,15 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
   
+  //  Scenario editing
+  app.get('/api/edit/:id', function(req, res, next){
+      Scenario.findById(req.params.id, function(err, scenario) {
+        if(err) return next(err);
+        res.send(scenario);
+      });
+  });
+  
+  //  Scenario deleting
   app.post('/api/deletescenario', function(req, res, next) {
     Scenario.findById(req.body.scenarioId, function(err, scenario) {
       console.log(req.body.scenarioId);
