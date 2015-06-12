@@ -36,6 +36,10 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
         templateUrl: 'views/detail.html',
         controller: 'DetailCtrl'
       })
+      .when('/edit/:id', {
+        templateUrl: 'views/edit.html',
+        controller: 'EditCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -47,6 +51,14 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
   leplannerApp.factory('Scenario', ['$resource', function($resource) {
     return $resource('/api/scenarios/:_id');
   }]);
+  
+  leplannerApp.factory('Delete', function($http){
+    return {
+      scenario: function(id){
+        return $http.post('/api/deletescenario', { scenarioId: id});
+      }
+    };
+  });
 
   leplannerApp.factory('Subscription', function($http) {
     return {

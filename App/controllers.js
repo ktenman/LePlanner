@@ -42,7 +42,9 @@ leplannerControllers.controller('homeCtrl', [
   '$scope',
   '$rootScope',
   'Scenario',
-  function($scope, $rootScope,Scenario){
+  'Delete',
+  '$location',
+  function($scope, $rootScope,Scenario, Delete, $location){
 
     if(!$rootScope.user && $scope.$parent.user){
       $scope.$parent.user = null;
@@ -57,6 +59,18 @@ leplannerControllers.controller('homeCtrl', [
 
     $scope.filterBySubject = function(subject) {
       $scope.scenarios = Scenario.query({ subject: subject });
+    };
+    $scope.searchScenario = function(name) {
+      $scope.scenarios = Scenario.query({ name: name });
+    };
+    $scope.delete = function(id){
+      Delete.scenario(id).success(function() {
+                 
+          document.getElementById('scenarios_list').removeChild(document.getElementById(id));
+          
+        }).error(function(data, status, headers, config) {
+          alert('not logged in');
+        });
     };
   }
 ]);
@@ -114,7 +128,6 @@ leplannerControllers.controller('AddCtrl', [
 
 ]);
 
-
 leplannerControllers.controller('DetailCtrl', [
   '$scope',
   '$rootScope',
@@ -156,5 +169,27 @@ leplannerControllers.controller('DetailCtrl', [
       };
 
     });
+}]);
 
-  }]);
+//  Scenario Editing controller
+leplannerControllers.controller('EditCtrl', [
+  '$scope',
+  '$rootScope',
+  '$routeParams',
+  'Scenario',
+  function($scope, $rootScope, $routeParams, Scenario) {
+
+    if(!$rootScope.user && $scope.$parent.user){
+      $scope.$parent.user = null;
+      console.log("disabled use");
+    }
+
+    $scope.user = $rootScope.user;
+
+    Scenario.get({ _id: $routeParams.id }, function(scenario) {
+      $scope.scenario = scenario;
+
+
+
+    });
+}]);
