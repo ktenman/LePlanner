@@ -193,11 +193,6 @@ leplannerControllers.controller('EditCtrl', [
       $scope.cancelEdit = function() {
         $location.path('/scenarios/'+$routeParams.id);
       };
-      $scope.save = function() {
-        if($scope.name){
-          
-        }
-      };
 
     });
 }]);
