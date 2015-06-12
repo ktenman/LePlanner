@@ -53,7 +53,6 @@ passport.use(new GoogleStrategy({
       }else{
         console.log('got user from db with id: '+user._id);
         done(null,user);
-
       }
 
     });
@@ -66,7 +65,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user){
+  User.findById(id, function(err, user, res){
     if(err) {return res.json({error: err}); }
     done(err, user);
 
@@ -148,7 +147,7 @@ app.get('/api/logout', auth, function(req, res){
       }
       var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i');
 
-      query.where({ name: regex});
+      query.where({ name: regex, deleted: false});
     }else {
       query.where({ deleted: false });
       query.limit(12);
@@ -192,7 +191,7 @@ app.get('/api/logout', auth, function(req, res){
       });
     });
   });
-
+  
   //  Scenario updateing
   app.post('/api/updatescenario', function(req, res, next){
     Scenario.findById(req.body.id, function(err, scenario) {

@@ -10,9 +10,8 @@
               </button>
             </div>
           </div>
-
-
-          <div ng-show="!user">
+           {{user}}
+          <div ng-if="!user">
             <a href="/#/login">Login to Subscribe</a>
           </div>
 
@@ -25,8 +24,4 @@
         </div>
         <div>
           <a href="/#/edit/{{scenario._id}}">Edit</a>
-        </div>
-
-        <div>
-          <input type="textarea" placeholder="Kommentaarid" />
         </div>

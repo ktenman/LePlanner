@@ -5,20 +5,13 @@ leplannerControllers.controller('MainCtrl', [
   '$http',
   '$rootScope',
   '$location',
-  'Auth',
-  function($scope,$http,$rootScope,$location,Auth){
+  'Scenario',
+  function($scope,$http,$rootScope,$location, Scenario){
 
-    if(!$rootScope.user){
-      $http({url: '/api/me', method: 'GET'})
-      .success(function (data, status, headers, config) {
-        Auth.setUser(data);
-        $scope.user = $rootScope.user;
+    console.log('main '+$rootScope.user);
 
-      })
-      .error(function (data, status, headers, config) {
-        console.log(data);
-      });
-
+    $scope.setUser = function(){
+      $scope.user = $rootScope.user;
     }
 
     $scope.logout = function(){
@@ -26,13 +19,17 @@ leplannerControllers.controller('MainCtrl', [
       .success(function (data, status, headers, config) {
         console.log(data);
         $scope.user = null;
-        Auth.unsetUser();
+        $rootScope.user = null;
         $location.path('/');
 
       })
       .error(function (data, status, headers, config) {
         console.log(data);
       });
+    };
+
+    $scope.searchScenario = function(name) {
+      $scope.scenarios = Scenario.query({ name: name });
     };
 
   }
@@ -44,25 +41,44 @@ leplannerControllers.controller('homeCtrl', [
   'Scenario',
   'Delete',
   '$location',
-  function($scope, $rootScope,Scenario, Delete, $location){
+  '$http',
+  function($scope, $rootScope,Scenario, Delete, $location, $http){
 
-    if(!$rootScope.user && $scope.$parent.user){
+    console.log($rootScope.user);
+
+    if(!$rootScope.user){
+      $http({url: '/api/me', method: 'GET'})
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set homectrl');
+
+      })
+      .error(function (data, status, headers, config) {
+        console.log(data);
+      });
+
+    }
+
+    /*if(!$rootScope.user && $scope.$parent.user){
       $scope.$parent.user = null;
       console.log("disabled use");
-    }
+    }*/
 
     $scope.user = $rootScope.user;
 
-    $scope.subjects = ['Math', 'History', 'English'];
+    $scope.subjects = ['Maths', 'History', 'English', 'Basic Education', 'Biology', 'Estonian (native language)', 'Estonian (foreign language)',
+    'Speciality language', 'Special Education', 'Physics', 'Geograhpy', 'Educational Technology', 'Informatics', 'Human Studies', 'Chemistry', 'Physical Education',
+    'Literary', 'Home Economics', 'Arts', 'Crafts', 'Natural Science', 'Economics and Business', 'Media Studies', 'Music', 'French', 'Swedish', 'German', 'Finnish',
+    'Handicraft and Home Economics', 'Russian (native language)', 'Russian (foreign language)', 'Social Education'].sort();
 
     $scope.scenarios = Scenario.query();
 
     $scope.filterBySubject = function(subject) {
       $scope.scenarios = Scenario.query({ subject: subject });
     };
-    $scope.searchScenario = function(name) {
-      $scope.scenarios = Scenario.query({ name: name });
-    };
+
     $scope.delete = function(id){
       Delete.scenario(id).success(function() {
           document.getElementById('scenarios_list').removeChild(document.getElementById(id));
@@ -91,10 +107,9 @@ leplannerControllers.controller('loginCtrl', [
 leplannerControllers.controller('AddCtrl', [
   '$scope',
   '$http',
-  'Auth',
   '$rootScope',
   '$location',
-  function($scope,$http, Auth, $rootScope,$location){
+  function($scope,$http, $rootScope,$location){
 
     // not neccesery, not logged in user wont get until here, will be redirected
     if(!$rootScope.user && $scope.$parent.user){
@@ -132,14 +147,27 @@ leplannerControllers.controller('DetailCtrl', [
   '$routeParams',
   'Scenario',
   'Subscription',
-  function($scope, $rootScope, $routeParams, Scenario, Subscription) {
+  '$http',
+  function($scope, $rootScope, $routeParams, Scenario, Subscription, $http) {
 
-    if(!$rootScope.user && $scope.$parent.user){
-      $scope.$parent.user = null;
+    /*if(!$rootScope.user && $scope.$parent.user){
+      $scope.$parent.user = null;+
       console.log("disabled use");
-    }
+    }*/
 
-    $scope.user = $rootScope.user;
+    //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
+    if(!$rootScope.user){
+      $http({url: '/api/me', method: 'GET'})
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set Addctrl');
+
+      }).error(function (data, status, headers, config) {console.log(data);});
+
+    }
+    //  ---------------------------------------------------------------------------
 
     Scenario.get({ _id: $routeParams.id }, function(scenario) {
       $scope.scenario = scenario;
@@ -173,17 +201,16 @@ leplannerControllers.controller('DetailCtrl', [
 leplannerControllers.controller('EditCtrl', [
   '$scope',
   '$http',
-  'Auth',
-  '$rootScope',
+'$rootScope',
   '$location',
   'Scenario',
   '$routeParams',
-  function($scope,$http, Auth, $rootScope,$location, Scenario, $routeParams) {
+  function($scope,$http, $rootScope,$location, Scenario, $routeParams) {
 
-    if(!$rootScope.user && $scope.$parent.user){
+    /*if(!$rootScope.user && $scope.$parent.user){
       $scope.$parent.user = null;
       console.log("disabled use");
-    }
+    }*/
 
     $scope.user = $rootScope.user;
 
