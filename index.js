@@ -147,7 +147,7 @@ app.get('/api/logout', auth, function(req, res){
       }
       var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i');
 
-      query.where({ name: regex});
+      query.where({ name: regex, deleted: false});
     }else {
       query.where({ deleted: false });
       query.limit(12);
