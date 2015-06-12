@@ -67,7 +67,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user){
+  User.findById(id, function(err, user, res){
     if(err) {return res.json({error: err}); }
     done(err, user);
 
@@ -148,7 +148,7 @@ app.get('/api/logout', auth, function(req, res){
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
       }
       var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i');
-      
+
       query.where({ name: regex});
     }else {
       query.where({ deleted: false });
@@ -173,7 +173,7 @@ app.get('/api/logout', auth, function(req, res){
       res.send(scenario);
     });
   });
-  
+
   //  Scenario editing
   app.get('/api/edit/:id', function(req, res, next){
       Scenario.findById(req.params.id, function(err, scenario) {
@@ -181,7 +181,7 @@ app.get('/api/logout', auth, function(req, res){
         res.send(scenario);
       });
   });
-  
+
   //  Scenario deleting
   app.post('/api/deletescenario', function(req, res, next) {
     Scenario.findById(req.body.scenarioId, function(err, scenario) {
@@ -191,6 +191,20 @@ app.get('/api/logout', auth, function(req, res){
         if (err) return next(err);
         res.sendStatus(200);
       });
+    });
+  });
+
+
+  //  Scenario updateing
+  app.post('/api/updatescenario', function(req, res, next){
+    Scenario.findById(req.body.id, function(err, scenario) {
+      console.log(req.body.id);
+      scenario.name = req.body.name;
+      scenario.subject = req.body.subject;
+      scenario.save(function(err) {
+        if(err) return next(err);
+        res.sendStatus(200);
+      })
     });
   });
 

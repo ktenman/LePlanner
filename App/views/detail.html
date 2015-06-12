@@ -18,9 +18,8 @@
               </button>
             </div>
           </div>
-
-
-          <div ng-show="!user">
+          
+          <div ng-if="user" ng-controller="MainCtrl">
             <a href="/#/login">Login to Subscribe</a>
           </div>
 

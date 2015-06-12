@@ -9,10 +9,11 @@
 <div class="container main-content">
 
 <div ng-show="user">
-	<form action="">
-		Name<input type="text" value="{{scenario.name}}" ng-model="scenario.name">
-		Subject <input type="text" value="{{scenario.subject}}" ng-model="scenario.subject">
-		<input type="submit" value="Save">
+  <form ng-show="user" ng-controller="EditCtrl">
+		Name<input type="text" value="{{scenario.name}}" name="name" ng-model="scenario.name"><br>
+		Subject <input type="text" value="{{scenario.subject}}" name="subject" ng-model="scenario.subject"><br>
+		<input type="submit" ng-click="saveEdit()" value="Save"><br>
+    <button type="cancel" ng-click="cancelEdit()">Cancel</button>
 	</form>
 </div>
 </div>
