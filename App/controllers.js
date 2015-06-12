@@ -42,7 +42,9 @@ leplannerControllers.controller('homeCtrl', [
   '$scope',
   '$rootScope',
   'Scenario',
-  function($scope, $rootScope,Scenario){
+  'Delete',
+  '$location',
+  function($scope, $rootScope,Scenario, Delete, $location){
 
     if(!$rootScope.user && $scope.$parent.user){
       $scope.$parent.user = null;
@@ -57,6 +59,18 @@ leplannerControllers.controller('homeCtrl', [
 
     $scope.filterBySubject = function(subject) {
       $scope.scenarios = Scenario.query({ subject: subject });
+    };
+    $scope.searchScenario = function(name) {
+      $scope.scenarios = Scenario.query({ name: name });
+    };
+    $scope.delete = function(id){
+      Delete.scenario(id).success(function() {
+                 
+          document.getElementById('scenarios_list').removeChild(document.getElementById(id));
+          
+        }).error(function(data, status, headers, config) {
+          alert('not logged in');
+        });
     };
   }
 ]);
@@ -114,7 +128,6 @@ leplannerControllers.controller('AddCtrl', [
 
 ]);
 
-
 leplannerControllers.controller('DetailCtrl', [
   '$scope',
   '$rootScope',
@@ -156,5 +169,56 @@ leplannerControllers.controller('DetailCtrl', [
       };
 
     });
+}]);
 
-  }]);
+//  Scenario Editing controller
+leplannerControllers.controller('EditCtrl', [
+  '$scope',
+  '$rootScope',
+    '$http',
+    'Auth',
+    '$location',
+    'Scenario',
+    '$routeParams',
+    function($scope,$http, Auth, $rootScope,$location, Scenario, $routeParams) {
+
+        if(!$rootScope.user && $scope.$parent.user){
+          $scope.$parent.user = null;
+          console.log("disabled use");
+        }
+
+        $scope.user = $rootScope.user;
+
+        Scenario.get({ _id: $routeParams.id }, function(scenario) {
+          $scope.scenario = scenario;
+
+          $scope.cancelEdit = function() {
+              $location.path('/scenarios/'+$routeParams.id);
+          };
+            $scope.saveEdit = function() {
+                console.log($scope.scenario.name);
+                console.log($scope.scenario.subject);
+                if($scope.scenario.name){
+               var scenario = {
+                            id: $routeParams.id,
+                            name: $scope.scenario.name,
+                           subject: $scope.scenario.subject
+                     };
+
+                      $http.post('/api/updatescenario', scenario)
+                 .success(function(data, status, headers, config) {
+                        console.log('Updated');
+                      }).
+                 error(function(data, status, headers, config) {
+                        // called asynchronously if an error occurs
+                            // or server returns response with an error status.
+                              });
+
+                    }
+          }
+
+
+
+
+    });
+}]);

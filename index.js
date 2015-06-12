@@ -86,7 +86,7 @@ var sessionOpt = {
 
 var app = express();
 // logging for developing
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -142,9 +142,24 @@ app.get('/api/logout', auth, function(req, res){
   app.get('/api/scenarios', function(req, res, next) {
     var query = Scenario.find();
     if (req.query.subject) {
-      query.where({ subject: req.query.subject });
-    } else {
+      query.where({ subject: req.query.subject, deleted: false });
+    } else if(req.query.name){  //IF SCENARIO NAME IS SEND ON HOME PAGE TO THE SEARCH BOX
+      function escapeRegExp(str){
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+      }
+      var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i');
+      
+      query.where({ name: regex, deleted:false});
+    }else {
+      query.where({ deleted: false });
       query.limit(12);
+    }
+    if(req.query._id){
+      Scenario.findByIdAndUpdate(req.queri._id, {deleted: true}, function(err, scenario) {
+        if (err) {
+          return next(err);
+        }
+      });
     }
     query.exec(function(err, scenarios) {
       if (err) return next(err);
@@ -158,6 +173,40 @@ app.get('/api/logout', auth, function(req, res){
       res.send(scenario);
     });
   });
+  
+  //  Scenario editing
+  app.get('/api/edit/:id', function(req, res, next){
+      Scenario.findById(req.params.id, function(err, scenario) {
+        if(err) return next(err);
+        res.send(scenario);
+      });
+  });
+  
+  //  Scenario deleting
+  app.post('/api/deletescenario', function(req, res, next) {
+    Scenario.findById(req.body.scenarioId, function(err, scenario) {
+      console.log(req.body.scenarioId);
+      scenario.deleted = true;
+      scenario.save(function(err) {
+        if (err) return next(err);
+        res.sendStatus(200);
+      });
+    });
+  });
+
+
+  //  Scenario updateing
+    app.post('/api/updatescenario', function(req, res, next){
+        Scenario.findById(req.body.id, function(err, scenario) {
+            console.log(req.body.id);
+            scenario.name = req.body.name;
+            scenario.subject = req.body.subject;
+            scenario.save(function(err) {
+                if(err) return next(err);
+               res.sendStatus(200);
+              })
+          });
+    });
 
   app.post('/api/savescenario', auth, function(req, res, next) {
     var scenariodata = req.body;
@@ -194,7 +243,7 @@ app.get('/api/logout', auth, function(req, res){
         res.sendStatus(200);
       });
     });
-  }); 
+  });
 
 
 var server = app.listen(config.port, function () {

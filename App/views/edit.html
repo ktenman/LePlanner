@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LePlanner</title>
+</head>
+<body>
+
+<div class="container main-content">
+
+<div ng-show="user">
+	<form ng-show="user" ng-controller="EditCtrl">
+		Name<input type="text" value="{{scenario.name}}" name="name" ng-model="scenario.name"><br>
+		Subject <input type="text" value="{{scenario.subject}}" name="subject" ng-model="scenario.subject"><br>
+		<input type="submit" ng-click="saveEdit()" value="Save"><br>
+		<button type="cancel" ng-click="cancelEdit()">Cancel</button>
+	</form>
+</div>
+</div>
+</body>
+</html>
