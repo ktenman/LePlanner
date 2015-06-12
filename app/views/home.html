@@ -4,9 +4,11 @@
     <span ng-click="filterBySubject(subject)">{{subject}}</span>
   </li>
 </ul>
-
-<div class="col-xs-4 col-md-3" ng-repeat="scenario in scenarios | filter:query">
-  <div class="text-center">
-    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a>
+<div>
+  <input type="text" name="search" ng-model="name" placeholder="Search"><input type="submit" value="Search" ng-click="searchScenario(name)">
+</div>
+<div class="col-xs-4 col-md-3" id="scenarios_list">
+  <div id="{{scenario._id}}" class="text-center" ng-repeat="scenario in scenarios | filter:query">
+    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
   </div>
 </div>

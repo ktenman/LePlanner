@@ -1,4 +1,3 @@
-
           <div ng-if="user">
             <div ng-if="!isSubscribed()">
               <button ng-click="subscribe()" >
@@ -19,7 +18,15 @@
 
         <div >
           <h2>
-            {{scenario.name}}
+            Name: {{scenario.name}}
             <span> {{scenario.rating}}</span>
           </h2>
+          Category: {{scenario.subject}}
+        </div>
+        <div>
+          <a href="/#/edit/{{scenario._id}}">Edit</a>
+        </div>
+
+        <div>
+          <input type="textarea" placeholder="Kommentaarid" />
         </div>
