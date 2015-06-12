@@ -53,7 +53,6 @@ passport.use(new GoogleStrategy({
       }else{
         console.log('got user from db with id: '+user._id);
         done(null,user);
-
       }
 
     });
@@ -66,7 +65,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user){
+  User.findById(id, function(err, user, res){
     if(err) {return res.json({error: err}); }
     done(err, user);
 
@@ -85,7 +84,7 @@ var sessionOpt = {
 
 var app = express();
 // logging for developing
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
