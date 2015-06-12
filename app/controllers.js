@@ -5,7 +5,8 @@ leplannerControllers.controller('MainCtrl', [
   '$http',
   '$rootScope',
   '$location',
-  function($scope,$http,$rootScope,$location){
+  'Scenario',
+  function($scope,$http,$rootScope,$location, Scenario){
     
     console.log('main '+$rootScope.user);
         
@@ -25,6 +26,10 @@ leplannerControllers.controller('MainCtrl', [
       .error(function (data, status, headers, config) {
         console.log(data);
       });
+    };
+    
+    $scope.searchScenario = function(name) {
+      $scope.scenarios = Scenario.query({ name: name });
     };
 
   }
@@ -70,9 +75,7 @@ leplannerControllers.controller('homeCtrl', [
     $scope.filterBySubject = function(subject) {
       $scope.scenarios = Scenario.query({ subject: subject });
     };
-    $scope.searchScenario = function(name) {
-      $scope.scenarios = Scenario.query({ name: name });
-    };
+    
     $scope.delete = function(id){
       Delete.scenario(id).success(function() {
           document.getElementById('scenarios_list').removeChild(document.getElementById(id));
