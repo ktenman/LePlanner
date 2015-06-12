@@ -43,7 +43,6 @@ passport.use(new GoogleStrategy({
     User.findOne({ email: new_user.email }, function(err, user){
       if(err) {return done(err); }
       if(!user){
-
         new_user.save(function(err,user){
           if(err) {return done(err); }
 
@@ -148,7 +147,7 @@ app.get('/api/logout', auth, function(req, res){
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
       }
       var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i');
-      
+
       query.where({ name: regex});
     }else {
       query.where({ deleted: false });
@@ -173,7 +172,7 @@ app.get('/api/logout', auth, function(req, res){
       res.send(scenario);
     });
   });
-  
+
   //  Scenario editing
   app.get('/api/edit/:id', function(req, res, next){
       Scenario.findById(req.params.id, function(err, scenario) {
@@ -181,7 +180,7 @@ app.get('/api/logout', auth, function(req, res){
         res.send(scenario);
       });
   });
-  
+
   //  Scenario deleting
   app.post('/api/deletescenario', function(req, res, next) {
     Scenario.findById(req.body.scenarioId, function(err, scenario) {

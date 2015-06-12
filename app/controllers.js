@@ -177,7 +177,8 @@ leplannerControllers.controller('EditCtrl', [
   '$rootScope',
   '$routeParams',
   'Scenario',
-  function($scope, $rootScope, $routeParams, Scenario) {
+  '$location',
+  function($scope, $rootScope, $routeParams, Scenario, $location) {
 
     if(!$rootScope.user && $scope.$parent.user){
       $scope.$parent.user = null;
@@ -189,7 +190,14 @@ leplannerControllers.controller('EditCtrl', [
     Scenario.get({ _id: $routeParams.id }, function(scenario) {
       $scope.scenario = scenario;
 
-
+      $scope.cancelEdit = function() {
+        $location.path('/scenarios/'+$routeParams.id);
+      };
+      $scope.save = function() {
+        if($scope.name){
+          
+        }
+      };
 
     });
 }]);
