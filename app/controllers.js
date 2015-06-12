@@ -58,6 +58,9 @@ leplannerControllers.controller('homeCtrl', [
     $scope.filterBySubject = function(subject) {
       $scope.scenarios = Scenario.query({ subject: subject });
     };
+    $scope.searchScenario = function(sname) {
+      $scope.scenarios = Scenario.query({ name: sname });
+    };
   }
 ]);
 
@@ -155,5 +158,4 @@ leplannerControllers.controller('DetailCtrl', [
       };
 
     });
-
-  }]);
+}]);
