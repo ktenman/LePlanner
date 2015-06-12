@@ -65,9 +65,7 @@ leplannerControllers.controller('homeCtrl', [
     };
     $scope.delete = function(id){
       Delete.scenario(id).success(function() {
-                 
           document.getElementById('scenarios_list').removeChild(document.getElementById(id));
-          
         }).error(function(data, status, headers, config) {
           alert('not logged in');
         });
@@ -174,11 +172,13 @@ leplannerControllers.controller('DetailCtrl', [
 //  Scenario Editing controller
 leplannerControllers.controller('EditCtrl', [
   '$scope',
+  '$http',
+  'Auth',
   '$rootScope',
-  '$routeParams',
-  'Scenario',
   '$location',
-  function($scope, $rootScope, $routeParams, Scenario, $location) {
+  'Scenario',
+  '$routeParams',
+  function($scope,$http, Auth, $rootScope,$location, Scenario, $routeParams) {
 
     if(!$rootScope.user && $scope.$parent.user){
       $scope.$parent.user = null;
@@ -193,6 +193,27 @@ leplannerControllers.controller('EditCtrl', [
       $scope.cancelEdit = function() {
         $location.path('/scenarios/'+$routeParams.id);
       };
+      $scope.saveEdit = function() {
+        console.log($scope.scenario.name);
+        console.log($scope.scenario.subject);
+        if($scope.scenario.name){
+          var scenario = {
+            id: $routeParams.id,
+            name: $scope.scenario.name,
+            subject: $scope.scenario.subject
+          };
+
+          $http.post('/api/updatescenario', scenario)
+          .success(function(data, status, headers, config) {
+            console.log('Updated');
+          }).
+          error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+          });
+          
+        }
+      }
 
     });
 }]);

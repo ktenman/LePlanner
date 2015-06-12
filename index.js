@@ -85,7 +85,7 @@ var sessionOpt = {
 
 var app = express();
 // logging for developing
-//app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -190,6 +190,19 @@ app.get('/api/logout', auth, function(req, res){
         if (err) return next(err);
         res.sendStatus(200);
       });
+    });
+  });
+  
+  //  Scenario updateing
+  app.post('/api/updatescenario', function(req, res, next){
+    Scenario.findById(req.body.id, function(err, scenario) {
+      console.log(req.body.id);
+      scenario.name = req.body.name;
+      scenario.subject = req.body.subject;
+      scenario.save(function(err) {
+        if(err) return next(err);
+        res.sendStatus(200);
+      })
     });
   });
 
