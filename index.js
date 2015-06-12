@@ -43,7 +43,6 @@ passport.use(new GoogleStrategy({
     User.findOne({ email: new_user.email }, function(err, user){
       if(err) {return done(err); }
       if(!user){
-
         new_user.save(function(err,user){
           if(err) {return done(err); }
 
@@ -54,7 +53,6 @@ passport.use(new GoogleStrategy({
       }else{
         console.log('got user from db with id: '+user._id);
         done(null,user);
-
       }
 
     });
@@ -86,7 +84,7 @@ var sessionOpt = {
 
 var app = express();
 // logging for developing
-//app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -149,7 +147,7 @@ app.get('/api/logout', auth, function(req, res){
       }
       var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i');
 
-      query.where({ name: regex});
+      query.where({ name: regex, deleted: false});
     }else {
       query.where({ deleted: false });
       query.limit(12);
@@ -193,8 +191,7 @@ app.get('/api/logout', auth, function(req, res){
       });
     });
   });
-
-
+  
   //  Scenario updateing
   app.post('/api/updatescenario', function(req, res, next){
     Scenario.findById(req.body.id, function(err, scenario) {

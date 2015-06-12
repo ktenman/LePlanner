@@ -6,26 +6,6 @@
 </head>
 <body>
 
-
-<ul class="subjects">
-  <li ng-repeat="subject in subjects">
-    <span ng-click="filterBySubject(subject)">{{subject}}</span>
-  </li>
-</ul>
-<div>
-  <input type="text" name="search" ng-model="name" placeholder="Search"><input type="submit" value="Search" ng-click="searchScenario(name)">
-</div>
-<div class="col-xs-4 col-md-3" id="scenarios_list">
-  <div id="{{scenario._id}}" class="text-center" ng-repeat="scenario in scenarios | filter:query">
-    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
-  </div>
-</div>
-
-
-
-
-
-
 <!-- ///////////////////////// -->
    <!-- ||||||   CONTENT   |||||| -->
    <!-- ///////////////////////// -->
@@ -42,12 +22,10 @@
           <div class="col-sm-5">
              <h2>Loo. Jaga. Avasta. Õpistsenaariumid</h2>
              <p class="lead home-intro" class="thumbnail-caption">Cras justo odio, dapibus ac facilisis in, egestas eget quam. todio, dapibus ac facilisis in, egestas eget quam.</p>
-             <p><a class="btn btn-sm  btn-success" href="#/add" role="button">LOO ÕPISTSENAARIUM <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+             <p><a class="btn btn-sm  btn-success" href="#/add" role="button">CREATE SCENARIO<span class="glyphicon glyphicon-chevron-right"></span></a></p>
          </div>
        </div>
      </div>
-
-
 
      <!-- //////////////////////////// -->
      <!-- ||||||   THUMBNAILS   |||||| -->
@@ -147,49 +125,18 @@
 
        <h3>Ained</h3>
 
-       <div class="col-sm-11">
-         <a href="subject.php">Ajalugu</a>
-         <a href="subject.php">Inglise keel</a>
-         <a href="subject.php">Meediaõpetus</a>
-         <a href="subject.php">Alusharidus</a>
-         <a href="subject.php">Inimeseõpetus</a>
-         <a href="subject.php">Muusika</a>
-         <a href="subject.php">Bioloogia</a>
-         <a href="subject.php">Keemia</a>
-         <a href="subject.php">Prantsuse keel</a>
-         <a href="subject.php">Eesti keel (emakeel)</a>
-         <a href="subject.php">Kehaline kasvatus</a>
-         <a href="subject.php">Rootsi keel</a>
-         <a href="subject.php">Eesti keel (võõrkeel)</a>
-         <a href="subject.php">Kirjandus</a>
-         <a href="subject.php">Saksa keel</a>
-         <a href="subject.php">Erialakeel</a>
-         <a href="subject.php">Kodundus</a>
-         <a href="subject.php">Soome keel</a>
-         <a href="subject.php">Erivajaduslik</a>
-         <a href="subject.php">Kunst</a>
-         <a href="subject.php">Töö- ja tehnoloogiaõpetus</a>
-         <a href="subject.php">Füüsika</a>
-         <a href="subject.php">Käsitöö</a>
-         <a href="subject.php">Vene keel (emakeel)</a>
-         <a href="subject.php">Geograafia</a>
-         <a href="subject.php">Loodusõpetus</a>
-         <a href="subject.php">Vene keel (võõrkeel)</a>
-         <a href="subject.php">Haridustehnoloogia</a>
-         <a href="subject.php">Majandus ja ettevõtlus</a>
-         <a href="subject.php">Ühiskonnaõpetus</a>
-         <a href="subject.php">Informaatika</a>
-         <a href="subject.php">Matemaatika</a>
+         <div class="col-sm-11">
+
+         <ul class="subjects">
+           <li ng-repeat="subject in subjects">
+             <span ng-click="filterBySubject(subject)">{{subject}}</span>
+           </li>
+         </ul>
+
        </div>
 
      </div>
-
-
-
  </div><!-- /.container MAIN CONTENT-->
-
-
-
 
 </body>
 </html>
