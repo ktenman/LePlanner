@@ -2,7 +2,11 @@
 <form ng-show="user" ng-submit="submit()" ng-controller="AddCtrl">
   Enter the title :
   <input type="text" ng-model="name" name="name" value="Test Scenario" /></br>
-  Enter the subject :
-  <input type="text" ng-model="subject" name="subject" value="Math" />
+  Choose a subject :
+
+  <select ng-controller="homeCtrl">
+    <option ng-repeat="subject in subjects" value={{subject}}>{{subject}}</option>
+  </select>
+  <!-- <input type="text" ng-model="subject" name="subject" value="Math" /> -->
   <input type="submit" id="submit" value="Submit" />
 </form>
