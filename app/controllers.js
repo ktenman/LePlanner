@@ -5,28 +5,20 @@ leplannerControllers.controller('MainCtrl', [
   '$http',
   '$rootScope',
   '$location',
-  'Auth',
-  function($scope,$http,$rootScope,$location,Auth){
-
-    if(!$rootScope.user){
-      $http({url: '/api/me', method: 'GET'})
-      .success(function (data, status, headers, config) {
-        Auth.setUser(data);
-        $scope.user = $rootScope.user;
-
-      })
-      .error(function (data, status, headers, config) {
-        console.log(data);
-      });
-
+  function($scope,$http,$rootScope,$location){
+    
+    console.log('main '+$rootScope.user);
+        
+    $scope.setUser = function(){
+      $scope.user = $rootScope.user;
     }
-
+    
     $scope.logout = function(){
       $http({url: '/api/logout', method: 'GET'})
       .success(function (data, status, headers, config) {
         console.log(data);
         $scope.user = null;
-        Auth.unsetUser();
+        $rootScope.user = null;
         $location.path('/');
 
       })
@@ -44,12 +36,30 @@ leplannerControllers.controller('homeCtrl', [
   'Scenario',
   'Delete',
   '$location',
-  function($scope, $rootScope,Scenario, Delete, $location){
+  '$http',
+  function($scope, $rootScope,Scenario, Delete, $location, $http){
+    
+    console.log($rootScope.user);
+    
+    if(!$rootScope.user){
+      $http({url: '/api/me', method: 'GET'})
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set homectrl');
 
-    if(!$rootScope.user && $scope.$parent.user){
+      })
+      .error(function (data, status, headers, config) {
+        console.log(data);
+      });
+
+    }
+    
+    /*if(!$rootScope.user && $scope.$parent.user){
       $scope.$parent.user = null;
       console.log("disabled use");
-    }
+    }*/
 
     $scope.user = $rootScope.user;
 
@@ -91,10 +101,9 @@ leplannerControllers.controller('loginCtrl', [
 leplannerControllers.controller('AddCtrl', [
   '$scope',
   '$http',
-  'Auth',
   '$rootScope',
   '$location',
-  function($scope,$http, Auth, $rootScope,$location){
+  function($scope,$http, $rootScope,$location){
 
     // not neccesery, not logged in user wont get until here, will be redirected
     if(!$rootScope.user && $scope.$parent.user){
@@ -132,14 +141,27 @@ leplannerControllers.controller('DetailCtrl', [
   '$routeParams',
   'Scenario',
   'Subscription',
-  function($scope, $rootScope, $routeParams, Scenario, Subscription) {
-
-    if(!$rootScope.user && $scope.$parent.user){
-      $scope.$parent.user = null;
+  '$http',
+  function($scope, $rootScope, $routeParams, Scenario, Subscription, $http) {
+    
+    /*if(!$rootScope.user && $scope.$parent.user){
+      $scope.$parent.user = null;+
       console.log("disabled use");
-    }
+    }*/
+    
+    //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
+    if(!$rootScope.user){
+      $http({url: '/api/me', method: 'GET'})
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set Addctrl');
 
-    $scope.user = $rootScope.user;
+      }).error(function (data, status, headers, config) {console.log(data);});
+
+    }
+    //  ---------------------------------------------------------------------------
 
     Scenario.get({ _id: $routeParams.id }, function(scenario) {
       $scope.scenario = scenario;
@@ -173,17 +195,16 @@ leplannerControllers.controller('DetailCtrl', [
 leplannerControllers.controller('EditCtrl', [
   '$scope',
   '$http',
-  'Auth',
-  '$rootScope',
+'$rootScope',
   '$location',
   'Scenario',
   '$routeParams',
-  function($scope,$http, Auth, $rootScope,$location, Scenario, $routeParams) {
+  function($scope,$http, $rootScope,$location, Scenario, $routeParams) {
 
-    if(!$rootScope.user && $scope.$parent.user){
+    /*if(!$rootScope.user && $scope.$parent.user){
       $scope.$parent.user = null;
       console.log("disabled use");
-    }
+    }*/
 
     $scope.user = $rootScope.user;
 

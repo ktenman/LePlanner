@@ -84,7 +84,7 @@ var sessionOpt = {
 
 var app = express();
 // logging for developing
-//app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
