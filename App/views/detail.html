@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>LePlanner</title>
-</head>
-<body>
 
           <div ng-if="user">
             <div ng-if="!isSubscribed()">
@@ -26,14 +19,7 @@
 
         <div >
           <h2>
-            Name: {{scenario.name}}
+            {{scenario.name}}
             <span> {{scenario.rating}}</span>
           </h2>
-          Category: {{scenario.subject}}
         </div>
-        <div>
-          <a href="/#/edit/{{scenario._id}}">Edit</a>
-        </div>
-
-</body>
-</html>

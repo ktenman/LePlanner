@@ -8,6 +8,7 @@
   <script src="assets/libs/angular-resource/angular-resource.min.js" charset="utf-8"></script>
   <script src="controllers.js" charset="utf-8"></script>
   <script src="app.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -29,18 +30,13 @@
 
 </head>
 <body>
-<div align="center">
 
 
-</div>
-
-
-     <!-- ////////////////////// -->
+      <!-- ////////////////////// -->
       <!-- ||||||   MENU   |||||| -->
       <!-- ////////////////////// -->
 
 <nav class="navbar navbar-default navbar-fixed-top">
-
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -57,34 +53,31 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
+      <!--<ul class="nav navbar-nav">
+<li><a href="home.php">Avaleht</a></li><li><a href="search.php">Otsi</a></li><li><a href="subject.php">Aine</a></li><li><a href="member.php">Kasutaja</a></li><li><a href="scenario.php"> Stsenaarium</a></li><li><a href="dashboard.php"> Sisse logitud</a></li>
+</ul>-->
 
-        <ul class="nav navbar-nav">
-            <li ><a class="navbar-brand" href="#/"></a>
-            <li ><a href="#/" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false" >LePlanner</a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                    <li class="active"><a href="#/">Avaleht</a></li>
-                    <li><a href="search.php">Otsi</a></li>
-                    <li><a href="subject.php">Aine</a></li>
-                    <li><a href="member.php">Kasutaja</a></li>
-                    <li><a href="scenario.php">Stsenaarium</a></li>
-                    <li><a href="dashboard.php">Sisse logitud</a></li>
-                </ul>
-            </li>
-          </li>
-        </ul>
+      <ul class="nav navbar-nav">
+        <li ><a class="navbar-brand" href="#/"><h2 style="padding-left:100% ">Leplanner</h2></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li><a href="home.php">Avaleht</a></li><li><a href="search.php">Otsi</a></li><li><a href="subject.php">Aine</a></li><li><a href="member.php">Kasutaja</a></li><li><a href="scenario.php"> Stsenaarium</a></li><li><a href="dashboard.php"> Sisse logitud</a></li>  </ul>
+        </li>
+      </ul>
+      <!--<ul class="nav navbar-nav navbar-right">
+        <li class="login-home">
+           <a href="login.php" class="btn btn-primary btn-sm login-top"> LOGI SISSE</a>
+          <span class="login-or-create">või</span>
+          <a href="#" class="btn btn-default btn-sm create-new-user-top"> LOO KASUTAJA</a>
+        </li>
+      </ul>-->
+
+      <a ng-hide=user class="header-login pull-right" href="/#/login"> Logi sisse</a>
+      <a ng-show=user ng-click="logout()"  class="header-login pull-right" href="/#"> Logi välja</a>
 
 
-
-      <a ng-hide=user class="pull-right btn btn-primary btn-sm login-top" href="/#/login">Logi sisse</a>
-      <a ng-show=user {{user.first_name}}, ng-click="logout()"  class="pull-right btn btn-primary btn-sm login-top" href="/#">Logi välja</a>
-
-      <div class="header-search inner-addon right-addon pull-right" >
-        <a value="Search"  href="/#/" ng-click="searchScenario(name)"><i class="glyphicon glyphicon-search"></i></a>
-        <input type="text" class="form-control" name="search" ng-model="name" placeholder="Search" />
-          <div>
-              <input type="text" name="search" ng-model="name" placeholder="Search"><input type="submit" value="Search" ng-click="searchScenario(name)">
-          </div>
-
+      <div class="header-search inner-addon right-addon pull-right">
+        <a href="search.php"><i class="glyphicon glyphicon-search"></i></a>
+        <input type="text" class="form-control" placeholder="Otsi" />
       </div>
 
     </div><!-- /.navbar-collapse -->
@@ -94,34 +87,6 @@
 </nav>
 
 <div ng-view></div>
-
-      <!-- /////////////////////// -->
-      <!-- ||||||   FOOTER   |||||| -->
-      <!-- //////////////////////// -->
-
-      <div class="container footer">
-
-          <div class="col-md-8">
-              <a href="#">Abi</a>
-          </div>
-
-          <div class="col-md-4">
-              <p class="pull-right">2015 LePLanner. Creative Commons</p>
-          </div>
-
-      </div>
-
-
-      <!-- Bootstrap core JavaScript
-      ================================================== -->
-      <!-- Latest compiled and minified JavaScript -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-
-
-
-
 
 </body>
 </html>
