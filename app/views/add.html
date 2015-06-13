@@ -3,8 +3,8 @@
   Enter the title :
   <input type="text" ng-model="name" name="name" value="Test Scenario" /></br>
   Choose a subject :
-  <select>
-    <option ng-repeat="subject in subjects" value={{subject}} ng-model="subject" name="subject">{{subject}}</option>
+  <select ng-model="subject">
+    <option ng-repeat="subject in subjects" value="{{subject}}"  name="subject">{{subject}}</option>
   </select>
   <input type="submit" id="submit" value="Submit" />
 </form>
