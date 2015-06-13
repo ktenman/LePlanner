@@ -60,16 +60,11 @@ leplannerControllers.controller('homeCtrl', [
       });
 
     }
-    
-    /*if(!$rootScope.user && $scope.$parent.user){
-      $scope.$parent.user = null;
-      console.log("disabled use");
-    }*/
 
     $scope.user = $rootScope.user;
 
-    $scope.subjects = ['Math', 'History', 'English'];
-
+    $scope.subjects = subjectList($scope);
+    
     $scope.scenarios = Scenario.query();
 
     $scope.filterBySubject = function(subject) {
@@ -107,18 +102,32 @@ leplannerControllers.controller('AddCtrl', [
   '$rootScope',
   '$location',
   function($scope,$http, $rootScope,$location){
+    
+    //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
+    if(!$rootScope.user){
+      $http({url: '/api/me', method: 'GET'})
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set homectrl');
 
-    // not neccesery, not logged in user wont get until here, will be redirected
-    if(!$rootScope.user && $scope.$parent.user){
-      $scope.$parent.user = null;
-      console.log("disabled use");
+      })
+      .error(function (data, status, headers, config) {
+        console.log(data);
+      });
+
     }
-
-    $scope.user = $rootScope.user;
+    //  ---------------------------------------------------------------------------
+    
+    console.log($scope.user);
+    
+    $scope.subjects = subjectList($scope);
 
     $scope.submit = function() {
       if ($scope.name) {
           console.log($scope.name);
+          console.log($scope.subject);
           var scenario = {
             name: $scope.name,
             subject: $scope.subject
@@ -147,10 +156,6 @@ leplannerControllers.controller('DetailCtrl', [
   '$http',
   function($scope, $rootScope, $routeParams, Scenario, Subscription, $http) {
     
-    /*if(!$rootScope.user && $scope.$parent.user){
-      $scope.$parent.user = null;+
-      console.log("disabled use");
-    }*/
     
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
     if(!$rootScope.user){
@@ -198,16 +203,25 @@ leplannerControllers.controller('DetailCtrl', [
 leplannerControllers.controller('EditCtrl', [
   '$scope',
   '$http',
-'$rootScope',
+  '$rootScope',
   '$location',
   'Scenario',
   '$routeParams',
   function($scope,$http, $rootScope,$location, Scenario, $routeParams) {
 
-    /*if(!$rootScope.user && $scope.$parent.user){
-      $scope.$parent.user = null;
-      console.log("disabled use");
-    }*/
+    //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
+    if(!$rootScope.user){
+      $http({url: '/api/me', method: 'GET'})
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set Addctrl');
+
+      }).error(function (data, status, headers, config) {console.log(data);});
+
+    }
+    //  ---------------------------------------------------------------------------
 
     $scope.user = $rootScope.user;
 
@@ -237,7 +251,52 @@ leplannerControllers.controller('EditCtrl', [
           });
           
         }
-      }
+      };
 
     });
 }]);
+
+leplannerControllers.controller('SearchCtrl', [
+  '$scope',
+  '$rootScope',
+  '$routeParams',
+  'Scenario',
+  'Subscription',
+  '$http',
+  function($scope, $rootScope, $routeParams, Scenario, Subscription, $http) {
+    
+    
+    //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
+    if(!$rootScope.user){
+      $http({url: '/api/me', method: 'GET'})
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set Addctrl');
+
+      }).error(function (data, status, headers, config) {console.log(data);});
+
+    }
+    //  ---------------------------------------------------------------------------
+
+    Scenario.get({ _id: $routeParams.id }, function(scenario) {
+      $scope.scenario = scenario;
+
+      $scope.isSubscribed = function() {
+        return $scope.scenario.subscribers.indexOf($scope.user._id) !== -1;
+      };
+      
+      $scope.searchScenario = function(name) {
+        $scope.scenarios = Scenario.query({ name: name });
+      };
+
+    });
+}]);
+
+function subjectList($scope) {
+  return $scope.subjects = ['Maths', 'History', 'English', 'Basic Education', 'Biology', 'Estonian (native language)', 'Estonian (foreign language)',
+    'Speciality language', 'Special Education', 'Physics', 'Geography', 'Educational Technology', 'Informatics', 'Human Studies', 'Chemistry', 'Physical Education',
+    'Literary', 'Home Economics', 'Arts', 'Crafts', 'Natural Science', 'Economics and Business', 'Media Studies', 'Music', 'French', 'Swedish', 'German', 'Finnish',
+    'Handicraft and Home Economics', 'Russian (native language)', 'Russian (foreign language)', 'Social Education'].sort();
+}

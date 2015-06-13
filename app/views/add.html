@@ -1,8 +1,10 @@
 <p ng-hide="user"> Please login to add scenario</p>
-<form ng-show="user" ng-submit="submit()" ng-controller="AddCtrl">
+<form ng-show="user" ng-submit="submit()">
   Enter the title :
   <input type="text" ng-model="name" name="name" value="Test Scenario" /></br>
-  Enter the subject :
-  <input type="text" ng-model="subject" name="subject" value="Math" />
+  Choose a subject :
+  <select>
+    <option ng-repeat="subject in subjects" value={{subject}} ng-model="subject" name="subject">{{subject}}</option>
+  </select>
   <input type="submit" id="submit" value="Submit" />
 </form>

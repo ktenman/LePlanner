@@ -251,3 +251,30 @@ var server = app.listen(config.port, function () {
   console.log('Example app listening at http://%s:%s', host, port);
 
 });
+
+//  SEARCH
+app.get('/api/search', function(req, res, next) {
+    var query = Scenario.find();
+    if(req.query.name){  //IF SCENARIO NAME IS SEND ON HOME PAGE TO THE SEARCH BOX
+      function escapeRegExp(str){
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+      }
+      var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i');
+
+      query.where({ name: regex, deleted: false});
+    }else {
+      query.where({ deleted: false });
+      query.limit(12);
+    }
+    if(req.query._id){
+      Scenario.findByIdAndUpdate(req.queri._id, {deleted: true}, function(err, scenario) {
+        if (err) {
+          return next(err);
+        }
+      });
+    }
+    query.exec(function(err, scenarios) {
+      if (err) return next(err);
+      res.send(scenarios);
+    });
+  });
