@@ -84,7 +84,7 @@ var sessionOpt = {
 
 var app = express();
 // logging for developing
-//app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -249,20 +249,23 @@ var server = app.listen(config.port, function () {
 
 //  SEARCH
 app.get('/api/search', function(req, res, next) {
-    var query = Scenario.find();
-    if(req.query.name){  // if scenario name is sent to the Scenario.query (controllers.js)
-      function escapeRegExp(str){
-        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
-      }
-      var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similarities
+  var query = Scenario.find().populate('author');
 
-      query.where({ name: regex, deleted: false});  //  find all where name is similar to regex and deleted is false
-    }else {
-      query.where({ deleted: false });  //  if you are not searching anything it will show all results or only 12 if too many
-      query.limit(12);
+  if(req.query.name){  // if scenario name is sent to the Scenario.query (controllers.js)
+    function escapeRegExp(str){
+      return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
     }
-    query.exec(function(err, scenarios) { //  executes the query(show all on the page or show what was searched)
-      if (err) return next(err);
-      res.send(scenarios);
-    });
+    var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similarities
+
+    query.where({ name: regex, deleted: false});  //  find all where name is similar to regex and deleted is false
+  }else {
+    query.where({ deleted: false });  //  if you are not searching anything it will show all results or only 12 if too many
+    query.limit(12);
+  }
+
+  query.populate('author').exec(function(err, scenarios){
+    if (req.query.name) {
+      res.json(scenarios);
+    }
   });
+});

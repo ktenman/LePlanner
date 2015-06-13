@@ -129,14 +129,19 @@ leplannerControllers.controller('AddCtrl', [
           console.log($scope.name);
           console.log($scope.subject);
           console.log($scope.description);
-          var scenario = {
+          console.log($scope);
+          var scenario = {  //  inserts values to the scenario object
             name: $scope.name,
             subject: $scope.subject,
-            author: $scope.user._id,
+            author: {
+              id:$scope.user._id,
+              name: $scope.user.first_name +' '+$scope.user.last_name //  both names in one place
+                                                                      //  used to show who made the scenario
+            },
             description: $scope.description
           };
 
-          $http.post('/api/savescenario', scenario)
+          $http.post('/api/savescenario', scenario) //  sends object to /api/savescenario (index.js)
           .success(function(data, status, headers, config) {
             console.log('saved');
           }).
@@ -233,6 +238,7 @@ leplannerControllers.controller('EditCtrl', [
 
     Scenario.get({ _id: $routeParams.id }, function(scenario) {
       $scope.scenario = scenario;
+      console.log($scope.scenario);
 
       $scope.cancelEdit = function() {  //  Cancel button on the Edit page
         $location.path('/scenarios/'+$routeParams.id);
@@ -294,7 +300,7 @@ leplannerControllers.controller('SearchCtrl', [
     
     //  default sets $scope.scenarios to ALL scenarios
     $scope.scenarios = Scenario.query();
-    
+    console.log($scope.scenarios);
     //  can be used later on to see on the Search page if User is subscribed to a scenario or not
     $scope.isSubscribed = function() {
       return $scope.scenario.subscribers.indexOf($scope.user._id) !== -1;

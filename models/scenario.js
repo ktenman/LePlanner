@@ -5,7 +5,10 @@ var ScenarioSchema = new Schema({
     name: { type: String, required: true },
     subject: { type: String, required: true },
     //  scenario author
-    author: { type: [mongoose.Schema.Types.ObjectId], ref: 'User'},
+    author: { 
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+        name: { type: String, required: true}
+    },
     //  date of creation
     created: { type: Date, default: Date.now },
     //  scenario description
