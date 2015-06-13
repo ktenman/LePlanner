@@ -5,6 +5,8 @@
   Choose a subject :
   <select ng-model="subject">
     <option ng-repeat="subject in subjects" value="{{subject}}"  name="subject">{{subject}}</option>
-  </select>
+  </select><br>
+  Add description: <br>
+  <textarea ng-model="description" name="description"></textarea>
   <input type="submit" id="submit" value="Submit" />
 </form>

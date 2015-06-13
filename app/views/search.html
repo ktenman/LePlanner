@@ -14,7 +14,7 @@
   
   <div class="single_scenario_item" id="{{scenario._id}}" ng-repeat="scenario in scenarios | filter:query">
 
-    <div class=""> 
+    <div class="" > 
       <div class="">
         <h4><strong><a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a></strong></h4><!--SCENARIO HEADING(NAME)-->
       </div>
@@ -31,11 +31,11 @@
       </div>
       <div class="">   
         <p class="">
-          <span class=""></span> <a href="scenario.php">USER</a><br> <!--CREATOR OF SCENARIO-->
-          <span class=""></span> {{scenario.created}} <!--THE TIME THIS SCENARIO WAS MADE-->
+          <span class=""></span>Created by: {{scenario.author}}<br> <!--CREATOR OF SCENARIO-->
+          <span class=""></span>Date: {{scenario.created}} <!--THE TIME THIS SCENARIO WAS MADE-->
         </p>
         <p>
-          TEXT ABOUT THIS SCENARIO<!--TEXT ABOUT THIS SCENARIO-->
+          Description: {{scenario.description}}<!--TEXT ABOUT THIS SCENARIO-->
         </p>
         <div class="">
           <div class="">  

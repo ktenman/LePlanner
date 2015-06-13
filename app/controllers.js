@@ -128,9 +128,12 @@ leplannerControllers.controller('AddCtrl', [
       if ($scope.name) {
           console.log($scope.name);
           console.log($scope.subject);
+          console.log($scope.description);
           var scenario = {
             name: $scope.name,
-            subject: $scope.subject
+            subject: $scope.subject,
+            author: $scope.user._id,
+            description: $scope.description
           };
 
           $http.post('/api/savescenario', scenario)
