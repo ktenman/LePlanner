@@ -234,7 +234,7 @@ leplannerControllers.controller('EditCtrl', [
     Scenario.get({ _id: $routeParams.id }, function(scenario) {
       $scope.scenario = scenario;
 
-      $scope.cancelEdit = function() {
+      $scope.cancelEdit = function() {  //  Cancel button on the Edit page
         $location.path('/scenarios/'+$routeParams.id);
       };
       $scope.saveEdit = function() {
