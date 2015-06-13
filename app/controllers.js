@@ -227,6 +227,9 @@ leplannerControllers.controller('EditCtrl', [
     //  ---------------------------------------------------------------------------
 
     $scope.user = $rootScope.user;
+    
+    //  Subject array used to change the subject in edit.html
+    $scope.subjects = subjectList($scope);
 
     Scenario.get({ _id: $routeParams.id }, function(scenario) {
       $scope.scenario = scenario;
@@ -235,16 +238,21 @@ leplannerControllers.controller('EditCtrl', [
         $location.path('/scenarios/'+$routeParams.id);
       };
       $scope.saveEdit = function() {
+        //  prints out all three changes made
         console.log($scope.scenario.name);
         console.log($scope.scenario.subject);
-        if($scope.scenario.name){
-          var scenario = {
+        console.log($scope.scenario.description);
+        
+        if($scope.scenario.name){ //  if name is sent from the Edit form
+          var scenario = {  //  creates new object scenario where the new values are stored
             id: $routeParams.id,
             name: $scope.scenario.name,
-            subject: $scope.scenario.subject
+            subject: $scope.scenario.subject,
+            description: $scope.scenario.description
           };
 
-          $http.post('/api/updatescenario', scenario)
+          $http.post('/api/updatescenario', scenario) //  sends the scenario object to /api/updatescenario
+                                                      //  in index.js
           .success(function(data, status, headers, config) {
             console.log('Updated');
           }).
@@ -259,6 +267,7 @@ leplannerControllers.controller('EditCtrl', [
     });
 }]);
 
+//  Controller for the search page
 leplannerControllers.controller('SearchCtrl', [
   '$scope',
   '$rootScope',
@@ -282,18 +291,24 @@ leplannerControllers.controller('SearchCtrl', [
 
     }
     //  ---------------------------------------------------------------------------
-
+    
+    //  default sets $scope.scenarios to ALL scenarios
     $scope.scenarios = Scenario.query();
-
+    
+    //  can be used later on to see on the Search page if User is subscribed to a scenario or not
     $scope.isSubscribed = function() {
       return $scope.scenario.subscribers.indexOf($scope.user._id) !== -1;
     };
     
+    //  search function for the NEW search page
+    //  sets $scope.scenarios array to all scenarios where name: name
     $scope.search = function(name) {
       $scope.scenarios = Scenario.query({ name: name });
     };
 }]);
 
+//  Function used to get subject array
+//  as subjects are used in mutiple places, it is bette to have it in a single function
 function subjectList($scope) {
   return $scope.subjects = ['Maths', 'History', 'English', 'Basic Education', 'Biology', 'Estonian (native language)', 'Estonian (foreign language)',
     'Speciality language', 'Special Education', 'Physics', 'Geography', 'Educational Technology', 'Informatics', 'Human Studies', 'Chemistry', 'Physical Education',

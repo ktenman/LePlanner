@@ -1,7 +1,12 @@
 <div ng-show="user">
-	<form ng-show="user" ng-controller="EditCtrl">
+	<form ng-show="user">
 		Name<input type="text" value="{{scenario.name}}" name="name" ng-model="scenario.name"><br>
-		Subject <input type="text" value="{{scenario.subject}}" name="subject" ng-model="scenario.subject"><br>
+		Subject 
+		<select ng-model="scenario.subject">
+			<!--<option selected="selected" value="{{scenario.subject}}" name="scenario.subject">{{scenario.subject}}</option>-->
+    		<option ng-repeat="subject in subjects" value="{{subject}}"  name="subject">{{subject}}</option>
+  		</select><br>
+		<textarea ng-model="scenario.description" name="description" name="description">{{scenario.description}}</textarea>
 		<input type="submit" ng-click="saveEdit()" value="Save"><br>
 		<button type="cancel" ng-click="cancelEdit()">Cancel</button>
 

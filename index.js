@@ -84,7 +84,7 @@ var sessionOpt = {
 
 var app = express();
 // logging for developing
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -143,23 +143,16 @@ app.get('/api/logout', auth, function(req, res){
       query.where({ subject: req.query.subject, deleted: false });
     } else if(req.query.name){  //IF SCENARIO NAME IS SEND ON HOME PAGE TO THE SEARCH BOX
       function escapeRegExp(str){
-        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
       }
-      var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i');
+      var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similar names
 
-      query.where({ name: regex, deleted: false});
+      query.where({ name: regex, deleted: false}); //  find all where name is similar to regex and deleted is false
     }else {
-      query.where({ deleted: false });
+      query.where({ deleted: false });  //  if you are not searching anything it will show all results or only 12 if too many
       query.limit(12);
     }
-    if(req.query._id){
-      Scenario.findByIdAndUpdate(req.queri._id, {deleted: true}, function(err, scenario) {
-        if (err) {
-          return next(err);
-        }
-      });
-    }
-    query.exec(function(err, scenarios) {
+    query.exec(function(err, scenarios) { //  executes the query(show all on the page or show what was searched)
       if (err) return next(err);
       res.send(scenarios);
     });
@@ -182,10 +175,10 @@ app.get('/api/logout', auth, function(req, res){
 
   //  Scenario deleting
   app.post('/api/deletescenario', function(req, res, next) {
-    Scenario.findById(req.body.scenarioId, function(err, scenario) {
-      console.log(req.body.scenarioId);
-      scenario.deleted = true;
-      scenario.save(function(err) {
+    Scenario.findById(req.body.scenarioId, function(err, scenario) {  //  get the scenario by id
+      console.log(req.body.scenarioId); //  for developement, prints the id to web console
+      scenario.deleted = true;  // sets the deleted value to true
+      scenario.save(function(err) { //  saves the scenario
         if (err) return next(err);
         res.sendStatus(200);
       });
@@ -193,15 +186,17 @@ app.get('/api/logout', auth, function(req, res){
   });
   
   //  Scenario updateing
-  app.post('/api/updatescenario', function(req, res, next){
-    Scenario.findById(req.body.id, function(err, scenario) {
-      console.log(req.body.id);
-      scenario.name = req.body.name;
-      scenario.subject = req.body.subject;
-      scenario.save(function(err) {
+  app.post('/api/updatescenario', function(req, res, next){ //  req is the scenario object sent from controllers.js
+    Scenario.findById(req.body.id, function(err, scenario) {  //  get the scenario by id
+      console.log(req.body.id); //  for developement, prints the id to web console
+      scenario.name = req.body.name;  //  sets the scenario name to new name
+      scenario.subject = req.body.subject;  // sets the scenario subject to new subject
+      scenario.description = req.body.description;  // sets the scenario description to new description
+      scenario.save(function(err) { //  saves the scenario
         if(err) return next(err);
+        console.log('UPDATED '+req.body.id);
         res.sendStatus(200);
-      })
+      });
     });
   });
 
@@ -214,7 +209,7 @@ app.get('/api/logout', auth, function(req, res){
     scenario.save(function(err, s){
       if(err){ return next(err); }
 
-      console.log('saved sceanrio '+s._id);
+      console.log('saved scenario '+s._id);
       res.sendStatus(200);
     });
   });
@@ -255,18 +250,18 @@ var server = app.listen(config.port, function () {
 //  SEARCH
 app.get('/api/search', function(req, res, next) {
     var query = Scenario.find();
-    if(req.query.name){  //IF SCENARIO NAME IS SEND ON HOME PAGE TO THE SEARCH BOX
+    if(req.query.name){  // if scenario name is sent to the Scenario.query (controllers.js)
       function escapeRegExp(str){
-        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
       }
-      var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i');
+      var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similarities
 
-      query.where({ name: regex, deleted: false});
+      query.where({ name: regex, deleted: false});  //  find all where name is similar to regex and deleted is false
     }else {
-      query.where({ deleted: false });
+      query.where({ deleted: false });  //  if you are not searching anything it will show all results or only 12 if too many
       query.limit(12);
     }
-    query.exec(function(err, scenarios) {
+    query.exec(function(err, scenarios) { //  executes the query(show all on the page or show what was searched)
       if (err) return next(err);
       res.send(scenarios);
     });
