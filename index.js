@@ -266,13 +266,6 @@ app.get('/api/search', function(req, res, next) {
       query.where({ deleted: false });
       query.limit(12);
     }
-    if(req.query._id){
-      Scenario.findByIdAndUpdate(req.queri._id, {deleted: true}, function(err, scenario) {
-        if (err) {
-          return next(err);
-        }
-      });
-    }
     query.exec(function(err, scenarios) {
       if (err) return next(err);
       res.send(scenarios);

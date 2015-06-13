@@ -1,8 +1,13 @@
 <h2>Search</h2>
-<form ng-show="user">
+<form>
 	<input type="text" ng-model="name" name="name">
 	<label for="maths">
 		<input id="maths" type="checkbox" name="Maths" ng-model="subject">Maths
 	</label>
-	<input type="submit" value="Search">
+	<input type="submit" value="Search" ng-click="search(name)">
 </form>
+<div class="col-xs-4 col-md-3" id="scenarios_list">
+  <div id="{{scenario._id}}" class="text-center" ng-repeat="scenario in scenarios | filter:query">
+    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
+  </div>
+</div>

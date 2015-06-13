@@ -273,25 +273,22 @@ leplannerControllers.controller('SearchCtrl', [
         $rootScope.user = data;
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
-        console.log('user set Addctrl');
+        console.log('user set Searchctrl');
 
       }).error(function (data, status, headers, config) {console.log(data);});
 
     }
     //  ---------------------------------------------------------------------------
 
-    Scenario.get({ _id: $routeParams.id }, function(scenario) {
-      $scope.scenario = scenario;
+    $scope.scenarios = Scenario.query();
 
-      $scope.isSubscribed = function() {
-        return $scope.scenario.subscribers.indexOf($scope.user._id) !== -1;
-      };
-      
-      $scope.searchScenario = function(name) {
-        $scope.scenarios = Scenario.query({ name: name });
-      };
-
-    });
+    $scope.isSubscribed = function() {
+      return $scope.scenario.subscribers.indexOf($scope.user._id) !== -1;
+    };
+    
+    $scope.search = function(name) {
+      $scope.scenarios = Scenario.query({ name: name });
+    };
 }]);
 
 function subjectList($scope) {
