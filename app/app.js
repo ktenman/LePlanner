@@ -1,7 +1,8 @@
 var leplannerApp = angular.module('leplannerApp', [
   'ngResource',
   'ngRoute',
-  'leplannerControllers'
+  'leplannerControllers',
+  'angularjs-dropdown-multiselect'
 ]);
 
 leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
@@ -75,6 +76,7 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
       }
     };
   });
+  
 
   leplannerApp.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $http) {
       $rootScope.$on('$routeChangeStart', function (event) {

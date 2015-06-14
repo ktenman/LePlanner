@@ -1,10 +1,9 @@
 <h2>Search</h2>
 <form>
 	<input type="text" ng-model="name" name="name">
-	<label for="maths">
-		<input id="maths" type="checkbox" name="Maths" ng-model="subject">Maths
-	</label>
-	<input type="submit" value="Search" ng-click="search(name)">
+  <div ng-dropdown-multiselect="" options="subjects" selected-model="subject" extra-settings="searchSettings"></div>
+
+	<input type="submit" value="Search" ng-click="search()">
 </form>
 
 <div class="col-xs-4 col-md-3" id="scenarios_list">

@@ -63,7 +63,7 @@ leplannerControllers.controller('homeCtrl', [
 
     $scope.user = $rootScope.user;
 
-    $scope.subjects = subjectList($scope);
+    $scope.subjects = subjectList();
     
     $scope.scenarios = Scenario.query();
 
@@ -300,24 +300,54 @@ leplannerControllers.controller('SearchCtrl', [
     
     //  default sets $scope.scenarios to ALL scenarios
     $scope.scenarios = Scenario.query();
+    //  Get the subjects so we can search by them
+    $scope.subjects = subjectJSONList();
+    
     console.log($scope.scenarios);
     //  can be used later on to see on the Search page if User is subscribed to a scenario or not
     $scope.isSubscribed = function() {
       return $scope.scenario.subscribers.indexOf($scope.user._id) !== -1;
     };
     
+    $scope.subject = [];
+    $scope.searchSettings = {externalIdProp: ''};
+    
     //  search function for the NEW search page
     //  sets $scope.scenarios array to all scenarios where name: name
-    $scope.search = function(name) {
-      $scope.scenarios = Scenario.query({ name: name });
+    $scope.search = function() {
+      console.log($scope.name);
+      console.log($scope.subject);
+      //console.log($scope.subject[0].label);
+      var name = $scope.name;
+      if($scope.subject.length == 0){
+        console.log('Subject not selected');
+        $scope.scenarios = Scenario.query({ name: name});
+      }else{
+        console.log('subject selected');
+        var subjects = [];
+        $scope.subject.forEach(function(element) {
+          subjects.push(element.label);
+        });
+        console.log(subjects);
+        $scope.scenarios = Scenario.query({ name: name, subject: $scope.subject[0].label});
+      }
+      
     };
 }]);
 
 //  Function used to get subject array
 //  as subjects are used in mutiple places, it is bette to have it in a single function
-function subjectList($scope) {
-  return $scope.subjects = ['Maths', 'History', 'English', 'Basic Education', 'Biology', 'Estonian (native language)', 'Estonian (foreign language)',
+function subjectList() {
+  return ['Maths', 'History', 'English', 'Basic Education', 'Biology', 'Estonian (native language)', 'Estonian (foreign language)',
     'Speciality language', 'Special Education', 'Physics', 'Geography', 'Educational Technology', 'Informatics', 'Human Studies', 'Chemistry', 'Physical Education',
     'Literary', 'Home Economics', 'Arts', 'Crafts', 'Natural Science', 'Economics and Business', 'Media Studies', 'Music', 'French', 'Swedish', 'German', 'Finnish',
     'Handicraft and Home Economics', 'Russian (native language)', 'Russian (foreign language)', 'Social Education'].sort();
+}
+function subjectJSONList() {
+  return [{id: 1, label: 'Maths'}, {id: 2, label: 'History'}, {id: 3, label: 'English'}, {id: 4, label: 'Basic Education'}, {label: 'Biology'}, {label: 'Estonian (native language)'}, {label: 'Estonian (foreign language)'},
+    {label: 'Speciality language'}, {label: 'Special Education'}, {label: 'Physics'}, {label: 'Geography'}, {label: 'Educational Technology'}, {label: 'Informatics'}, {label: 'Human Studies'}, 
+    {label: 'Chemistry'}, {label: 'Physical Education'},
+    {label: 'Literary'}, {label: 'Home Economics'}, {label: 'Arts'}, {label: 'Crafts'}, {label: 'Natural Science'}, {label: 'Economics and Business'}, {label: 'Media Studies'}, {label: 'Music'}, 
+    {label: 'French'}, {label: 'Swedish'}, {label: 'German'}, {label: 'Finnish'},
+    {label: 'Handicraft and Home Economics'}, {label: 'Russian (native language)'}, {label: 'Russian (foreign language)'}, {label: 'Social Education'}].sort();
 }
