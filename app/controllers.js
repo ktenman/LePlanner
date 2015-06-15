@@ -310,7 +310,8 @@ leplannerControllers.controller('SearchCtrl', [
     };
 
     $scope.subject = [];
-    $scope.searchSettings = {externalIdProp: ''};
+    $scope.searchSettings = {externalIdProp: '',scrollableHeight: '400px',
+    scrollable: true, enableSearch: true};
 
     //  search function for the NEW search page
     //  sets $scope.scenarios array to all scenarios where name: name
