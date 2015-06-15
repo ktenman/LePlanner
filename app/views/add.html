@@ -23,39 +23,53 @@
 
   <span>License: </span>
   <select ng-model="license" name="licenseName">
-    <option></option>
+    <option ng-repeat="license in licenses" value="{{license}}">{{license}}</option>
   </select>
 
   <br/>
 
   <span>Language: </span>
   <select ng-model="language" name="languageName">
-    <option></option>
+    <option ng-repeat="language in languages" value="{{language}}">{{language}}</option>
   </select>
 
   <br />
 
   <span>Material type: </span>
   <select ng-model="materialType" name="materialTypeName">
-    <option></option>
+    <option ng-repeat="material in materials" value="{{material}}">{{material}}</option>
   </select>
+
+  <br />
 
   <span>Method: </span>
   <select ng-model="method" name="methodName">
-    <option></option>
+    <option ng-repeat="method in methods" value="{{method}}">{{method}}</option>
   </select>
+
+  <br />
 
   <span>Stage: </span>
   <select ng-model="stage" name="stageName">
-    <option></option>
+    <option ng-repeat="stage in stages" value="{{stage}}">{{stage}}</option>
   </select>
 
+  <br />
+
+<!--
   <span>Technical: </span>
   <select ng-model="technical" name="techinalName">
     <option></option>
   </select>
+-->
+  <span>Technical coming soon!</span>
 
-  <span>Add description:</span> <br>
+  <br />
+
+  <span>Add description:</span> <br />
   <textarea ng-model="description" name="description"></textarea>
+
+  <br />
+
   <input type="submit" id="submit" value="Submit" />
 </form>

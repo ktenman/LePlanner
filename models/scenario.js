@@ -1,9 +1,5 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
-    
-var getDate = new Date();
-var month = getDate.getMonth()+1;
-var currentDay = getDate.getDate() +'.'+month+'.'+ getDate.getFullYear();
 
 var ScenarioSchema = new Schema({
     name: { type: String, required: true },
@@ -36,6 +32,4 @@ var ScenarioSchema = new Schema({
     subscribers: { type: [mongoose.Schema.Types.ObjectId], ref: 'User', default: [] },
     deleted: {type: Boolean, required: true, default: false}
 });
-var scenario = mongoose.model('Scenario', ScenarioSchema);
-scenario.aggregate({$project: { day: {$dayOfMonth: '$created'}}});
-module.exports = scenario;
+module.exports = mongoose.model('Scenario', ScenarioSchema);

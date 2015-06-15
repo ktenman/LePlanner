@@ -26,6 +26,7 @@
     <p> <a href="/#/add">Create scenario</a> </p>
      <p> {{user.first_name}}, <a ng-click="logout()" href="#">Log Out</a> </p>
   </div>
+  <img ng-show="user" src="{{user.google.image}}" alt="myFace">
 
   <div ng-view></div>
 

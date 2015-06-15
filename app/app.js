@@ -59,6 +59,11 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
     return $resource('/api/scenarios/:_id');
   }]);
 
+  leplannerApp.factory('Search', ['$resource', function($resource) {
+    return $resource('/api/search/');
+  }]);
+
+
   leplannerApp.factory('Delete', function($http){
     return {
       scenario: function(id){
