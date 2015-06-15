@@ -142,9 +142,9 @@ app.get('/api/logout', auth, function(req, res){
     if (req.query.subject) {
       query.where({ subject: req.query.subject, deleted: false });
     } else if(req.query.name){  //IF SCENARIO NAME IS SEND ON HOME PAGE TO THE SEARCH BOX
-      function escapeRegExp(str){
+      var escapeRegExp = function escapeRegExp(str){
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
-      }
+      };
       var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similar names
 
       query.where({ name: regex, deleted: false}); //  find all where name is similar to regex and deleted is false
