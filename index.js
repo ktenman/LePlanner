@@ -138,7 +138,7 @@ app.get('/api/logout', auth, function(req, res){
 
 
   app.get('/api/scenarios', function(req, res, next) {
-    var query = Scenario.find();
+    /*var query = Scenario.find();
     if (req.query.subject) {
       query.where({ subject: req.query.subject, deleted: false });
     } else if(req.query.name){  //IF SCENARIO NAME IS SEND ON HOME PAGE TO THE SEARCH BOX
@@ -155,7 +155,8 @@ app.get('/api/logout', auth, function(req, res){
     query.exec(function(err, scenarios) { //  executes the query(show all on the page or show what was searched)
       if (err) return next(err);
       res.send(scenarios);
-    });
+    });*/
+    
   });
 
   app.get('/api/scenarios/:id', function(req, res, next) {
