@@ -2,7 +2,8 @@ var leplannerApp = angular.module('leplannerApp', [
   'ngResource',
   'ngRoute',
   'leplannerControllers',
-  'angularjs-dropdown-multiselect'
+  'angularjs-dropdown-multiselect',
+  'ngMessages'
 ]);
 
 leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
@@ -58,6 +59,11 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
     return $resource('/api/scenarios/:_id');
   }]);
 
+  leplannerApp.factory('Search', ['$resource', function($resource) {
+    return $resource('/api/search/');
+  }]);
+
+
   leplannerApp.factory('Delete', function($http){
     return {
       scenario: function(id){
@@ -76,13 +82,13 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
       }
     };
   });
-  
+
 
   leplannerApp.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $http) {
       $rootScope.$on('$routeChangeStart', function (event) {
-        
+
         console.log('onroutechange '+$rootScope.user);
-        
+
         $http({url: '/api/me', method: 'GET'})
         .success(function (data, status, headers, config) {
          if(!$rootScope.user){
