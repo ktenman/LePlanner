@@ -57,9 +57,9 @@
             <li ><a href="#/" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false" >LePlanner</a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                     <li class="active"><a href="#/">Avaleht</a></li>
-                    <li><a href="search.php">Otsi</a></li>
+                    <li><a href="/#/search">Otsi</a></li>
                     <li><a href="subject.php">Aine</a></li>
-                    <li><a href="member.php">Kasutaja</a></li>
+                    <li><a href="/#/detail">Kasutaja</a></li>
                     <li><a href="scenario.php">Stsenaarium</a></li>
                     <li><a href="dashboard.php">Sisse logitud</a></li>
                 </ul>
@@ -87,17 +87,17 @@
       </div>-->
 
       <div class="header-search inner-addon right-addon pull-right">
-        <a href="/#/views/home"><i type="submit" class="glyphicon glyphicon-search" ng-click="searchScenario(name)"></i></a>
+        <a href="/#/search"><i type="submit" class="glyphicon glyphicon-search" ng-click="search()"></i></a>
         <input type="text" name="search" ng-model="name" class="form-control" placeholder="Search">
       </div>
 
-
+<!--
       <div class="col-xs-4 col-md-3" id="scenarios_list">
         <div id="{{scenario._id}}" class="text-center" ng-repeat="scenario in scenarios | filter:query">
           <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
         </div>
       </div>
-
+-->
     </div><!-- /.navbar-collapse -->
 
   </div>

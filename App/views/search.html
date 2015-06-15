@@ -1,15 +1,23 @@
-<h2>Search</h2>
-<form>
-	<input type="text" ng-model="name" name="name">
-  <div ng-dropdown-multiselect="" options="subjects" selected-model="subject" extra-settings="searchSettings"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LePlanner</title>
+</head>
+<body>
+	<div class="container main-content">
+	<h2>Search</h2>
+	<form>
+		<input type="text" ng-model="name" name="name">
+	  <div ng-dropdown-multiselect="" options="subjects" selected-model="subject" extra-settings="searchSettings"></div>
 
-	<input type="submit" value="Search" ng-click="search()">
-</form>
+		<input type="submit" value="Search" ng-click="search()">
+	</form>
 
-<div class="col-xs-4 col-md-3" id="scenarios_list">
-  <!--<div id="{{scenario._id}}" class="text-center" ng-repeat="scenario in scenarios | filter:query">
-    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
-  </div>-->
+	<div class="col-xs-4 col-md-3" id="scenarios_list">
+	  <!--<div id="{{scenario._id}}" class="text-center" ng-repeat="scenario in scenarios | filter:query">
+	    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
+	  </div>-->
 
   <div class="single_scenario_item" id="{{scenario._id}}" ng-repeat="scenario in scenarios | filter:query">
 
@@ -37,7 +45,7 @@
           Description: {{scenario.description}}<!--TEXT ABOUT THIS SCENARIO-->
         </p>
         <div class="">
-          <div class="">  
+          <div class="">
             <span class=""><!--LABELS FOR META DATA-->
               <a href="scenario.php"><span class="">iPad</span></a>
               <a href="scenario.php"><span class="">SmartBoard</span></a>
@@ -60,3 +68,8 @@
 </div>
 
 </div>
+
+</div>
+
+</body>
+</html>

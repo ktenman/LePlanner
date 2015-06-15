@@ -6,20 +6,21 @@
 </head>
 <body>
 
-<div class="container main-content">
+  <div class="container main-content">
 
-<p ng-hide="user"> Please login to add scenario</p>
-<form ng-show="user" ng-submit="submit()">
-  Enter the title :
-  <input type="text" ng-model="name" name="name" value="Test Scenario" /></br>
-  Choose a subject :
-  <select ng-model="subject">
-    <option ng-repeat="subject in subjects" value="{{subject}}"  name="subject">{{subject}}</option>
-  </select><br>
-    Add description: <br>
-    <textarea ng-model="description" name="description"></textarea>
-    <input type="submit" id="submit" value="Submit" />
-</form>
-</div>
+    <p ng-hide="user"> Please login to add scenario</p>
+    <form ng-show="user" ng-submit="submit()">
+      Enter the title :
+      <input type="text" ng-model="name" name="name" value="Test Scenario" /></br>
+      Choose a subject :
+      <select ng-model="subject">
+        <option ng-repeat="subject in subjects" value="{{subject}}"  name="subject">{{subject}}</option>
+      </select><br>
+        Add description: <br>
+        <textarea ng-model="description" name="description"></textarea>
+        <input type="submit" id="submit" value="Submit" />
+    </form>
+
+  </div>
 </body>
 </html>
