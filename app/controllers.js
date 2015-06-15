@@ -358,3 +358,14 @@ function subjectJSONList() {
     {id:29, label: 'Handicraft and Home Economics'}, {id:30, label: 'Russian (native language)'}, {id:31, label: 'Russian (foreign language)'},
     {id:32, label: 'Social Education'}].sort();
 }
+
+// List of languages
+function languageList() {
+  return ['Eesti', 'Inglise', 'Vene', 'Rootsi', 'Läti', 'Leedu', 'Soome', 'Hispaania', 'Prantsuse', 'Norra', 'Hiina', 'Jaapani'].sort();
+}
+
+function method() {
+  return ['Mängupõhine õpe', 'Projektipõhine õpe', 'Uurimuslik õpe', 'Ülesandepõhine õpe', 'Ümberpööratud õpe'].sort();
+}
+
+// Techical (database preferred)
