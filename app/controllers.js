@@ -314,6 +314,13 @@ leplannerControllers.controller('SearchCtrl', [
     $scope.searchSettings = {externalIdProp: '',scrollableHeight: '400px',
     scrollable: true, enableSearch: true};
 
+    $scope.languages = languageList();
+    $scope.licenses = licenseList();
+    $scope.materials = materialList();
+    $scope.methods = method();
+    $scope.stages = stageList();
+
+
     //  search function for the NEW search page
     //  sets $scope.scenarios array to all scenarios where name: name
     $scope.search = function() {

@@ -43,7 +43,7 @@ passport.use(new GoogleStrategy({
       google: {
         id: profile.id,
         email: profile.emails[0].value,
-        image: profile._json.image.url
+        image: profile._json.image.url.replace("?sz=50","")
       }
     });
 
