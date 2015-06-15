@@ -36,7 +36,6 @@ passport.use(new GoogleStrategy({
   function(accessToken, refreshToken, profile, done) {
     //console.log(profile);
     console.log('logged in successfully');
-
     var new_user = new User({
       first_name: profile.name.givenName,
       last_name: profile.name.familyName,
@@ -44,6 +43,7 @@ passport.use(new GoogleStrategy({
       google: {
         id: profile.id,
         email: profile.emails[0].value,
+        image: profile._json.image.url
       }
     });
 
