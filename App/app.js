@@ -19,18 +19,21 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
         templateUrl: 'views/add.html',
         controller: 'AddCtrl',
 
-        resolve: {
+        // BUG IN THE CODE BELOW!!!! DOESN'T GET USER DATA AFTER PAGE REFRESH!!!
+        /*resolve: {
 
-          app: function($q, $rootScope, $location) {
-              var defer = $q.defer();
-              if (!$rootScope.user) {
-                // only if user was not logged in
-                $location.path('/login');
-              }
-              defer.resolve();
-              return defer.promise;
+           app: function($q, $rootScope, $location) {
+               var defer = $q.defer();
+               if (!$rootScope.user) {
+                 // only if user was not logged in
+                 $location.path('/login');
+                console.log('User not logged in, send him to /login');
+               }
+               defer.resolve();
+               return defer.promise;
+           }
           }
-          }
+        }*/
       })
       .when('/scenarios/:id', {
         templateUrl: 'views/detail.html',
@@ -39,6 +42,10 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
       .when('/edit/:id', {
         templateUrl: 'views/edit.html',
         controller: 'EditCtrl'
+      })
+      .when('/search', {
+        templateUrl: 'views/search.html',
+        controller: 'SearchCtrl'
       })
       .otherwise({
         redirectTo: '/'
@@ -73,9 +80,9 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
 
   leplannerApp.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $http) {
       $rootScope.$on('$routeChangeStart', function (event) {
-        
+
         console.log('onroutechange '+$rootScope.user);
-        
+
         $http({url: '/api/me', method: 'GET'})
         .success(function (data, status, headers, config) {
          if(!$rootScope.user){

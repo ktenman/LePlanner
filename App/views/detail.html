@@ -19,7 +19,6 @@
             </div>
           </div>
 
-          {{user}}
           <div ng-if="!user">
             <a href="/#/login">Login to Subscribe</a>
           </div>
@@ -29,7 +28,9 @@
             Name: {{scenario.name}}
             <span> {{scenario.rating}}</span>
           </h2>
-          Category: {{scenario.subject}}
+          Category: {{scenario.subject}} <br>
+          Created by: {{scenario.author.name}} <br>
+          Description: {{scenario.description}} <br>
         </div>
         <div>
           <a href="/#/edit/{{scenario._id}}">Edit</a>

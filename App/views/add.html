@@ -8,13 +8,17 @@
 
 <div class="container main-content">
 
-<p ng-hide="user">Stsenaariumi lisamiseks palun logige sisse!</p>
-<form ng-show="user" ng-submit="submit()" ng-controller="AddCtrl">
+<p ng-hide="user"> Please login to add scenario</p>
+<form ng-show="user" ng-submit="submit()">
   Enter the title :
   <input type="text" ng-model="name" name="name" value="Test Scenario" /></br>
-  Enter the subject :
-  <input type="text" ng-model="subject" name="subject" value="Math" />
-  <input type="submit" id="submit" value="Submit" />
+  Choose a subject :
+  <select ng-model="subject">
+    <option ng-repeat="subject in subjects" value="{{subject}}"  name="subject">{{subject}}</option>
+  </select><br>
+    Add description: <br>
+    <textarea ng-model="description" name="description"></textarea>
+    <input type="submit" id="submit" value="Submit" />
 </form>
 </div>
 </body>
