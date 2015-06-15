@@ -184,7 +184,7 @@ app.get('/api/logout', auth, function(req, res){
       });
     });
   });
-  
+
   //  Scenario updateing
   app.post('/api/updatescenario', function(req, res, next){ //  req is the scenario object sent from controllers.js
     Scenario.findById(req.body.id, function(err, scenario) {  //  get the scenario by id
@@ -252,14 +252,14 @@ app.get('/api/search', function(req, res, next) {
   var query = Scenario.find();
 
   if(req.query.name){  // if scenario name is sent to the Scenario.query (controllers.js)
-    function escapeRegExp(str){
+    var escapeRegExp = function escapeRegExp(str){
       return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
-    }
+    };
     var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similarities
-    
-    if(req.query.subject.length != 0){
+
+    if(req.query.subject.length !== 0){
       query.where({ $and : [{ name: regex}, {deleted: false}, {subject: req.query.subject[0]}] });  //  find all where name is similar to regex and deleted is false
-    }else if(req.query.subject.length == 0){
+    }else if(req.query.subject.length === 0){
       query.where({ name: regex, deleted: false});  //  find all where name is similar to regex and deleted is false
     }
     //query.where({ name: regex, deleted: false});  //  find all where name is similar to regex and deleted is false

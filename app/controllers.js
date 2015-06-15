@@ -7,13 +7,13 @@ leplannerControllers.controller('MainCtrl', [
   '$location',
   'Scenario',
   function($scope,$http,$rootScope,$location, Scenario){
-    
+
     console.log('main '+$rootScope.user);
-        
+
     $scope.setUser = function(){
       $scope.user = $rootScope.user;
-    }
-    
+    };
+
     $scope.logout = function(){
       $http({url: '/api/logout', method: 'GET'})
       .success(function (data, status, headers, config) {
@@ -27,7 +27,7 @@ leplannerControllers.controller('MainCtrl', [
         console.log(data);
       });
     };
-    
+
     $scope.searchScenario = function(name) {
       $scope.scenarios = Scenario.query({ name: name });
     };
@@ -43,9 +43,9 @@ leplannerControllers.controller('homeCtrl', [
   '$location',
   '$http',
   function($scope, $rootScope,Scenario, Delete, $location, $http){
-    
+
     console.log($rootScope.user);
-    
+
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
       .success(function (data, status, headers, config) {
@@ -64,13 +64,13 @@ leplannerControllers.controller('homeCtrl', [
     $scope.user = $rootScope.user;
 
     $scope.subjects = subjectList();
-    
+
     $scope.scenarios = Scenario.query();
 
     $scope.filterBySubject = function(subject) {
       $scope.scenarios = Scenario.query({ subject: subject });
     };
-    
+
     $scope.delete = function(id){
       Delete.scenario(id).success(function() {
           document.getElementById('scenarios_list').removeChild(document.getElementById(id));
@@ -102,7 +102,7 @@ leplannerControllers.controller('AddCtrl', [
   '$rootScope',
   '$location',
   function($scope,$http, $rootScope,$location){
-    
+
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
@@ -119,9 +119,9 @@ leplannerControllers.controller('AddCtrl', [
 
     }
     //  ---------------------------------------------------------------------------
-    
+
     console.log($scope.user);
-    
+
     $scope.subjects = subjectList($scope);
 
     $scope.submit = function() {
@@ -163,8 +163,8 @@ leplannerControllers.controller('DetailCtrl', [
   'Subscription',
   '$http',
   function($scope, $rootScope, $routeParams, Scenario, Subscription, $http) {
-    
-    
+
+
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
@@ -232,7 +232,7 @@ leplannerControllers.controller('EditCtrl', [
     //  ---------------------------------------------------------------------------
 
     $scope.user = $rootScope.user;
-    
+
     //  Subject array used to change the subject in edit.html
     $scope.subjects = subjectList($scope);
 
@@ -248,7 +248,7 @@ leplannerControllers.controller('EditCtrl', [
         console.log($scope.scenario.name);
         console.log($scope.scenario.subject);
         console.log($scope.scenario.description);
-        
+
         if($scope.scenario.name){ //  if name is sent from the Edit form
           var scenario = {  //  creates new object scenario where the new values are stored
             id: $routeParams.id,
@@ -266,7 +266,7 @@ leplannerControllers.controller('EditCtrl', [
             // called asynchronously if an error occurs
             // or server returns response with an error status.
           });
-          
+
         }
       };
 
@@ -282,8 +282,8 @@ leplannerControllers.controller('SearchCtrl', [
   'Subscription',
   '$http',
   function($scope, $rootScope, $routeParams, Scenario, Subscription, $http) {
-    
-    
+
+
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
@@ -297,21 +297,21 @@ leplannerControllers.controller('SearchCtrl', [
 
     }
     //  ---------------------------------------------------------------------------
-    
+
     //  default sets $scope.scenarios to ALL scenarios
     $scope.scenarios = Scenario.query();
     //  Get the subjects so we can search by them
     $scope.subjects = subjectJSONList();
-    
+
     console.log($scope.scenarios);
     //  can be used later on to see on the Search page if User is subscribed to a scenario or not
     $scope.isSubscribed = function() {
       return $scope.scenario.subscribers.indexOf($scope.user._id) !== -1;
     };
-    
+
     $scope.subject = [];
     $scope.searchSettings = {externalIdProp: ''};
-    
+
     //  search function for the NEW search page
     //  sets $scope.scenarios array to all scenarios where name: name
     $scope.search = function() {
@@ -319,7 +319,7 @@ leplannerControllers.controller('SearchCtrl', [
       console.log($scope.subject);
       //console.log($scope.subject[0].label);
       var name = $scope.name;
-      if($scope.subject.length == 0){
+      if($scope.subject.length === 0){
         console.log('Subject not selected');
         $scope.scenarios = Scenario.query({ name: name});
       }else{
@@ -331,7 +331,7 @@ leplannerControllers.controller('SearchCtrl', [
         console.log(subjects);
         $scope.scenarios = Scenario.query({ name: name, subject: $scope.subject[0].label});
       }
-      
+
     };
 }]);
 
@@ -345,9 +345,9 @@ function subjectList() {
 }
 function subjectJSONList() {
   return [{id: 1, label: 'Maths'}, {id: 2, label: 'History'}, {id: 3, label: 'English'}, {id: 4, label: 'Basic Education'}, {label: 'Biology'}, {label: 'Estonian (native language)'}, {label: 'Estonian (foreign language)'},
-    {label: 'Speciality language'}, {label: 'Special Education'}, {label: 'Physics'}, {label: 'Geography'}, {label: 'Educational Technology'}, {label: 'Informatics'}, {label: 'Human Studies'}, 
+    {label: 'Speciality language'}, {label: 'Special Education'}, {label: 'Physics'}, {label: 'Geography'}, {label: 'Educational Technology'}, {label: 'Informatics'}, {label: 'Human Studies'},
     {label: 'Chemistry'}, {label: 'Physical Education'},
-    {label: 'Literary'}, {label: 'Home Economics'}, {label: 'Arts'}, {label: 'Crafts'}, {label: 'Natural Science'}, {label: 'Economics and Business'}, {label: 'Media Studies'}, {label: 'Music'}, 
+    {label: 'Literary'}, {label: 'Home Economics'}, {label: 'Arts'}, {label: 'Crafts'}, {label: 'Natural Science'}, {label: 'Economics and Business'}, {label: 'Media Studies'}, {label: 'Music'},
     {label: 'French'}, {label: 'Swedish'}, {label: 'German'}, {label: 'Finnish'},
     {label: 'Handicraft and Home Economics'}, {label: 'Russian (native language)'}, {label: 'Russian (foreign language)'}, {label: 'Social Education'}].sort();
 }
