@@ -1,8 +1,10 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
+    
 var getDate = new Date();
 var month = getDate.getMonth()+1;
 var currentDay = getDate.getDate() +'.'+month+'.'+ getDate.getFullYear();
+
 var ScenarioSchema = new Schema({
     name: { type: String, required: true },
     subject: { type: String, required: true },
