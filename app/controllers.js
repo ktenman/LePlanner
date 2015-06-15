@@ -124,6 +124,11 @@ leplannerControllers.controller('AddCtrl', [
     console.log($scope.user);
 
     $scope.subjects = subjectList();
+    $scope.languages = languageList();
+    $scope.licenses = licenseList();
+    $scope.materials = materialList();
+    $scope.methods = method();
+    $scope.stages = stageList();
 
     $scope.submit = function() {
       if ($scope.name) {
@@ -139,6 +144,11 @@ leplannerControllers.controller('AddCtrl', [
               name: $scope.user.first_name +' '+$scope.user.last_name //  both names in one place
                                                                       //  used to show who made the scenario
             },
+            language: $scope.language, // ng-modeli järgi
+            license: $scope.license,
+            materialType: $scope.materialType,
+            method: $scope.method,
+            stage: $scope.stage,
             description: $scope.description
           };
 

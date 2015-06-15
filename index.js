@@ -277,16 +277,40 @@ app.get('/api/search', function(req, res, next) {
     }
     //query.where({ name: regex, deleted: false});  //  find all where name is similar to regex and deleted is false
   }
-  else if(!req.query.name && req.query.subject)
+  else if(!req.query.name)
   {
-    if(typeof req.query.subject == 'string'){
-      query.where({ $and : [{deleted: false}, {subject: req.query.subject }] });  //  find all where name is similar to regex and deleted is false
-      console.log(req.query.subject);
-    }else {
-      query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }] });  //  find all where name is similar to regex and deleted is false
-      console.log(req.query.subject);
+    if(req.query.subject)
+    {
+      if(req.query.stage)
+      {
+        if(typeof req.query.subject == 'string'){
+          query.where({ $and : [{deleted: false}, {subject: req.query.subject }, {stage: req.query.stage}] });  //  find all where name is similar to regex and deleted is false
+          console.log(req.query.subject);
+        }else {
+          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }, {stage: req.query.stage}] });  //  find all where name is similar to regex and deleted is false
+          console.log(req.query.subject);
+        }
+      }
+      else if(req.query.method){
+        if(typeof req.query.subject == 'string'){
+          query.where({ $and : [{deleted: false}, {subject: req.query.subject }, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
+          console.log(req.query.subject);
+        }else {
+          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
+          console.log(req.query.subject);
+        }
+      }
+      else
+      {
+        if(typeof req.query.subject == 'string'){
+          query.where({ $and : [{deleted: false}, {subject: req.query.subject }] });  //  find all where name is similar to regex and deleted is false
+          console.log(req.query.subject);
+        }else {
+          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }] });  //  find all where name is similar to regex and deleted is false
+          console.log(req.query.subject);
+        }
+      }
     }
-
   }
   else
   {
