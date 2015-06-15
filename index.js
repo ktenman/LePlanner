@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var morgan = require('morgan');
+var moment = require('moment');
 
 mongoose.connect(config.db, function(err){
   if(err) throw err;

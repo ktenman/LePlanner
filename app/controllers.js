@@ -154,11 +154,23 @@ leplannerControllers.controller('AddCtrl', [
 
           $http.post('/api/savescenario', scenario) //  sends object to /api/savescenario (index.js)
           .success(function(data, status, headers, config) {
-            console.log('saved');
+            console.log('Saved');
+            $scope.successMessage = "Scenario has been submitted successfully";
+
+            $scope.name = null;
+            $scope.subject = null;
+            $scope.language = null;
+            $scope.license = null;
+            $scope.materialType = null;
+            $scope.method = null;
+            $scope.stage = null;
+            $scope.description = null;
           }).
           error(function(data, status, headers, config) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
+            //document.getElementById('submittedScenarioId').innerHTML = "Error";
+            $scope.errorMessage = "There was an error while submitting scenario";
           });
       }
     };
