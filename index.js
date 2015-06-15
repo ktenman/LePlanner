@@ -29,7 +29,7 @@ passport.use(new GoogleStrategy({
   function(accessToken, refreshToken, profile, done) {
     //console.log(profile);
     console.log('logged in successfully');
-
+    console.log(profile._json.image.url);
     var new_user = new User({
       first_name: profile.name.givenName,
       last_name: profile.name.familyName,
@@ -37,6 +37,7 @@ passport.use(new GoogleStrategy({
       google: {
         id: profile.id,
         email: profile.emails[0].value,
+        image: profile._json.image.url
       }
     });
 
@@ -150,7 +151,7 @@ app.get('/api/logout', auth, function(req, res){
       query.where({ name: regex, deleted: false}); //  find all where name is similar to regex and deleted is false
     }else {
       query.where({ deleted: false });  //  if you are not searching anything it will show all results or only 12 if too many
-      query.limit(50);
+      query.limit();
     }
     query.exec(function(err, scenarios) { //  executes the query(show all on the page or show what was searched)
       if (err) return next(err);
@@ -266,7 +267,7 @@ app.get('/api/search', function(req, res, next) {
   }
   else {
     query.where({ deleted: false });  //  if you are not searching anything it will show all results or only 12 if too many
-    query.limit(50);
+    query.limit();
   }
 
   query.populate('author').exec(function(err, scenarios){
