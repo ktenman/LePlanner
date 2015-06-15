@@ -1,12 +1,24 @@
 <p ng-hide="user"> Please login to add scenario</p>
-<form ng-show="user" ng-submit="submit()" ng-controller="AddCtrl">
+<form ng-show="user" ng-submit="submit()" name="addScenario">
   Enter the title :
-  <input type="text" ng-model="name" name="name" value="Test Scenario" /></br>
+  <input type="text" ng-model="name" name="titleName" required/>
+  <div ng-messages="addScenario.titleName.$error" role="alert">
+    <div ng-message="required" style="color: red" style="display: inline">Väli ei tohi tühjaks jääda</div>
+    <div ng-message="minlength">Vähemalt 1 täht vaja</div>
+  </div>
+  <br />
   Choose a subject :
-
-  <select ng-controller="homeCtrl">
-    <option ng-repeat="subject in subjects" value={{subject}}>{{subject}}</option>
+  <select ng-model="subject">
+    <option ng-repeat="subject in subjects" value="{{subject}}"  name="subjectName" required>{{subject}}</option>
   </select>
-  <!-- <input type="text" ng-model="subject" name="subject" value="Math" /> -->
+
+  <div ng-messages="addScenario.subjectName.$error" role="alert">
+    <div ng-message="required" style="color: red">Vali aine</div>
+    <div ng-message="minlength">Vähemalt 1 aine vaja</div>
+  </div>
+
+  <br />
+  Add description: <br>
+  <textarea ng-model="description" name="description"></textarea>
   <input type="submit" id="submit" value="Submit" />
 </form>
