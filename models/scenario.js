@@ -12,7 +12,7 @@ var ScenarioSchema = new Schema({
     //  date of creation
     created: { type: Date, default: Date.now },
     //  scenario description
-    description: { type: String, required: true},
+    description: { type: String, required: false},
     
     subscribers: { type: [mongoose.Schema.Types.ObjectId], ref: 'User', default: [] },
     deleted: {type: Boolean, required: true, default: false}
