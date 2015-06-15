@@ -25,6 +25,8 @@ var ScenarioSchema = new Schema({
     materialType: { type: String},
     //  method
     method: { type: String},
+    //  school stage(kooliaste)
+    stage: { type: String},
 
     //  scenario description
     description: { type: String, required: false},
