@@ -1,8 +1,61 @@
 <p ng-hide="user"> Please login to add scenario</p>
+<form ng-show="user" ng-submit="submit()" name="addScenario">
 
+  <span>Title: </span>
+  <input type="text" ng-model="name" name="titleName" autofocus required/>
+  <div ng-messages="addScenario.titleName.$error" role="alert">
+    <div ng-message="required" style="color: red" style="display: inline">Field can't be empty!</div>
+    <div ng-message="minlength">At least 1 character required</div>
+  </div>
 
-<form ng-show="user" ng-submit="submitLang()" name="addScenario">
-  Enter the title :
-  <input type="text" ng-model="lang" name="lang" autofocus/><br>
+  <br />
+
+  <span>Subject: </span>
+  <select ng-model="subject" name="subjectName" required>
+    <option ng-repeat="subject in subjects" value="{{subject}}">{{subject}}</option>
+  </select>
+
+  <div ng-messages="addScenario.subjectName.$error" role="alert">
+    <div ng-message="required" style="color: red">Choose a subject</div>
+  </div>
+<!--
+  <br />
+
+  <span>License: </span>
+  <select ng-model="license" name="licenseName">
+    <option></option>
+  </select>
+
+  <br/>
+
+  <span>Language: </span>
+  <select ng-model="language" name="languageName">
+    <option></option>
+  </select>
+
+  <br />
+
+  <span>Material type: </span>
+  <select ng-model="materialType" name="materialTypeName">
+    <option></option>
+  </select>
+
+  <span>Method: </span>
+  <select ng-model="method" name="methodName">
+    <option></option>
+  </select>
+
+  <span>Stage: </span>
+  <select ng-model="stage" name="stageName">
+    <option></option>
+  </select>
+
+  <span>Technical: </span>
+  <select ng-model="technical" name="techinalName">
+    <option></option>
+  </select>
+-->
+  <span>Add description:</span> <br>
+  <textarea ng-model="description" name="description"></textarea>
   <input type="submit" id="submit" value="Submit" />
 </form>

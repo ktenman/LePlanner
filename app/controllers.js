@@ -53,6 +53,7 @@ leplannerControllers.controller('homeCtrl', [
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
         console.log('user set homectrl');
+        console.log(data);
 
       })
       .error(function (data, status, headers, config) {
@@ -142,24 +143,6 @@ leplannerControllers.controller('AddCtrl', [
           };
 
           $http.post('/api/savescenario', scenario) //  sends object to /api/savescenario (index.js)
-          .success(function(data, status, headers, config) {
-            console.log('saved');
-          }).
-          error(function(data, status, headers, config) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
-          });
-      }
-    };
-    //  Submit to save language
-    $scope.submitLang = function() {
-      if ($scope.lang) {
-          console.log($scope.lang);
-          var license = {  //  inserts values to the scenario object
-            licenseType: $scope.lang
-          };
-
-          $http.post('/api/savelanguage', license) //  sends object to /api/savescenario (index.js)
           .success(function(data, status, headers, config) {
             console.log('saved');
           }).
@@ -296,10 +279,10 @@ leplannerControllers.controller('SearchCtrl', [
   '$scope',
   '$rootScope',
   '$routeParams',
-  'Scenario',
+  'Search',
   'Subscription',
   '$http',
-  function($scope, $rootScope, $routeParams, Scenario, Subscription, $http) {
+  function($scope, $rootScope, $routeParams, Search, Subscription, $http) {
 
 
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
@@ -317,9 +300,9 @@ leplannerControllers.controller('SearchCtrl', [
     //  ---------------------------------------------------------------------------
 
     //  default sets $scope.scenarios to ALL scenarios
-    $scope.scenarios = Scenario.query();
+    $scope.scenarios = Search.query();
     //  Get the subjects so we can search by them
-    $scope.subjects = subjectJSONList();
+    $scope.subjects = subjectJSONList().sort();
 
     console.log($scope.scenarios);
     //  can be used later on to see on the Search page if User is subscribed to a scenario or not
@@ -340,7 +323,7 @@ leplannerControllers.controller('SearchCtrl', [
       var name = $scope.name;
       if($scope.subject.length === 0){
         console.log('Subject not selected');
-        $scope.scenarios = Scenario.query({ name: name});
+        $scope.scenarios = Search.query({ name: name});
       }else{
         console.log('subject selected');
         var subjects = [];
@@ -348,7 +331,7 @@ leplannerControllers.controller('SearchCtrl', [
           subjects.push(element.label);
         });
         console.log(subjects);
-        $scope.scenarios = Scenario.query({ name: name, subject: subjects});
+        $scope.scenarios = Search.query({ name: name, subject: subjects});
       }
 
     };
@@ -374,7 +357,7 @@ function subjectJSONList() {
     {id:23, label: 'Media Studies'}, {id:24, label: 'Music'},
     {id:25, label: 'French'}, {id:26, label: 'Swedish'}, {id:27, label: 'German'}, {id:28, label: 'Finnish'},
     {id:29, label: 'Handicraft and Home Economics'}, {id:30, label: 'Russian (native language)'}, {id:31, label: 'Russian (foreign language)'},
-    {id:32, label: 'Social Education'}].sort();
+    {id:32, label: 'Social Education'}];
 }
 
 //  license list
@@ -391,3 +374,14 @@ function materialList() {
 function stageList() {
   return ['I kooliaste', 'II kooliaste', 'III kooliaste', 'IV kooliaste', 'V kooliaste'];
 }
+
+// List of languages
+function languageList() {
+  return ['Eesti', 'Inglise', 'Vene', 'Rootsi', 'Läti', 'Leedu', 'Soome', 'Hispaania', 'Prantsuse', 'Norra', 'Hiina', 'Jaapani'].sort();
+}
+
+function method() {
+  return ['Mängupõhine õpe', 'Projektipõhine õpe', 'Uurimuslik õpe', 'Ülesandepõhine õpe', 'Ümberpööratud õpe'].sort();
+}
+
+// Techical (database preferred)
