@@ -123,7 +123,7 @@ leplannerControllers.controller('AddCtrl', [
 
     console.log($scope.user);
 
-    $scope.subjects = subjectList($scope);
+    $scope.subjects = subjectList();
 
     $scope.submit = function() {
       if ($scope.name) {

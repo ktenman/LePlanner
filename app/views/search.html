@@ -2,6 +2,12 @@
 <form>
 	<input type="text" ng-model="name" name="name">
   <div style="display: inline" ng-dropdown-multiselect="" options="subjects" selected-model="subject" extra-settings="searchSettings"></div>
+	<select class="" ng-model="method" name="method">
+		<option ng-repeat="method in methods" value="{{method}}">{{method}}</option>
+	</select>
+	<select class="" ng-model="stage" name="stage">
+		<option ng-repeat="stage in stages" value="{{stage}}">{{stage}}</option>
+	</select>
 
 	<input style="width:100px;display: inline" class="btn btn-primary btn-block" type="submit" value="Search" ng-click="search()">
 </form>
@@ -13,14 +19,14 @@
 
   <div class="single_scenario_item" id="{{scenario._id}}" ng-repeat="scenario in scenarios | filter:query">
 
-    <div class="" >
-      <div class="">
+    <div class="row" >
+      <div class="col-sm-12">
         <h4><strong><a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a></strong></h4><!--SCENARIO HEADING(NAME)-->
       </div>
     </div>
 
     <div class="">
-      <div class="">
+      <div class="col-sm-4">
         <a href="/#/scenarios/{{scenario._id}}" class="thumbnail">
             <img src="http://minitorn.tlu.ee/~romil/leplanner/assets/thumbnail_200.png" alt="">
         </a>
@@ -28,7 +34,7 @@
             <span class=""></span> <a href="">3 Kommentaari</a>
          </span>
       </div>
-      <div class="">
+      <div class="col-sm-8">
         <p class="">
           <span class=""></span>Created by: {{scenario.author.name}}<br> <!--CREATOR OF SCENARIO-->
           <span class=""></span>Date: {{scenario.created}} <!--THE TIME THIS SCENARIO WAS MADE-->
@@ -37,20 +43,14 @@
           Description: {{scenario.description}}<!--TEXT ABOUT THIS SCENARIO-->
         </p>
         <div class="">
-          <div class="">
-            <span class=""><!--LABELS FOR META DATA-->
-              <a href="scenario.php"><span class="">iPad</span></a>
-              <a href="scenario.php"><span class="">SmartBoard</span></a>
-              <a href="scenario.php"><span class="">Projektor</span></a>
-              <a href="scenario.php"><span class="">Mängupõhine õpe</span></a>
-              <a href="scenario.php"><span class="">YouTube</span></a>
-              <a href="scenario.php"><span class="">LearningApps</span></a>
-              <a href="scenario.php"><span class="">Õuesõpe</span></a>
-              <a href="scenario.php"><span class="">Nutiseade</span></a>
+          <div class="row">
+            <span class="labels"><!--LABELS FOR META DATA-->
+              <a href="scenario.php"><span class="label label-danger">{{scenario.method}}</span></a>
+              <a href="scenario.php"><span class="label label-success">{{scenario.materialType}}</span></a>
              </span>
           </div>
-          <div class=""><!--BUTTON TO VIEW MORE DETAILS ABOUT THIS SCENARIO-->
-           <a class="" href="/#/scenarios/{{scenario._id}}">AVA</a>
+          <div class="col-md-4"><!--BUTTON TO VIEW MORE DETAILS ABOUT THIS SCENARIO-->
+           <a class="btn btn-success btn-block btn-sm pull-right" href="/#/scenarios/{{scenario._id}}">AVA</a>
           </div>
         </div>
 
