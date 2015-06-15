@@ -1,7 +1,8 @@
 var leplannerApp = angular.module('leplannerApp', [
   'ngResource',
   'ngRoute',
-  'leplannerControllers'
+  'leplannerControllers',
+  'angularjs-dropdown-multiselect'
 ]);
 
 leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
@@ -18,20 +19,18 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
       .when('/add', {
         templateUrl: 'views/add.html',
         controller: 'AddCtrl',
-
         // BUG IN THE CODE BELOW!!!! DOESN'T GET USER DATA AFTER PAGE REFRESH!!!
         /*resolve: {
 
-           app: function($q, $rootScope, $location) {
-               var defer = $q.defer();
-               if (!$rootScope.user) {
-                 // only if user was not logged in
-                 $location.path('/login');
+          app: function($q, $rootScope, $location) {
+              var defer = $q.defer();
+              if (!$rootScope.user) {
+                // only if user was not logged in
+                $location.path('/login');
                 console.log('User not logged in, send him to /login');
-               }
-               defer.resolve();
-               return defer.promise;
-           }
+              }
+              defer.resolve();
+              return defer.promise;
           }
         }*/
       })
@@ -77,12 +76,13 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
       }
     };
   });
+  
 
   leplannerApp.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $http) {
       $rootScope.$on('$routeChangeStart', function (event) {
-
+        
         console.log('onroutechange '+$rootScope.user);
-
+        
         $http({url: '/api/me', method: 'GET'})
         .success(function (data, status, headers, config) {
          if(!$rootScope.user){
