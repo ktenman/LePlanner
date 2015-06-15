@@ -1,20 +1,19 @@
 <p ng-hide="user"> Please login to add scenario</p>
 <form ng-show="user" ng-submit="submit()" name="addScenario">
   Enter the title :
-  <input type="text" ng-model="name" name="titleName" required/>
+  <input type="text" ng-model="name" name="titleName" autofocus required/>
   <div ng-messages="addScenario.titleName.$error" role="alert">
     <div ng-message="required" style="color: red" style="display: inline">Väli ei tohi tühjaks jääda</div>
     <div ng-message="minlength">Vähemalt 1 täht vaja</div>
   </div>
   <br />
   Choose a subject :
-  <select ng-model="subject">
-    <option ng-repeat="subject in subjects" value="{{subject}}"  name="subjectName" required>{{subject}}</option>
+  <select ng-model="subject" name="subjectName" required>
+    <option ng-repeat="subject in subjects" value="{{subject}}">{{subject}}</option>
   </select>
 
   <div ng-messages="addScenario.subjectName.$error" role="alert">
     <div ng-message="required" style="color: red">Vali aine</div>
-    <div ng-message="minlength">Vähemalt 1 aine vaja</div>
   </div>
 
   <br />
