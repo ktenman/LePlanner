@@ -63,7 +63,7 @@ leplannerControllers.controller('homeCtrl', [
 
     $scope.user = $rootScope.user;
 
-    $scope.subjects = subjectList($scope);
+    $scope.subjects = subjectList();
 
     $scope.scenarios = Scenario.query();
 
@@ -123,7 +123,7 @@ leplannerControllers.controller('AddCtrl', [
 
     console.log($scope.user);
 
-    $scope.subjects = subjectList($scope);
+    $scope.subjects = subjectList();
 
     $scope.submit = function() {
       if ($scope.name) {
@@ -239,7 +239,7 @@ leplannerControllers.controller('EditCtrl', [
     $scope.user = $rootScope.user;
 
     //  Subject array used to change the subject in edit.html
-    $scope.subjects = subjectList($scope);
+    $scope.subjects = subjectList();
 
     Scenario.get({ _id: $routeParams.id }, function(scenario) {
       $scope.scenario = scenario;
@@ -320,8 +320,8 @@ leplannerControllers.controller('EditCtrl', [
 
     //  Function used to get subject array
     //  as subjects are used in mutiple places, it is bette to have it in a single function
-    function subjectList($scope) {
-      return $scope.subjects = ['Maths', 'History', 'English', 'Basic Education', 'Biology', 'Estonian (native language)', 'Estonian (foreign language)',
+    function subjectList() {
+      return ['Maths', 'History', 'English', 'Basic Education', 'Biology', 'Estonian (native language)', 'Estonian (foreign language)',
         'Speciality language', 'Special Education', 'Physics', 'Geography', 'Educational Technology', 'Informatics', 'Human Studies', 'Chemistry', 'Physical Education',
         'Literary', 'Home Economics', 'Arts', 'Crafts', 'Natural Science', 'Economics and Business', 'Media Studies', 'Music', 'French', 'Swedish', 'German', 'Finnish',
         'Handicraft and Home Economics', 'Russian (native language)', 'Russian (foreign language)', 'Social Education'].sort();
