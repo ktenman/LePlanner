@@ -1,0 +1,62 @@
+<h2>Search</h2>
+<form>
+	<input type="text" ng-model="name" name="name">
+  <div ng-dropdown-multiselect="" options="subjects" selected-model="subject" extra-settings="searchSettings"></div>
+
+	<input type="submit" value="Search" ng-click="search()">
+</form>
+
+<div class="col-xs-4 col-md-3" id="scenarios_list">
+  <!--<div id="{{scenario._id}}" class="text-center" ng-repeat="scenario in scenarios | filter:query">
+    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
+  </div>-->
+  
+  <div class="single_scenario_item" id="{{scenario._id}}" ng-repeat="scenario in scenarios | filter:query">
+
+    <div class="" > 
+      <div class="">
+        <h4><strong><a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a></strong></h4><!--SCENARIO HEADING(NAME)-->
+      </div>
+    </div>
+	
+    <div class="">
+      <div class="">
+        <a href="/#/scenarios/{{scenario._id}}" class="thumbnail">
+            <img src="http://minitorn.tlu.ee/~romil/leplanner/assets/thumbnail_200.png" alt="">
+        </a>
+         <span class=""><!--COMMENTS / RATING-->
+            <span class=""></span> <a href="">3 Kommentaari</a>
+         </span>
+      </div>
+      <div class="">   
+        <p class="">
+          <span class=""></span>Created by: {{scenario.author.name}}<br> <!--CREATOR OF SCENARIO-->
+          <span class=""></span>Date: {{scenario.created}} <!--THE TIME THIS SCENARIO WAS MADE-->
+        </p>
+        <p>
+          Description: {{scenario.description}}<!--TEXT ABOUT THIS SCENARIO-->
+        </p>
+        <div class="">
+          <div class="">  
+            <span class=""><!--LABELS FOR META DATA-->
+              <a href="scenario.php"><span class="">iPad</span></a> 
+              <a href="scenario.php"><span class="">SmartBoard</span></a> 
+              <a href="scenario.php"><span class="">Projektor</span></a> 
+              <a href="scenario.php"><span class="">Mängupõhine õpe</span></a>
+              <a href="scenario.php"><span class="">YouTube</span></a> 
+              <a href="scenario.php"><span class="">LearningApps</span></a>
+              <a href="scenario.php"><span class="">Õuesõpe</span></a> 
+              <a href="scenario.php"><span class="">Nutiseade</span></a>
+             </span>
+          </div>
+          <div class=""><!--BUTTON TO VIEW MORE DETAILS ABOUT THIS SCENARIO-->  
+           <a class="" href="/#/scenarios/{{scenario._id}}">AVA</a>
+          </div>
+        </div>
+     
+      </div>
+    </div>
+
+</div>
+  
+</div>

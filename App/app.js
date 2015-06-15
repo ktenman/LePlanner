@@ -1,7 +1,8 @@
 var leplannerApp = angular.module('leplannerApp', [
   'ngResource',
   'ngRoute',
-  'leplannerControllers'
+  'leplannerControllers',
+  'angularjs-dropdown-multiselect'
 ]);
 
 leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
@@ -18,23 +19,32 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
       .when('/add', {
         templateUrl: 'views/add.html',
         controller: 'AddCtrl',
-
-        resolve: {
+        // BUG IN THE CODE BELOW!!!! DOESN'T GET USER DATA AFTER PAGE REFRESH!!!
+        /*resolve: {
 
           app: function($q, $rootScope, $location) {
               var defer = $q.defer();
               if (!$rootScope.user) {
                 // only if user was not logged in
                 $location.path('/login');
+                console.log('User not logged in, send him to /login');
               }
               defer.resolve();
               return defer.promise;
           }
-          }
+        }*/
       })
       .when('/scenarios/:id', {
         templateUrl: 'views/detail.html',
         controller: 'DetailCtrl'
+      })
+      .when('/edit/:id', {
+        templateUrl: 'views/edit.html',
+        controller: 'EditCtrl'
+      })
+      .when('/search', {
+        templateUrl: 'views/search.html',
+        controller: 'SearchCtrl'
       })
       .otherwise({
         redirectTo: '/'
@@ -48,6 +58,14 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
     return $resource('/api/scenarios/:_id');
   }]);
 
+  leplannerApp.factory('Delete', function($http){
+    return {
+      scenario: function(id){
+        return $http.post('/api/deletescenario', { scenarioId: id});
+      }
+    };
+  });
+
   leplannerApp.factory('Subscription', function($http) {
     return {
       subscribe: function(scenario) {
@@ -58,33 +76,19 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
       }
     };
   });
+  
 
-  leplannerApp.factory('Auth', ['$window', '$http', '$rootScope', function($window, $http, $rootScope) {
-
-    $rootScope.user = null;
-
-    return{
-
-        setUser : function(user){
-            $rootScope.user = user;
-            //console.log('rootscope user saved');
-        },
-        unsetUser : function(){
-            $rootScope.user = null;
-            //console.log('rootscope user unset');
-        }
-      };
-  }]);
-
-  leplannerApp.run(['$rootScope', '$location', '$http', 'Auth', function ($rootScope, $location, $http, Auth) {
+  leplannerApp.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $http) {
       $rootScope.$on('$routeChangeStart', function (event) {
-
+        
+        console.log('onroutechange '+$rootScope.user);
+        
         $http({url: '/api/me', method: 'GET'})
         .success(function (data, status, headers, config) {
-          if(!$rootScope.user){
-            //console.log('saved to rootscope');
+         if(!$rootScope.user){
+            console.log('rootscope null, saved to rootscope');
             $rootScope.user = data;
-          }
+         }
           //console.log('routechange still logged in');
           //console.log($rootScope.user);
 

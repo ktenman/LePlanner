@@ -1,34 +1,155 @@
+
+<!--<div>
+  <input type="text" name="search" ng-model="name" placeholder="Search"><input type="submit" value="Search" ng-click="searchScenario(name)">
+</div>-->
+
+
 <!-- ///////////////////////// -->
 <!-- ||||||   CONTENT   |||||| -->
 <!-- ///////////////////////// -->
+
 <div class="container main-content">
+
 
   <!-- Jumbotron -->
   <div class="jumbotron">
-    <div class="row">
+    <div class="row ">
+
+      <!--<div class="col-xs-4 col-md-3" id="scenarios_list">
+          <div id="{{scenario._id}}" class="text-center" ng-repeat="scenario in scenarios | filter:query">
+              <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
+          </div>
+      </div>-->
+
+
+
+
       <div class="col-sm-6 col-sm-offset-1">
-        <img class="first-page-banner" src="./assets/logo.png">
-        <img class="first-page-preview" src="./assets/preview.png">
+        <img class="first-page-banner" src="/assets/logo.png">
+        <img class="first-page-preview" src="/assets/preview.png">
       </div>
       <div class="col-sm-5">
         <h2>Loo. Jaga. Avasta. Õpistsenaariumid</h2>
         <p class="lead home-intro" class="thumbnail-caption">Cras justo odio, dapibus ac facilisis in, egestas eget quam. todio, dapibus ac facilisis in, egestas eget quam.</p>
-        <p><a class="btn btn-sm  btn-success" href="/#/add" role="button"> LOO ÕPISTSENAARIUM <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+        <p><a class="btn btn-sm  btn-success" href="#/add" role="button">LOO ÕPISTSENAARIUM <span class="glyphicon glyphicon-chevron-right"></span></a></p>
       </div>
     </div>
   </div>
-</div>
 
 
 
-<ul class="subjects">
-  <li ng-repeat="subject in subjects">
-    <span ng-click="filterBySubject(subject)">{{subject}}</span>
-  </li>
-</ul>
-
-<div class="col-xs-4 col-md-3" ng-repeat="scenario in scenarios | filter:query">
-  <div class="text-center">
-    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a>
+  <div id="scenarios_list">
+    <div ng-controller="homeCtrl" >
+      <div id="{{scenario._id}}" class="col-md-2" ng-repeat="scenario in scenarios | filter:query | orderBy: 'name'">
+        <a href="/#/scenarios/{{scenario._id}}" class="glyphicon glyphicon-pencil">{{scenario.name}}</a>
+        <!--<button ng-click="delete(scenario._id);">Delete</button>-->
+      </div>
+    </div>
   </div>
-</div>
+
+
+  <!-- //////////////////////////// -->
+  <!-- ||||||   THUMBNAILS   |||||| -->
+  <!-- //////////////////////////// -->
+  <div class="row">
+
+    <ul class="nav nav-tabs nav-tab-pop">
+      <li role="presentation" class="active"><a href="#">Esiletõstetud</a></li>
+      <li role="presentation"><a href="#">Populaarsed</a></li>
+      <li role="presentation"><a href="#">Enim kommenteeritud</a></li>
+      <li role="presentation"><a href="#">Uued</a></li>
+    </ul>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-xs-6 col-sm-3">
+      <div class="thumbnail thumbnail-first-page">
+        <a href="scenario.php">
+          <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+        </a>
+        <div class="caption">
+          <h4>Õpistsenaariumi nimi isegi pikem kui ühele... reale mahub</h4>
+          <p class="thumbnail-caption">Cras justo odio, dapibus ac facilisis in, egestas eget quam. tCras justo odio, dapibus ac facilisis in, egestas eget quam. t</p>
+          <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="scenario.php">AVA <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+      <div class="thumbnail thumbnail-first-page">
+        <a href="scenario.php">
+          <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+        </a>
+        <div class="caption">
+          <h4>Õpistsenaariumi nimi isegi pikem kui ühele... reale mahub</h4>
+          <p class="thumbnail-caption">Cras justo odio, dapibus ac facilisi odio, dapibus ac facilisis in, egestas eget quam. t</p>
+          <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="scenario.php">AVA <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+      <div class="thumbnail thumbnail-first-page">
+        <a href="scenario.php">
+          <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+        </a>
+        <div class="caption">
+          <h4>Õpistsenaariumi nimi isegi pikem kui ühele...</h4>
+          <p class="thumbnail-caption">Cras justo odio, dapibus ac facilisis in, egestas eget quam. tCras justo odio, dapibus ac... facilisis in, egestas eget quam. t</p>
+          <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="scenario.php">AVA <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+      <div class="thumbnail thumbnail-first-page">
+        <a href="scenario.php">
+          <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+        </a>
+        <div class="caption">
+          <h4>Õpistsenaariumi nimi</h4>
+          <p class="thumbnail-caption">Cras justo odio, eget quam. t</p>
+          <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="scenario.php">AVA <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+        </div>
+      </div>
+    </div>
+    <a href="#" class="pull-right" style="margin-right:20px;"> Rohkem <span class="glyphicon glyphicon-menu-right"></span></a>
+
+  </div><!-- /.tabs and thumbnail popular -->
+
+  <!-- /////////////////////////////////// -->
+  <!-- ||||||   SEARCH AND BROWSE   |||||| -->
+  <!-- /////////////////////////////////// -->
+
+  <!--<div class="row simple-search">
+
+   <div class="col-sm-4">
+      <h3>Otsi </h3>
+      <p class="search-desc">Pellentesqus eu. Fusce vel congue lectus, a molestie magna. rhoncus, ante urna vulputate nisl, eget co märksõna, autor, aine...</p>
+   </div>
+
+    <div class="col-sm-5">
+      <div class="input-group">
+          <input type="text" class="form-control">
+          <span class="input-group-btn">
+            <a href="search.php" class="btn btn-default" >
+              <span class="glyphicon glyphicon-search"></span>
+            </a>
+         </span>
+      </div>
+      <a class="more-spec-search" href="search.php">Täpsem otsing</a>
+    </div>
+
+  </div>-->
+
+  <h3>Ained</h3>
+
+  <ul class="subjects">
+    <li style="list-style: none" ng-repeat="subject in subjects"  class="col-xs-6 col-sm-4">
+      <a ng-click="filterBySubject(subject)" class="glyphicon glyphicon-book"> {{subject}}</a>
+    </li>
+  </ul>
+
+
+
+
+</div><!-- /.container MAIN CONTENT-->
