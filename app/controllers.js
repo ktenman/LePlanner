@@ -151,6 +151,24 @@ leplannerControllers.controller('AddCtrl', [
           });
       }
     };
+    //  Submit to save language
+    $scope.submitLang = function() {
+      if ($scope.lang) {
+          console.log($scope.lang);
+          var license = {  //  inserts values to the scenario object
+            licenseType: $scope.lang
+          };
+
+          $http.post('/api/savelanguage', license) //  sends object to /api/savescenario (index.js)
+          .success(function(data, status, headers, config) {
+            console.log('saved');
+          }).
+          error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+          });
+      }
+    };
   }
 
 ]);
@@ -357,4 +375,19 @@ function subjectJSONList() {
     {id:25, label: 'French'}, {id:26, label: 'Swedish'}, {id:27, label: 'German'}, {id:28, label: 'Finnish'},
     {id:29, label: 'Handicraft and Home Economics'}, {id:30, label: 'Russian (native language)'}, {id:31, label: 'Russian (foreign language)'},
     {id:32, label: 'Social Education'}].sort();
+}
+
+//  license list
+function licenseList() {
+  return ['All rights reserved', 'Creative Commons', 'No license'];
+}
+
+//  license list
+function materialList() {
+  return ['Tekst', 'Äpp', 'Heli', 'Katse', 'Esitlus'];
+}
+
+//  stage list
+function stageList() {
+  return ['I kooliaste', 'II kooliaste', 'III kooliaste', 'IV kooliaste', 'V kooliaste'];
 }

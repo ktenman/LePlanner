@@ -4,3 +4,5 @@ var mongoose = require('mongoose'),
 var LicenseSchema = new Schema({
   licenseType: {type: String}
 });
+
+module.exports = mongoose.model('License', LicenseSchema);

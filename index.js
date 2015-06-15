@@ -18,6 +18,13 @@ db.on('error', console.error.bind(console, db.error));
 
 var User = require('./models/user');
 var Scenario = require('./models/scenario');
+var Language = require('./models/language');
+var License = require('./models/license');
+var MaterialType = require('./models/materialType');
+var Method = require('./models/method');
+var Stage = require('./models/stage');
+var Technical = require('./models/technical');
+
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 passport.use(new GoogleStrategy({
@@ -251,6 +258,19 @@ app.get('/api/logout', auth, function(req, res){
       if(err){ return next(err); }
 
       console.log('saved scenario '+s._id);
+      res.sendStatus(200);
+    });
+  });
+
+  //  app.post to save language
+  app.post('/api/savelanguage', auth, function(req, res, next) {
+    var licensedata = req.body;
+    var license = new License(licensedata);
+
+    license.save(function(err, s){
+      if(err){ return next(err); }
+
+      console.log('license saved '+s.lang);
       res.sendStatus(200);
     });
   });
