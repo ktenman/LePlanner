@@ -130,12 +130,19 @@ leplannerControllers.controller('AddCtrl', [
     $scope.methods = method();
     $scope.stages = stageList();
 
+    $scope.method = [];
+    $scope.stage = [];
+
+    $scope.methodSettings = {externalIdProp: '', selectionLimit: 1, smartButtonMaxItems: 1};
+    $scope.methodText = {buttonDefaultText: 'Method'};
+    $scope.stageText = {buttonDefaultText: 'Stage'};
+
+
     $scope.submit = function() {
       if ($scope.name) {
-          console.log($scope.name);
-          console.log($scope.subject);
-          console.log($scope.description);
-          console.log($scope);
+          var stage = $scope.stage.label;
+          var method = $scope.method.label;
+
           var scenario = {  //  inserts values to the scenario object
             name: $scope.name,
             subject: $scope.subject,
@@ -147,8 +154,8 @@ leplannerControllers.controller('AddCtrl', [
             language: $scope.language, // ng-modeli järgi
             license: $scope.license,
             materialType: $scope.materialType,
-            method: $scope.method,
-            stage: $scope.stage,
+            method: method,
+            stage: stage,
             description: $scope.description
           };
 
@@ -356,7 +363,7 @@ leplannerControllers.controller('SearchCtrl', [
     //  default sets $scope.scenarios to ALL scenarios
     $scope.scenarios = Search.query();
     //  Get the subjects so we can search by them
-    $scope.subjects = subjectJSONList().sort();
+    $scope.subjects = subjectJSONList();
 
     console.log($scope.scenarios);
     //  can be used later on to see on the Search page if User is subscribed to a scenario or not
@@ -365,14 +372,22 @@ leplannerControllers.controller('SearchCtrl', [
     };
 
     $scope.subject = [];
+    $scope.method = [];
+    $scope.stage = [];
+
     $scope.searchSettings = {externalIdProp: '',scrollableHeight: '400px',
-    scrollable: true, enableSearch: true};
+    scrollable: true, enableSearch: true,smartButtonMaxItems: 3,};
+    $scope.methodSettings = {externalIdProp: '', selectionLimit: 1, smartButtonMaxItems: 1};
+    $scope.methodText = {buttonDefaultText: 'Method'};
+    $scope.stageText = {buttonDefaultText: 'Stage'};
+    $scope.searchText = {buttonDefaultText: 'Subject'};
 
     $scope.languages = languageList();
     $scope.licenses = licenseList();
     $scope.materials = materialList();
     $scope.methods = method();
     $scope.stages = stageList();
+    $scope.techs = tech();
 
 
     //  search function for the NEW search page
@@ -383,7 +398,9 @@ leplannerControllers.controller('SearchCtrl', [
       $scope.subject.forEach(function(element) {
         subjects.push(element.label);
       });
+      var method = $scope.method.label;
       var name = $scope.name;
+      var stage = $scope.stage.label;
       var search = {
 
       };
@@ -392,9 +409,10 @@ leplannerControllers.controller('SearchCtrl', [
       if($scope.subject.length > 0){
         search.subject = subjects;
       }
-      if($scope.method){search.method = $scope.method;}
-      if($scope.stage){search.stage = $scope.stage;}
-        $scope.scenarios = Search.query(search);
+      if(method){search.method = method; console.log(method);}
+      if(stage){search.stage = stage; console.log(stage);}
+
+      $scope.scenarios = Search.query(search);
 
       /*
       var subjects = [];
@@ -441,7 +459,7 @@ function materialList() {
 
 //  stage list
 function stageList() {
-  return ['I_stage', 'II_stage', 'III_stage', 'IV_stage'];
+  return [{id:1, label:'I_stage'}, {id:2, label:'II_stage'}, {id:3, label:'III_stage'}, {id:4, label:'IV_stage'}];
 }
 
 // List of languages
@@ -450,7 +468,10 @@ function languageList() {
 }
 
 function method() {
-  return ['Game-based', 'Project-based', 'Exploratory-based', 'Task-based', 'Inverted'].sort();
+  return [{id:1, label:'Game-based'}, {id:2, label:'Project-based'}, {id:3, label:'Exploratory-based'}, {id:4, label:'Task-based'}, {id:5, label:'Inverted'}];
 }
 
 // Techical (database preferred)
+function tech() {
+  return ['VOSK', 'Arvutiklass'];
+}

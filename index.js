@@ -25,6 +25,40 @@ var Method = require('./models/method');
 var Stage = require('./models/stage');
 var Technical = require('./models/technical');
 
+var FacebookStrategy = require('passport-facebook').Strategy;
+passport.use(new FacebookStrategy({
+    clientID: config.facebookAuth.clientID,
+    clientSecret: config.facebookAuth.clientSecret,
+    callbackURL: config.facebookAuth.callbackURL
+  },
+  function(accessToken, refreshToken, profile, done){
+    console.log(profile);
+    var new_user = new User({
+      first_name: profile._json.first_name,
+      last_name: profile._json.last_name,
+      facebook: {
+        id: profile.id
+      }
+    });
+
+    User.findOne({ facebook: {id: new_user.facebook.id} }, function(err, user){
+      if(err) {return done(err); }
+      if(!user){
+        new_user.save(function(err,user){
+          if(err) {return done(err); }
+
+          console.log('created new user with id: '+user._id);
+          done(null,user);
+        });
+
+      }else{
+        console.log('got user from db with id: '+user._id);
+        done(null,user);
+      }
+
+    });
+  }
+));
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 passport.use(new GoogleStrategy({
@@ -100,6 +134,17 @@ app.use(session(sessionOpt));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/api/auth/facebook',
+  passport.authenticate('facebook', function(req, res){
+    // The request will be redirected to Facebook for authentication, so this
+    // function will not be called.
+  }));
+
+app.get('/api/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/#/login'}),
+  function(req, res){
+    res.redirect('/#/');
+  });
 
 app.get('/api/auth/google',
   passport.authenticate('google', { scope: [
