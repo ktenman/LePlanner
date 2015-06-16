@@ -38,14 +38,14 @@
 
 
 
- <!-- <div id="scenarios_list">
+  <div id="scenarios_list">
     <div ng-controller="homeCtrl" >
       <div id="{{scenario._id}}" class="col-md-2" ng-repeat="scenario in scenarios | filter:query | orderBy: 'name'">
         <a href="/#/scenarios/{{scenario._id}}" class="glyphicon glyphicon-pencil">{{scenario.name}}</a>
-       <button ng-click="delete(scenario._id);">Delete</button>
+        <!--<button ng-click="delete(scenario._id);">Delete</button>-->
       </div>
     </div>
-  </div>-->
+  </div>
 
 
   <!-- //////////////////////////// -->
@@ -64,36 +64,57 @@
 
   <div class="row">
 
-    <div class="col-xs-6 col-sm-3" id="scenarios_list" ng-repeat="scenario in scenarios | filter:query | orderBy: '-created' | limitTo:8 ">
-      <div class="thumbnail thumbnail-first-page" ng-controller="homeCtrl">
-        <!--<a href="scenario.php">
+    <div class="col-xs-6 col-sm-3">
+      <div class="thumbnail thumbnail-first-page">
+        <a href="scenario.php">
           <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
         </a>
         <div class="caption">
           <h4>Õpistsenaariumi nimi isegi pikem kui ühele... reale mahub</h4>
           <p class="thumbnail-caption">Cras justo odio, dapibus ac facilisis in, egestas eget quam. tCras justo odio, dapibus ac facilisis in, egestas eget quam. t</p>
           <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="scenario.php">AVA <span class="glyphicon glyphicon-chevron-right"></span></a></p>
-        </div>-->
-          <a href="/#/scenarios/{{scenario._id}}">
-            <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
-          </a>
-          <div class="caption" ng-controller="homeCtrl" id="{{scenario._id}}">
-            <h4>{{scenario.name}}</h4>
-          </div>
+        </div>
       </div>
     </div>
+    <div class="col-xs-6 col-sm-3">
+      <div class="thumbnail thumbnail-first-page">
+        <a href="scenario.php">
+          <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+        </a>
+        <div class="caption">
+          <h4>Õpistsenaariumi nimi isegi pikem kui ühele... reale mahub</h4>
+          <p class="thumbnail-caption">Cras justo odio, dapibus ac facilisi odio, dapibus ac facilisis in, egestas eget quam. t</p>
+          <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="scenario.php">AVA <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+      <div class="thumbnail thumbnail-first-page">
+        <a href="scenario.php">
+          <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+        </a>
+        <div class="caption">
+          <h4>Õpistsenaariumi nimi isegi pikem kui ühele...</h4>
+          <p class="thumbnail-caption">Cras justo odio, dapibus ac facilisis in, egestas eget quam. tCras justo odio, dapibus ac... facilisis in, egestas eget quam. t</p>
+          <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="scenario.php">AVA <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+      <div class="thumbnail thumbnail-first-page">
+        <a href="scenario.php">
+          <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+        </a>
+        <div class="caption">
+          <h4>Õpistsenaariumi nimi</h4>
+          <p class="thumbnail-caption">Cras justo odio, eget quam. t</p>
+          <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="scenario.php">AVA <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+        </div>
+      </div>
+    </div>
+    <a href="#" class="pull-right" style="margin-right:20px;"> Rohkem <span class="glyphicon glyphicon-menu-right"></span></a>
 
-
-
-
-
-
-
-
-
-
-
-
+  </div><!-- /.tabs and thumbnail popular -->
 
   <!-- /////////////////////////////////// -->
   <!-- ||||||   SEARCH AND BROWSE   |||||| -->
@@ -117,8 +138,8 @@
       </div>
       <a class="more-spec-search" href="search.php">Täpsem otsing</a>
     </div>
--->
-  </div>
+
+  </div>-->
 
   <h3>Ained</h3>
 
