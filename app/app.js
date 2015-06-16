@@ -47,6 +47,10 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
         templateUrl: 'views/search.html',
         controller: 'SearchCtrl'
       })
+      .when('/profile/:id', {
+        templateUrl: 'views/profile.html',
+        controller: 'ProfileCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -57,6 +61,11 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
 
   leplannerApp.factory('Scenario', ['$resource', function($resource) {
     return $resource('/api/scenarios/:_id');
+  }]);
+
+  //  factory for User
+  leplannerApp.factory('User', ['$resource', function($resource) {
+    return $resource('/api/profile/:_id');
   }]);
 
   leplannerApp.factory('Search', ['$resource', function($resource) {
