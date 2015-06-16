@@ -154,7 +154,7 @@ leplannerControllers.controller('AddCtrl', [
 
           $http.post('/api/savescenario', scenario) //  sends object to /api/savescenario (index.js)
           .success(function(data, status, headers, config) {
-            console.log('Saved');
+            console.log('saved');
             $scope.successMessage = "Scenario has been submitted successfully";
 
             $scope.name = null;
@@ -169,7 +169,6 @@ leplannerControllers.controller('AddCtrl', [
           error(function(data, status, headers, config) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
-            //document.getElementById('submittedScenarioId').innerHTML = "Error";
             $scope.errorMessage = "There was an error while submitting scenario";
           });
       }
@@ -350,7 +349,7 @@ leplannerControllers.controller('SearchCtrl', [
       console.log($scope.subject);
       //console.log($scope.subject[0].label);
       var name = $scope.name;
-      if($scope.subject.length === 0){
+      /*if($scope.subject.length === 0){
         console.log('Subject not selected');
         $scope.scenarios = Search.query({ name: name});
       }else{
@@ -361,8 +360,9 @@ leplannerControllers.controller('SearchCtrl', [
         });
         console.log(subjects);
         $scope.scenarios = Search.query({ name: name, subject: subjects});
-      }
+      }*/
 
+      $scope.scenarios = Search.query({$or: [{name: $scope.name}, { subject: $scope.subject}]});
     };
 }]);
 
