@@ -174,6 +174,14 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
+  //  User profile
+  app.get('/api/profile/:id', function(req, res, next){
+      User.findById(req.params.id, function(err, profile) {
+        if(err) return next(err);
+        res.send(profile);
+      });
+  });
+
   //  Scenario editing
   app.get('/api/edit/:id', function(req, res, next){
       Scenario.findById(req.params.id, function(err, scenario) {

@@ -52,7 +52,7 @@ leplannerControllers.controller('homeCtrl', [
         $rootScope.user = data;
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
-        console.log('user set homectrl');
+        console.log('User set homectrl');
         console.log(data);
 
       })
@@ -76,7 +76,7 @@ leplannerControllers.controller('homeCtrl', [
       Delete.scenario(id).success(function() {
           document.getElementById('scenarios_list').removeChild(document.getElementById(id));
         }).error(function(data, status, headers, config) {
-          alert('not logged in');
+          alert('Not logged in');
         });
     };
   }
@@ -154,8 +154,9 @@ leplannerControllers.controller('AddCtrl', [
 
           $http.post('/api/savescenario', scenario) //  sends object to /api/savescenario (index.js)
           .success(function(data, status, headers, config) {
-            console.log('saved');
+            console.log('Saved');
             $scope.successMessage = "Scenario has been submitted successfully";
+            $scope.errorMessage = null;
 
             $scope.name = null;
             $scope.subject = null;
@@ -170,12 +171,40 @@ leplannerControllers.controller('AddCtrl', [
             // called asynchronously if an error occurs
             // or server returns response with an error status.
             $scope.errorMessage = "There was an error while submitting scenario";
+            $scope.successMessage = null;
           });
       }
     };
   }
 
 ]);
+
+leplannerControllers.controller('ProfileCtrl', [
+  '$scope',
+  '$rootScope',
+  '$routeParams',
+  'User',
+  '$http',
+  function($scope, $rootScope, $routeParams, User, $http) {
+    if(!$rootScope.user){
+      $http({url: '/api/me', method: 'GET'})
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('User set ProfileCtrl');
+
+      }).error(function (data, status, headers, config) {console.log(data);});
+
+    }
+
+  User.get({ _id: $routeParams.id }, function(user) {
+    $scope.profile = user;
+  });
+
+
+
+}]);
 
 leplannerControllers.controller('DetailCtrl', [
   '$scope',
@@ -194,7 +223,7 @@ leplannerControllers.controller('DetailCtrl', [
         $rootScope.user = data;
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
-        console.log('user set Addctrl');
+        console.log('User set DetailCtrl');
 
       }).error(function (data, status, headers, config) {console.log(data);});
 
@@ -313,7 +342,7 @@ leplannerControllers.controller('SearchCtrl', [
         $rootScope.user = data;
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
-        console.log('user set Searchctrl');
+        console.log('User set Searchctrl');
 
       }).error(function (data, status, headers, config) {console.log(data);});
 
