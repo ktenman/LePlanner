@@ -9,6 +9,7 @@
   <script src="assets/libs/lodash/dist/lodash.min.js" charset="utf-8"></script>
   <script src="assets/libs/angularjs-dropdown-multiselect/dist/angularjs-dropdown-multiselect.min.js" charset="utf-8"></script>
   <script src="assets/libs/angular-messages/angular-messages.min.js"></script>
+  <script src="assets/libs/moment/min/moment.min.js"></script>
   <script src="controllers.js" charset="utf-8"></script>
   <script src="app.js" charset="utf-8"></script>
 
@@ -60,12 +61,12 @@
 
       <ul class="nav navbar-nav">
         <li ><a class="navbar-brand" href="#/"></a>
-        <li ><a href="#/" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false" >LePlanner</a>
+        <li ><a style="cursor:pointer" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false" >LePlanner</a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
             <li class="active"><a href="/#/">Home</a></li>
             <li><a href="/#/search">Search</a></li>
             <li><a href="subject.php">Subject</a></li>
-            <li><a href="member.php">User</a></li>
+            <li><a href="/#/profile/{{user._id}}">User</a></li>
             <li><a href="scenario.php">Scenario</a></li>
             <li><a href="dashboard.php">Logged in</a></li>
           </ul>
@@ -115,7 +116,7 @@
 
 
 
-  
+
 
 </nav>
 

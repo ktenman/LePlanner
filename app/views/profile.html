@@ -10,21 +10,20 @@
 			</div>
 
 
-
-      <div>
-        <button type="button" class="btn btn-default btn-lg">Follow</button>
+      <div class="profile-userbuttons">
+        <a href="" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Follow</a>
       </div>
-
 
 			<div class="profile-usertitle">
 				<div class="profile-usertitle-name">
-					{{user.first_name}} {{user.last_name}}
+					<a href="/#/profile/{{user._id}}">{{user.first_name}} {{user.last_name}}</a>
 				</div>
 				<div class="profile-usertitle-job">
           Tallinn University
 				</div>
             <div class="profile-usertitle-sign-up">
-					<span class="glyphicon glyphicon-time"></span> {{user.created}}
+					<span class="glyphicon glyphicon-time"></span>
+          Joined {{dateAndTime}}
 				</div>
 			</div>
 
@@ -109,12 +108,12 @@
 		  </div>
 		</div>
 
-		<a href="#" class="pull-right" style="margin-right:-10px; margin-top:10px;"> VEEL <span class="glyphicon glyphicon-menu-right"></span></a>
+		<a href="#" class="pull-right" style="margin-right:-10px; margin-top:10px;"> MORE <span class="glyphicon glyphicon-menu-right"></span></a>
 
 	</div>
 
 	<div class="following">
-	<h3>Vahendid</h3>
+	<h3>Technical resources</h3>
 
 		<div class="row">
 		  <div class="col-xs-6 col-md-3">
@@ -165,10 +164,64 @@
 <hr>
 
 
+<div class="single_scenario_item" id="{{scenario._id}}" ng-repeat="scenario in scenarios | filter:query | orderBy: '-created' | limitTo:6">
 
+<div class="row">
+  <div class="col-sm-12">
+    <h4><strong><a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a></strong></h4>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-4">
+    <a href="scenario.php" class="thumbnail">
+        <img src="./assets/thumbnail_200.png" alt="">
+    </a>
+    <!--
+     <span class="rating">
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star-empty"></span>
+        <br>
+        <span class="glyphicon glyphicon-comment"></span> <a href="scenario.php">3 comments</a>
+     </span>
+   -->
+
+  </div>
+  <div class="col-sm-8">
+    <p class="extra-info">
+      <span class="glyphicon glyphicon-user"></span> <a href="scenario.php">{{scenario.author.name}}</a><br>
+      <span class="glyphicon glyphicon-calendar"></span>
+      <span ng-controller="homeCtrl">
+      {{scenarioDateAndTime}}
+    </span>
+    </p>
+    <p>
+      {{scenario.description}}
+    </p>
+    <div class="row">
+      <div class="col-sm-9">
+        <span class="labels">
+          <a href=""><span class="label label-danger">{{scenario.method}}</span></a>
+          <a href=""><span class="label label-success">{{scenario.materialType}}</span></a>
+         </span>
+      </div>
+      <div class="col-sm-3">
+       <a class="btn btn-success btn-block btn-sm pull-right" href="/#/scenarios/{{scenario._id}}">OPEN <span class="glyphicon glyphicon-chevron-right"></span></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
 
 
 <hr>
+
+<!--
 
 <nav class="pagination-scenarios-list">
   <ul class="pagination">
@@ -180,7 +233,10 @@
     <li><a href="#">5</a></li>
     <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
   </ul>
-</nav>	</div>
+</nav>
+-->
+
+</div>
 
 
 </div>

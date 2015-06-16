@@ -7,10 +7,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var morgan = require('morgan');
+var moment = require('moment');
 
 mongoose.connect(config.db, function(err){
   if(err) throw err;
-  console.log('Successfully connected to MongoDB');
+  console.log('successfully connected to Mongo db');
 });
 
 var db = mongoose.connection;
@@ -35,7 +36,7 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     //console.log(profile);
-    console.log('Logged in successfully');
+    console.log('logged in successfully');
     var new_user = new User({
       first_name: profile.name.givenName,
       last_name: profile.name.familyName,
@@ -47,18 +48,18 @@ passport.use(new GoogleStrategy({
       }
     });
 
-    User.findOne({ email: new_user.email }, function(err, user){
+    User.findOne({ email: new_user.email}, function(err, user){
       if(err) {return done(err); }
       if(!user){
         new_user.save(function(err,user){
           if(err) {return done(err); }
 
-          console.log('Created new user with id: '+user._id);
+          console.log('Created new user with id: ' + user._id + ' on ' + user.created);
           done(null,user);
         });
 
       }else{
-        console.log('Got user from db with id: '+user._id);
+        console.log('Got user from db with id: '+user._id + ' on ' + user.created);
         done(null,user);
       }
 
@@ -116,7 +117,7 @@ app.get('/api/oauth2callback',
 
 var auth = function(req, res, next){
   if(!req.isAuthenticated()){
-    res.status(401).send({error: 'Unauthorized'});
+    res.status(401).send({error: 'unauthorized'});
   }else{
     next();
   }
@@ -129,7 +130,7 @@ app.get('/api/me', auth, function(req, res){
     if(user){
       return res.json(user);
     }else{
-      return res.json({error: "Not logged in"});
+      return res.json({error: "not logged in"});
     }
 
   });
@@ -139,9 +140,10 @@ app.get('/api/me', auth, function(req, res){
 app.get('/api/logout', auth, function(req, res){
   console.log('logged out');
   req.logOut();
-  res.status(200).send({success: 'Success'});
+  res.status(200).send({success: 'success'});
   //res.redirect('/#/');
 });
+
 
 
   app.get('/api/scenarios', function(req, res, next) {
@@ -174,12 +176,12 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
-  //  User profile
-  app.get('/api/profile/:id', function(req, res, next){
-      User.findById(req.params.id, function(err, profile) {
-        if(err) return next(err);
-        res.send(profile);
-      });
+  //  Profile app.get
+  app.get('/api/profile/:id', function(req, res, next) {
+    User.findById(req.params.id, function(err, profile) {
+      if (err) return next(err);
+      res.send(profile);
+    });
   });
 
   //  Scenario editing
@@ -202,7 +204,7 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
-  //  Scenario updateing
+  //  Scenario updating
   app.post('/api/updatescenario', function(req, res, next){ //  req is the scenario object sent from controllers.js
     Scenario.findById(req.body.id, function(err, scenario) {  //  get the scenario by id
       console.log(req.body.id); //  for developement, prints the id to web console
@@ -211,7 +213,7 @@ app.get('/api/logout', auth, function(req, res){
       scenario.description = req.body.description;  // sets the scenario description to new description
       scenario.save(function(err) { //  saves the scenario
         if(err) return next(err);
-        console.log('Updated '+req.body.id);
+        console.log('UPDATED '+req.body.id);
         res.sendStatus(200);
       });
     });
@@ -226,7 +228,7 @@ app.get('/api/logout', auth, function(req, res){
     scenario.save(function(err, s){
       if(err){ return next(err); }
 
-      console.log('Saved scenario '+s._id);
+      console.log('saved scenario '+s._id);
       res.sendStatus(200);
     });
   });
@@ -267,65 +269,41 @@ var server = app.listen(config.port, function () {
 //  SEARCH
 app.get('/api/search', function(req, res, next) {
   var query = Scenario.find();
+  //console.log(req.query);
+  var searchAPI = { };
+  var searchArray = [];
 
-  if(req.query.name)
-  {  // if scenario name is sent to the Scenario.query (controllers.js)
-    var escapeRegExp = function escapeRegExp(str){
-      return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
-    };
-    var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similar names
+  var escapeRegExp = function escapeRegExp(str){
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
+  };
 
+
+  if(req.query.name || req.query.subject || req.query.method || req.query.stage){
+    if(req.query.name){
+      var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similar names
+      searchArray.push({name: regex});
+    }
     if(req.query.subject){
-      query.where({ $and : [{ name: regex}, {deleted: false}, {subject: { $in: req.query.subject }}] });  //  find all where name is similar to regex and deleted is false
-      console.log(req.query.name);
-      console.log(req.query.subject);
-    }else{
-      query.where({ name: regex, deleted: false});  //  find all where name is similar to regex and deleted is false
-      console.log(req.query.name);
-    }
-    //query.where({ name: regex, deleted: false});  //  find all where name is similar to regex and deleted is false
-  }
-  else if(!req.query.name)
-  {
-    if(req.query.subject)
-    {
-      if(req.query.stage)
-      {
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }, {stage: req.query.stage}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }, {stage: req.query.stage}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }
-      }
-      else if(req.query.method){
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }
-      }
-      else
-      {
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }
+      if(typeof req.query.subject == 'string'){
+        searchArray.push({subject: req.query.subject});  //  find all where name is similar to regex and deleted is false
+      }else {
+        searchArray.push({subject: { $in : req.query.subject }});  //  find all where name is similar to regex and deleted is false
       }
     }
+    if(req.query.method){
+      searchArray.push({method: req.query.method});
+      }
+    if(req.query.stage){
+      searchArray.push({stage: req.query.stage});
+    }
+    searchAPI.$and = searchArray;
+    query.where(searchAPI);
   }
   else
   {
     query.where({ deleted: false });  //  if you are not searching anything it will show all results or only 12 if too many
     query.limit(12);
   }
-
   query.exec(function(err, scenarios){
     if (err) return next(err);
     res.send(scenarios);

@@ -31,7 +31,6 @@ leplannerControllers.controller('MainCtrl', [
     $scope.searchScenario = function(name) {
       $scope.scenarios = Scenario.query({ name: name });
     };
-
   }
 ]);
 
@@ -52,8 +51,14 @@ leplannerControllers.controller('homeCtrl', [
         $rootScope.user = data;
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
-        console.log('User set homectrl');
+        console.log('user set homectrl');
         console.log(data);
+        console.log(data.created);
+        var newScenarioDate = moment(data.created).format("DD.MM.YYYY");
+        console.log(newScenarioDate);
+
+        $scope.scenarioDateAndTime = newScenarioDate;
+        console.log($scope.scenarioDateAndTime);
 
       })
       .error(function (data, status, headers, config) {
@@ -76,7 +81,7 @@ leplannerControllers.controller('homeCtrl', [
       Delete.scenario(id).success(function() {
           document.getElementById('scenarios_list').removeChild(document.getElementById(id));
         }).error(function(data, status, headers, config) {
-          alert('Not logged in');
+          alert('not logged in');
         });
     };
   }
@@ -156,7 +161,6 @@ leplannerControllers.controller('AddCtrl', [
           .success(function(data, status, headers, config) {
             console.log('Saved');
             $scope.successMessage = "Scenario has been submitted successfully";
-            $scope.errorMessage = null;
 
             $scope.name = null;
             $scope.subject = null;
@@ -171,40 +175,12 @@ leplannerControllers.controller('AddCtrl', [
             // called asynchronously if an error occurs
             // or server returns response with an error status.
             $scope.errorMessage = "There was an error while submitting scenario";
-            $scope.successMessage = null;
           });
       }
     };
   }
 
 ]);
-
-leplannerControllers.controller('ProfileCtrl', [
-  '$scope',
-  '$rootScope',
-  '$routeParams',
-  'User',
-  '$http',
-  function($scope, $rootScope, $routeParams, User, $http) {
-    if(!$rootScope.user){
-      $http({url: '/api/me', method: 'GET'})
-      .success(function (data, status, headers, config) {
-        $rootScope.user = data;
-        $scope.user = $rootScope.user;
-        $scope.$parent.setUser();
-        console.log('User set ProfileCtrl');
-
-      }).error(function (data, status, headers, config) {console.log(data);});
-
-    }
-
-  User.get({ _id: $routeParams.id }, function(user) {
-    $scope.profile = user;
-  });
-
-
-
-}]);
 
 leplannerControllers.controller('DetailCtrl', [
   '$scope',
@@ -223,7 +199,8 @@ leplannerControllers.controller('DetailCtrl', [
         $rootScope.user = data;
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
-        console.log('User set DetailCtrl');
+        console.log('user set DetailCtrl');
+
 
       }).error(function (data, status, headers, config) {console.log(data);});
 
@@ -242,7 +219,7 @@ leplannerControllers.controller('DetailCtrl', [
           $scope.scenario.subscribers.push($scope.user._id);
 
         }).error(function(data, status, headers, config) {
-          alert('Not logged in');
+          alert('not logged in');
         });
       };
 
@@ -251,12 +228,53 @@ leplannerControllers.controller('DetailCtrl', [
           var index = $scope.scenario.subscribers.indexOf($scope.user._id);
           $scope.scenario.subscribers.splice(index, 1);
         }).error(function(data, status, headers, config) {
-          alert('Not logged in');
+          alert('not logged in');
         });
       };
 
     });
 }]);
+
+//  Profile controller
+leplannerControllers.controller('ProfileCtrl', [
+  '$scope',
+  '$rootScope',
+  '$routeParams',
+  'User',
+  '$http',
+  function($scope, $rootScope, $routeParams, User, $http) {
+
+
+    //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
+    if(!$rootScope.user){
+      $http({url: '/api/me', method: 'GET'})
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('User set ProfileCtrl');
+
+        var dates = data.created;
+        var newDate = moment(dates).format("MMMM YYYY");
+        console.log(newDate);
+
+        $scope.dateAndTime = newDate;
+
+
+      }).error(function (data, status, headers, config) {console.log(data);});
+
+    }
+    //  ---------------------------------------------------------------------------
+
+    User.get({ _id: $routeParams.id }, function(user) {
+      $scope.profile = user;
+      console.log($scope.profile);
+
+    });
+
+
+}]);
+
 
 //  Scenario Editing controller
 leplannerControllers.controller('EditCtrl', [
@@ -332,7 +350,8 @@ leplannerControllers.controller('SearchCtrl', [
   'Search',
   'Subscription',
   '$http',
-  function($scope, $rootScope, $routeParams, Search, Subscription, $http) {
+  '$location',
+  function($scope, $rootScope, $routeParams, Search, Subscription, $http, $location) {
 
 
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
@@ -342,7 +361,7 @@ leplannerControllers.controller('SearchCtrl', [
         $rootScope.user = data;
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
-        console.log('User set Searchctrl');
+        console.log('user set Searchctrl');
 
       }).error(function (data, status, headers, config) {console.log(data);});
 
@@ -374,24 +393,31 @@ leplannerControllers.controller('SearchCtrl', [
     //  search function for the NEW search page
     //  sets $scope.scenarios array to all scenarios where name: name
     $scope.search = function() {
-      console.log($scope.name);
-      console.log($scope.subject);
-      //console.log($scope.subject[0].label);
-      var name = $scope.name;
-      /*if($scope.subject.length === 0){
-        console.log('Subject not selected');
-        $scope.scenarios = Search.query({ name: name});
-      }else{
-        console.log('subject selected');
-        var subjects = [];
-        $scope.subject.forEach(function(element) {
-          subjects.push(element.label);
-        });
-        console.log(subjects);
-        $scope.scenarios = Search.query({ name: name, subject: subjects});
-      }*/
 
-      $scope.scenarios = Search.query({$or: [{name: $scope.name}, { subject: $scope.subject}]});
+      var subjects = [];
+      $scope.subject.forEach(function(element) {
+        subjects.push(element.label);
+      });
+      var name = $scope.name;
+      var search = {
+
+      };
+
+      if($scope.name){search.name = $scope.name;}
+      if($scope.subject.length > 0){
+        search.subject = subjects;
+      }
+      if($scope.method){search.method = $scope.method;}
+      if($scope.stage){search.stage = $scope.stage;}
+        $scope.scenarios = Search.query(search);
+
+      /*
+      var subjects = [];
+      $scope.subject.forEach(function(element) {
+        subjects.push(element.label);
+      });
+      $scope.scenarios = Search.query({name: $scope.name, subject: subjects, license: $scope.license, language: $scope.language,
+        materialType: $scope.materialType, method: $scope.method, stage: $scope.stage, description: $scope.description}); */
     };
 }]);
 
@@ -425,17 +451,17 @@ function licenseList() {
 
 //  license list
 function materialList() {
-  return ['Text', 'Äpp', 'Heli', 'Katse', 'Esitlus'];
+  return ['Text', 'App', 'Sound', 'Test', 'Presentation'];
 }
 
 //  stage list
 function stageList() {
-  return ['I kooliaste', 'II kooliaste', 'III kooliaste', 'IV kooliaste', 'V kooliaste'];
+  return ['I_stage', 'II_stage', 'III_stage', 'IV_stage'];
 }
 
 // List of languages
 function languageList() {
-  return ['Eesti', 'Inglise', 'Vene', 'Rootsi', 'Läti', 'Leedu', 'Soome', 'Hispaania', 'Prantsuse', 'Norra', 'Hiina', 'Jaapani'].sort();
+  return ['Estonian', 'English', 'Russian', 'Swedish', 'Latvian', 'Lithuanian', 'Finnish', 'Spanish', 'French', 'Norwegian', 'Chinese', 'Japanese'].sort();
 }
 
 function method() {

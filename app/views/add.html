@@ -72,28 +72,30 @@
 
 <form ng-show="user" ng-submit="submit()" name="addScenario">
 
-  <span>Title: &nbsp</span>
-  <input type="text" ng-model="name" name="titleName" class="input-group input-group-lg" style="display:inline" autofocus required/>
+  <span><strong>Title: &nbsp </strong></span>
+  <input type="text" placeholder="Title subject" ng-model="name" name="titleName" class="input-group input-group-lg" style="display:inline;text-align:center" autofocus required/>
   <br />
   <br />
   <div ng-messages="addScenario.titleName.$error" role="alert">
-    <div ng-message="required" class="alert alert-warning" style="width:250px"><strong>Required!</strong> Field can't be empty!</div>
+    <div ng-message="required" class="alert alert-warning" style="width:250px;text-align:center;display:inline"><strong>Required!</strong> Field can't be empty!</div>
     <div ng-message="minlength">At least 1 character required</div>
   </div>
 
   <br />
+  <br />
 
-  <span>Subject: &nbsp</span>
+  <span><strong>Subject: &nbsp </strong></span>
   <select ng-model="subject" name="subjectName" required>
     <option ng-repeat="subject in subjects" value="{{subject}}">{{subject}}</option>
   </select>
   <br />
   <br />
   <div ng-messages="addScenario.subjectName.$error" role="alert">
-    <div ng-message="required" class="alert alert-warning" style="width:250px"><strong>Required!</strong> Choose a subject</div>
+    <div ng-message="required" class="alert alert-warning" style="width:250px;text-align:center;"><strong>Required!</strong> Choose a subject</div>
   </div>
 
 
+  <br />
   <br />
 
   <span>License: &nbsp</span>
@@ -105,7 +107,8 @@
     <div ng-message="required" style="color: red">Choose a license</div>
   </div>
 
-  <br/>
+  <br />
+  <br />
 
   <span>Language: &nbsp</span>
   <select ng-model="language" name="languageName">
@@ -118,6 +121,7 @@
   </div>
 -->
 
+  <br />
   <br />
 
   <span>Material type: &nbsp</span>
@@ -132,6 +136,7 @@
 -->
 
   <br />
+  <br />
 
   <span>Method: &nbsp</span>
   <select ng-model="method" name="methodName">
@@ -144,6 +149,7 @@
   </div>
 -->
 
+  <br />
   <br />
 
   <span>Stage: &nbsp</span>
@@ -158,6 +164,7 @@
 -->
 
   <br />
+  <br />
 
   <span>Technical coming soon!</span>
 <!--
@@ -169,13 +176,15 @@
 
 
   <br />
-
-  <span>Add description: &nbsp</span> <br />
-  <textarea ng-model="description" name="description"></textarea>
-
   <br />
 
-  <input type="submit" id="submit" value="Submit" class="btn btn-default" />
+  <span>Add description: &nbsp</span> <br />
+  <textarea style="text-align:center;" ng-model="description" placeholder="Add a description to the subject" name="description"></textarea>
+
+  <br />
+  <br />
+
+  <input type="submit" id="submit" value="Submit" class="btn btn-success" />
 </form>
 
 <br />
