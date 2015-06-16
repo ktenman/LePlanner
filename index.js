@@ -268,9 +268,34 @@ var server = app.listen(config.port, function () {
 app.get('/api/search', function(req, res, next) {
   var query = Scenario.find();
   //console.log(req.query);
+  var searchAPI = { };
+  var searchArray = [];
 
-  if(req.query.method){
-    query.where({ $and : [{deleted: false}, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
+  var escapeRegExp = function escapeRegExp(str){
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
+  };
+
+
+  if(req.query.name || req.query.subject || req.query.method || req.query.stage){
+    if(req.query.name){
+      var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similar names
+      searchArray.push({name: regex});
+    }
+    if(req.query.subject){
+      if(typeof req.query.subject == 'string'){
+        searchArray.push({subject: req.query.subject});  //  find all where name is similar to regex and deleted is false
+      }else {
+        searchArray.push({subject: { $in : req.query.subject }});  //  find all where name is similar to regex and deleted is false
+      }
+    }
+    if(req.query.method){
+      searchArray.push({method: req.query.method});
+      }
+    if(req.query.stage){
+      searchArray.push({stage: req.query.stage});
+    }
+    searchAPI.$and = searchArray;
+    query.where(searchAPI);
   }
   else
   {

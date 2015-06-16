@@ -335,7 +335,8 @@ leplannerControllers.controller('SearchCtrl', [
   'Search',
   'Subscription',
   '$http',
-  function($scope, $rootScope, $routeParams, Search, Subscription, $http) {
+  '$location',
+  function($scope, $rootScope, $routeParams, Search, Subscription, $http, $location) {
 
 
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
@@ -377,28 +378,23 @@ leplannerControllers.controller('SearchCtrl', [
     //  search function for the NEW search page
     //  sets $scope.scenarios array to all scenarios where name: name
     $scope.search = function() {
-      console.log($scope.method);
-      //console.log($scope.subject[0].label);
-      var name = $scope.name;
+
       var subjects = [];
       $scope.subject.forEach(function(element) {
         subjects.push(element.label);
       });
-      if($scope.method){
-        console.log($scope);
-        $scope.scenarios = Search.query({ method: $scope.method});
+      var name = $scope.name;
+      var search = {
+
+      };
+
+      if($scope.name){search.name = $scope.name;}
+      if($scope.subject.length > 0){
+        search.subject = subjects;
       }
-      else if($scope.subject.length === 0){
-        console.log('Subject not selected');
-        $scope.scenarios = Search.query({ name: name});
-      }else{
-        console.log('subject selected');
-        $scope.subject.forEach(function(element) {
-          subjects.push(element.label);
-        });
-        console.log(subjects);
-        $scope.scenarios = Search.query({ name: name, subject: subjects});
-      }
+      if($scope.method){search.method = $scope.method;}
+      if($scope.stage){search.stage = $scope.stage;}
+        $scope.scenarios = Search.query(search);
 
       /*
       var subjects = [];
@@ -445,7 +441,7 @@ function materialList() {
 
 //  stage list
 function stageList() {
-  return ['I stage', 'II stage', 'III stage', 'IV stage'];
+  return ['I_stage', 'II_stage', 'III_stage', 'IV_stage'];
 }
 
 // List of languages
