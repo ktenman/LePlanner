@@ -156,7 +156,6 @@ leplannerControllers.controller('AddCtrl', [
           .success(function(data, status, headers, config) {
             console.log('saved');
             $scope.successMessage = "Scenario has been submitted successfully";
-                $scope.errorMessage = null;
 
             $scope.name = null;
             $scope.subject = null;
@@ -171,7 +170,6 @@ leplannerControllers.controller('AddCtrl', [
             // called asynchronously if an error occurs
             // or server returns response with an error status.
             $scope.errorMessage = "There was an error while submitting scenario";
-                $scope.successMessage = null;
           });
       }
     };
@@ -230,6 +228,38 @@ leplannerControllers.controller('DetailCtrl', [
 
     });
 }]);
+
+//  Profile controller
+leplannerControllers.controller('ProfileCtrl', [
+  '$scope',
+  '$rootScope',
+  '$routeParams',
+  'User',
+  '$http',
+  function($scope, $rootScope, $routeParams, User, $http) {
+
+
+    //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
+    if(!$rootScope.user){
+      $http({url: '/api/me', method: 'GET'})
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set Addctrl');
+
+      }).error(function (data, status, headers, config) {console.log(data);});
+
+    }
+    //  ---------------------------------------------------------------------------
+
+    User.get({ _id: $routeParams.id }, function(user) {
+      $scope.profile = user;
+      console.log($scope.profile);
+
+    });
+}]);
+
 
 //  Scenario Editing controller
 leplannerControllers.controller('EditCtrl', [
@@ -305,7 +335,8 @@ leplannerControllers.controller('SearchCtrl', [
   'Search',
   'Subscription',
   '$http',
-  function($scope, $rootScope, $routeParams, Search, Subscription, $http) {
+  '$location',
+  function($scope, $rootScope, $routeParams, Search, Subscription, $http, $location) {
 
 
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
@@ -347,24 +378,27 @@ leplannerControllers.controller('SearchCtrl', [
     //  search function for the NEW search page
     //  sets $scope.scenarios array to all scenarios where name: name
     $scope.search = function() {
-      console.log($scope.name);
-      console.log($scope.subject);
+      //console.log($scope.method);
       //console.log($scope.subject[0].label);
-      var name = $scope.name;
-      /*if($scope.subject.length === 0){
+      var subjects = [];
+      if($scope.name && (!$scope.subject || $scope.subject.length === 0)){
         console.log('Subject not selected');
-        $scope.scenarios = Search.query({ name: name});
-      }else{
-        console.log('subject selected');
-        var subjects = [];
+        $scope.scenarios = Search.query({ name: $scope.name});
+      }
+      else if($scope.name && $scope.subject.length > 0){
         $scope.subject.forEach(function(element) {
           subjects.push(element.label);
         });
-        console.log(subjects);
-        $scope.scenarios = Search.query({ name: name, subject: subjects});
-      }*/
+        $scope.scenarios = Search.query({ name: $scope.name, subject: subjects});
+      }
 
-      $scope.scenarios = Search.query({$or: [{name: $scope.name}, { subject: $scope.subject}]});
+      /*
+      var subjects = [];
+      $scope.subject.forEach(function(element) {
+        subjects.push(element.label);
+      });
+      $scope.scenarios = Search.query({name: $scope.name, subject: subjects, license: $scope.license, language: $scope.language,
+        materialType: $scope.materialType, method: $scope.method, stage: $scope.stage, description: $scope.description}); */
     };
 }]);
 
@@ -398,21 +432,21 @@ function licenseList() {
 
 //  license list
 function materialList() {
-  return ['Tekst', 'Äpp', 'Heli', 'Katse', 'Esitlus'];
+  return ['Text', 'App', 'Sound', 'Test', 'Presentation'];
 }
 
 //  stage list
 function stageList() {
-  return ['I kooliaste', 'II kooliaste', 'III kooliaste', 'IV kooliaste', 'V kooliaste'];
+  return ['I stage', 'II stage', 'III stage', 'IV stage'];
 }
 
 // List of languages
 function languageList() {
-  return ['Eesti', 'Inglise', 'Vene', 'Rootsi', 'Läti', 'Leedu', 'Soome', 'Hispaania', 'Prantsuse', 'Norra', 'Hiina', 'Jaapani'].sort();
+  return ['Estonian', 'English', 'Russian', 'Swedish', 'Latvian', 'Lithuanian', 'Finnish', 'Spanish', 'French', 'Norwegian', 'Chinese', 'Japanese'].sort();
 }
 
 function method() {
-  return ['Mängupõhine õpe', 'Projektipõhine õpe', 'Uurimuslik õpe', '�?lesandepõhine õpe', '�?mberpööratud õpe'].sort();
+  return ['Game-based', 'Project-based', 'Exploratory-based', 'Task-based', 'Inverted'].sort();
 }
 
 // Techical (database preferred)

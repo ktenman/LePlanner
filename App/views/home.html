@@ -77,15 +77,17 @@
                       <div class="caption" ng-controller="homeCtrl" id="{{scenario._id}}">
                         <h4>{{scenario.name}}</h4>
                           <p>{{scenario.description | limitTo: 60}}{{scenario.description.length > 60 ? '...' : ''}}</p>
-                          <div id="header-content">
-                          <span class="favorited-and-comments">
-                              <span class="glyphicon glyphicon-heart">23</span>
-                              <span class="glyphicon glyphicon-comment">2</span>
-                          </span>
-                          <a href="/#/scenarios/{{scenario._id}}" class="" style="float:right">
-                              OPEN
-                              <span class="glyphicon glyphicon-chevron-right"></span>
-                          </a>
+                          <div id="bottom">
+                              <span>
+                                  <span class="glyphicon glyphicon-heart">23</span>
+                                  &nbsp;&nbsp;
+                                  <span class="glyphicon glyphicon-comment">2</span>
+                              </span>
+
+                              <a href="/#/scenarios/{{scenario._id}}" class="open-link pull-right">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OPEN
+                                  <span class="glyphicon glyphicon-chevron-right"></span>
+                              </a>
                           </div>
                       </div>
                   </div>
@@ -106,7 +108,7 @@
                               <span class="glyphicon glyphicon-heart">23</span>
                               <span class="glyphicon glyphicon-comment">2</span>
                           </span>
-                              <a href="/#/scenarios/{{scenario._id}}" class="" style="float:right">
+                              <a href="/#/scenarios/{{scenario._id}}">
                                   OPEN
                                   <span class="glyphicon glyphicon-chevron-right"></span>
                               </a>
@@ -130,7 +132,7 @@
                               <span class="glyphicon glyphicon-heart">23</span>
                               <span class="glyphicon glyphicon-comment">2</span>
                           </span>
-                              <a href="/#/scenarios/{{scenario._id}}" class="" style="float:right">
+                              <a href="/#/scenarios/{{scenario._id}}">
                                   OPEN
                                   <span class="glyphicon glyphicon-chevron-right"></span>
                               </a>
