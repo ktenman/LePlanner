@@ -1,28 +1,31 @@
-          <div ng-if="user">
-            <div ng-if="!isSubscribed()">
-              <button ng-click="subscribe()" >
-              Subscribe
-              </button>
-            </div>
-            <div ng-if="isSubscribed()">
-              <button ng-click="unsubscribe()">
-                Unsubscribe
-              </button>
-            </div>
-          </div>
-          <div ng-if="!user">
-            <a href="/#/login">Login to Subscribe</a>
-          </div>
-          
-        <div >
-          <h2>
-            Name: {{scenario.name}}
-            <span> {{scenario.rating}}</span>
-          </h2>
-          Category: {{scenario.subject}} <br>
-          Created by: {{scenario.author.name}} <br>
-          Description: {{scenario.description}} <br>
-        </div>
-        <div>
-          <a href="/#/edit/{{scenario._id}}">Edit</a>
-        </div>
+<div class="container main-content">
+<div ng-if="user">
+    <div ng-if="!isSubscribed()">
+      <button ng-click="subscribe()" >
+      Subscribe
+      </button>
+    </div>
+    <div ng-if="isSubscribed()">
+      <button ng-click="unsubscribe()">
+        Unsubscribe
+      </button>
+    </div>
+  </div>
+  <div ng-if="!user">
+    <a href="/#/login">Login to Subscribe</a>
+  </div>
+
+<div >
+  <h2>
+    Name: {{scenario.name}}
+    <span> {{scenario.rating}}</span>
+  </h2>
+  Category: {{scenario.subject}} <br>
+  Created by: {{scenario.author.name}} <br>
+  Description: {{scenario.description}} <br>
+
+</div>
+<div>
+  <a href="/#/edit/{{scenario._id}}">Edit</a>
+</div>
+</div>

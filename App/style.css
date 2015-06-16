@@ -3,7 +3,7 @@
  */
 
 body {
-  
+
 }
 
 .main-content {
@@ -60,7 +60,7 @@ h6, .h6 {
   width: 100px;
   color: #fff !important;
   background-color: #286090 !important;
-  
+
 }
 .create-new-user-top,
 .create-new-user-top:hover
@@ -185,7 +185,7 @@ a.contains-profile-img {
   margin-bottom: -15px;
   margin-top: -5px;
   padding: 5px;
-  
+
 }
 
 .favorited-and-comments {
@@ -206,25 +206,25 @@ a.contains-profile-img {
   display: inline-block;
 }
 
-.simple-search h3 { 
-  margin-left: 10px; 
+.simple-search h3 {
+  margin-left: 10px;
   display: inline-block;
-} 
+}
 
 .search-desc {
   font-size: 12px;
   margin-left: 10px;
 }
 
-.simple-browse h3 {  
+.simple-browse h3 {
   margin-left: 25px;
   margin-bottom: 20px;
-} 
+}
 
-.simple-browse a { 
+.simple-browse a {
   display: inline-block;
   width: 30%;
-} 
+}
 
 .simple-browse .col-sm-11 {
   margin-left: 30px;
@@ -237,7 +237,7 @@ a.contains-profile-img {
 
 .simple-search .input-group {
   margin-top: 35px;
-  
+
 }
 
 .footer {
@@ -291,7 +291,7 @@ span.not-selected {
 .advanced-options-and-results .col-sm-3 .panel span {
   float: right;
 }
-  
+
 .results-heading {
   margin-top: 30px;
 }
@@ -329,13 +329,13 @@ span.not-selected {
 .single_scenario_item .thumbnail {
   margin-bottom: 10px;
 }
-  
+
 .single_scenario_item .extra-info {
-  
+
 }
 
 .single_scenario_item .rating {
-  
+
 }
 
 .pagination-scenarios-list {
@@ -348,17 +348,17 @@ span.not-selected {
 }
 
 .subject-heading {
- 
+
   display: inline-block;
-    
+
 }
 
 .follow-subject {
-  
+
   display: inline-block;
   margin-left: 20px;
   margin-top: -17px;
-  
+
 }
 
 .subject-inro {
@@ -394,7 +394,7 @@ span.not-selected {
   margin-top: 25px;
 }
 .profile-userbuttons a {
-  width: 100%;  
+  width: 100%;
 }
 
 .profile-usertitle-sign-up {
@@ -404,10 +404,10 @@ span.not-selected {
 }
 
 .following {
-  
+
   margin-top: 40px;
   padding: 10px;
-  
+
 }
 
 .following .col-md-3 {
@@ -418,7 +418,7 @@ span.not-selected {
 .following .thumbnail {
   margin-bottom: 2px;
   padding: 2px;
-  
+
 }
 
 .following .thumbnail img {
@@ -514,10 +514,10 @@ span.not-selected {
 }
 
 
-/* 
+/*
 
-  SIDE menu 
-  	
+  SIDE menu
+
 
 */
 
@@ -552,8 +552,8 @@ span.not-selected {
   margin-left: 5px;
 }
 
-::-webkit-scrollbar { 
-    display: none; 
+::-webkit-scrollbar {
+    display: none;
 }
 
 .input-group.search {
@@ -576,7 +576,7 @@ span.not-selected {
 }
 
 .dashboard-main-content .single_scenario_item .open-button {
-   margin-top: -10px; 
+   margin-top: -10px;
 }
 
 .dashboard-main-content a h3.panel-title {
@@ -592,7 +592,7 @@ span.not-selected {
 .loading-gif-animation {
   text-align: center;
   margin: 0 auto;
-  
+
 }
 
 
@@ -641,7 +641,7 @@ p.content-for-notification {
 .notifications li.new {
   font-weight: bold;
   color: #000;
-} 
+}
 
 /* enable absolute positioning */
 .inner-addon {
@@ -663,13 +663,18 @@ p.content-for-notification {
 .right-addon input { padding-right: 30px; }
 
 .header-search {
- margin-top: 8px; 
+ margin-top: 8px;
 }
 
 .header-login {
   margin-left: 30px;
   margin-top: 14px;
 }
+#header-content {
+  position: absolute;
+  bottom: 10%;
+}
+
 
 .search-dash {
   margin-right: 20px;
@@ -679,4 +684,3 @@ p.content-for-notification {
 .dash-scenario-label {
     margin-right: 15px;
 }
-
