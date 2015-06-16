@@ -10,7 +10,7 @@ var morgan = require('morgan');
 
 mongoose.connect(config.db, function(err){
   if(err) throw err;
-  console.log('successfully connected to Mongo db');
+  console.log('Successfully connected to MongoDB');
 });
 
 var db = mongoose.connection;
@@ -35,7 +35,7 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     //console.log(profile);
-    console.log('logged in successfully');
+    console.log('Logged in successfully');
     var new_user = new User({
       first_name: profile.name.givenName,
       last_name: profile.name.familyName,
@@ -53,12 +53,12 @@ passport.use(new GoogleStrategy({
         new_user.save(function(err,user){
           if(err) {return done(err); }
 
-          console.log('created new user with id: '+user._id);
+          console.log('Created new user with id: '+user._id);
           done(null,user);
         });
 
       }else{
-        console.log('got user from db with id: '+user._id);
+        console.log('Got user from db with id: '+user._id);
         done(null,user);
       }
 
@@ -116,7 +116,7 @@ app.get('/api/oauth2callback',
 
 var auth = function(req, res, next){
   if(!req.isAuthenticated()){
-    res.status(401).send({error: 'unauthorized'});
+    res.status(401).send({error: 'Unauthorized'});
   }else{
     next();
   }
@@ -129,7 +129,7 @@ app.get('/api/me', auth, function(req, res){
     if(user){
       return res.json(user);
     }else{
-      return res.json({error: "not logged in"});
+      return res.json({error: "Not logged in"});
     }
 
   });
@@ -139,7 +139,7 @@ app.get('/api/me', auth, function(req, res){
 app.get('/api/logout', auth, function(req, res){
   console.log('logged out');
   req.logOut();
-  res.status(200).send({success: 'success'});
+  res.status(200).send({success: 'Success'});
   //res.redirect('/#/');
 });
 
@@ -211,7 +211,7 @@ app.get('/api/logout', auth, function(req, res){
       scenario.description = req.body.description;  // sets the scenario description to new description
       scenario.save(function(err) { //  saves the scenario
         if(err) return next(err);
-        console.log('UPDATED '+req.body.id);
+        console.log('Updated '+req.body.id);
         res.sendStatus(200);
       });
     });
@@ -226,7 +226,7 @@ app.get('/api/logout', auth, function(req, res){
     scenario.save(function(err, s){
       if(err){ return next(err); }
 
-      console.log('saved scenario '+s._id);
+      console.log('Saved scenario '+s._id);
       res.sendStatus(200);
     });
   });

@@ -242,7 +242,7 @@ leplannerControllers.controller('DetailCtrl', [
           $scope.scenario.subscribers.push($scope.user._id);
 
         }).error(function(data, status, headers, config) {
-          alert('not logged in');
+          alert('Not logged in');
         });
       };
 
@@ -251,7 +251,7 @@ leplannerControllers.controller('DetailCtrl', [
           var index = $scope.scenario.subscribers.indexOf($scope.user._id);
           $scope.scenario.subscribers.splice(index, 1);
         }).error(function(data, status, headers, config) {
-          alert('not logged in');
+          alert('Not logged in');
         });
       };
 
@@ -425,7 +425,7 @@ function licenseList() {
 
 //  license list
 function materialList() {
-  return ['Tekst', 'Äpp', 'Heli', 'Katse', 'Esitlus'];
+  return ['Text', 'Äpp', 'Heli', 'Katse', 'Esitlus'];
 }
 
 //  stage list
@@ -439,7 +439,7 @@ function languageList() {
 }
 
 function method() {
-  return ['Mängupõhine õpe', 'Projektipõhine õpe', 'Uurimuslik õpe', 'Ülesandepõhine õpe', 'Ümberpööratud õpe'].sort();
+  return ['Game-based', 'Project-based', 'Exploratory-based', 'Task-based', 'Inverted'].sort();
 }
 
 // Techical (database preferred)
