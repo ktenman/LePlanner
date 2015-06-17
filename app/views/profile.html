@@ -1,4 +1,246 @@
-Hi {{profile.first_name}}
 <div class="container main-content">
-  Hi {{profile.first_name}}
+
+<div class="row single_member">
+
+   <div style="border-right: 1px solid lightgray;" class="col-sm-3">
+
+      <div class="profile-sidebar">
+			<div class="profile-userpic">
+				<img src="{{profile.google.image}}" class="img-responsive" alt="Me">
+			</div>
+
+
+      <div class="profile-userbuttons">
+        <a href="" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Follow</a>
+      </div>
+
+			<div class="profile-usertitle">
+				<div class="profile-usertitle-name">
+					<a href="/#/profile/{{profile._id}}">{{profile.first_name}} {{profile.last_name}}</a>
+				</div>
+				<div class="profile-usertitle-job">
+          Tallinn University
+				</div>
+            <div class="profile-usertitle-sign-up">
+					<span class="glyphicon glyphicon-time"></span>
+          Joined {{profile.created}}
+				</div>
+			</div>
+
+   	 </div>
+
+	<div class="following">
+	<h3>Follows</h3>
+		<div class="row">
+		  <div class="col-xs-6 col-md-3">
+		    <a href="member.php" class="thumbnail">
+		      <img src="./assets/unnamed.png" alt="User">
+		    </a>
+		  </div>
+		  <div class="col-xs-6 col-md-3">
+		    <a href="member.php" class="thumbnail">
+		      <img src="./assets/unnamed.png" alt="User">
+		    </a>
+		  </div>
+		  <div class="col-xs-6 col-md-3">
+		    <a href="member.php" class="thumbnail">
+		      <img src="./assets/unnamed.png" alt="User">
+		    </a>
+		  </div>
+		  <div class="col-xs-6 col-md-3">
+		    <a href="member.php" class="thumbnail">
+		      <img src="./assets/unnamed_r.png" alt="User">
+		    </a>
+		  </div>
+		</div>
+
+		<div class="row">
+		  <div class="col-xs-6 col-md-3">
+		    <a href="member.php" class="thumbnail">
+		      <img src="./assets/unnamed.png" alt="User">
+		    </a>
+		  </div>
+		  <div class="col-xs-6 col-md-3">
+		    <a href="subject.php" class="thumbnail">
+		      <img src="./assets/unnamed_r.png" alt="Matemaatika">
+		    </a>
+		  </div>
+		  <div class="col-xs-6 col-md-3">
+		    <a href="member.php" class="thumbnail">
+		      <img src="./assets/unnamed.png" alt="User">
+		    </a>
+		  </div>
+		  <div class="col-xs-6 col-md-3">
+		    <a href="member.php" class="thumbnail">
+		      <img src="./assets/unnamed.png" alt="User">
+		    </a>
+		  </div>
+		</div>
+
+		<a href="#" class="pull-right" style="margin-right:-10px; margin-top:10px;"> MORE <span class="glyphicon glyphicon-menu-right"></span></a>
+
+	</div>
+
+
+	<div class="following">
+	<h3>Subjects</h3>
+
+		<div class="row">
+		  <div class="col-xs-6 col-md-3">
+		    <a href="subject.php" class="thumbnail">
+		      <img src="./assets/unnamed_b.png" alt="User">
+		    </a>
+		  </div>
+		  <div class="col-xs-6 col-md-3">
+		    <a href="subject.php" class="thumbnail">
+		      <img src="./assets/unnamed_s.png" alt="User">
+		    </a>
+		  </div>
+		  <div class="col-xs-6 col-md-3">
+		    <a href="subject.php" class="thumbnail">
+		      <img src="./assets/unnamed_m.png" alt="User">
+		    </a>
+		  </div>
+		  <div class="col-xs-6 col-md-3">
+		    <a href="subject.php" class="thumbnail">
+		      <img src="./assets/unnamed_a.png" alt="User">
+		    </a>
+		  </div>
+		</div>
+
+		<a href="#" class="pull-right" style="margin-right:-10px; margin-top:10px;"> MORE <span class="glyphicon glyphicon-menu-right"></span></a>
+
+	</div>
+
+	<div class="following">
+	<h3>Technical resources</h3>
+
+		<div class="row">
+		  <div class="col-xs-6 col-md-3">
+		    <a href="subject.php" class="thumbnail">
+		      <img src="./assets/unnamed_y.png" alt="User">
+		    </a>
+		  </div>
+		</div>
+
+	</div>
+
+	<div class="following">
+	<h3>Methods</h3>
+
+		<div class="row">
+		  <div class="col-xs-6 col-md-3">
+		    <a href="subject.php" class="thumbnail">
+		      <img src="./assets/unnamed_g.png" alt="User">
+		    </a>
+		  </div>
+		</div>
+
+	</div>
+
+
+   </div>
+
+	<div class="col-sm-9">
+
+   <ul class="nav nav-tabs nav-tab-pop">
+      <li role="presentation" class="active"><a href="#">Popular</a></li>
+        <li role="presentation"><a href="#">Most commented</a></li>
+      <li role="presentation"><a href="#">New</a></li>
+      <div class="dropdown how-many pull-right">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+            10
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><strong>10</strong></a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">25</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">50</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">100</a></li>
+          </ul>
+        </div>
+    </ul>
+
+<hr>
+
+
+<div class="single_scenario_item" id="{{scenario._id}}" ng-repeat="scenario in scenarios | filter:query | orderBy: '-created' | limitTo:6">
+
+<div class="row">
+  <div class="col-sm-12">
+    <h4><strong><a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a></strong></h4>
+  </div>
 </div>
+
+<div class="row">
+  <div class="col-sm-4">
+    <a href="scenario.php" class="thumbnail">
+        <img src="./assets/thumbnail_200.png" alt="">
+    </a>
+    <!--
+     <span class="rating">
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star-empty"></span>
+        <br>
+        <span class="glyphicon glyphicon-comment"></span> <a href="scenario.php">3 comments</a>
+     </span>
+   -->
+
+  </div>
+  <div class="col-sm-8">
+    <p class="extra-info">
+      <span class="glyphicon glyphicon-user"></span> <a href="/#/profile/{{scenario.author.id}}">{{scenario.author.name}}</a><br>
+      <span class="glyphicon glyphicon-calendar"></span>
+      <span ng-controller="homeCtrl">
+      {{scenario.created}}
+    </span>
+    </p>
+    <p>
+      {{scenario.description}}
+    </p>
+    <div class="row">
+      <div class="col-sm-9">
+        <span class="labels">
+          <a href=""><span class="label label-danger">{{scenario.method}}</span></a>
+          <a href=""><span class="label label-success">{{scenario.materialType}}</span></a>
+         </span>
+      </div>
+      <div class="col-sm-3">
+       <a class="btn btn-success btn-block btn-sm pull-right" href="/#/scenarios/{{scenario._id}}">OPEN <span class="glyphicon glyphicon-chevron-right"></span></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+
+<hr>
+
+<!--
+
+<nav class="pagination-scenarios-list">
+  <ul class="pagination">
+    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+  </ul>
+</nav>
+-->
+
+</div>
+
+
+</div>
+
+
+
+  </div><!-- /.container MAIN CONTENT-->

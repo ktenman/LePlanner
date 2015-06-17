@@ -72,6 +72,10 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
     return $resource('/api/search/');
   }]);
 
+  leplannerApp.factory('UserScenario', ['$resource', function($resource) {
+    return $resource('/api/userscenario/');
+  }]);
+
 
   leplannerApp.factory('Delete', function($http){
     return {

@@ -9,6 +9,7 @@
   <script src="assets/libs/lodash/dist/lodash.min.js" charset="utf-8"></script>
   <script src="assets/libs/angularjs-dropdown-multiselect/dist/angularjs-dropdown-multiselect.min.js" charset="utf-8"></script>
   <script src="assets/libs/angular-messages/angular-messages.min.js"></script>
+  <script src="assets/libs/moment/min/moment.min.js"></script>
   <script src="controllers.js" charset="utf-8"></script>
   <script src="app.js" charset="utf-8"></script>
 
@@ -60,14 +61,14 @@
 
       <ul class="nav navbar-nav">
         <li ><a class="navbar-brand" href="#/"></a>
-        <li ><a href="#/" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false" >LePlanner</a>
+        <li ><a style="cursor:pointer" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false" >LePlanner</a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <li class="active"><a href="/#/">Avaleht</a></li>
-            <li><a href="/#/search">Otsi</a></li>
-            <li><a href="subject.php">Aine</a></li>
-            <li><a href="member.php">Kasutaja</a></li>
-            <li><a href="scenario.php">Stsenaarium</a></li>
-            <li><a href="dashboard.php">Sisse logitud</a></li>
+            <li class="active"><a href="/#/">Home</a></li>
+            <li><a href="/#/search">Search</a></li>
+            <li><a href="subject.php">Subject</a></li>
+            <li><a href="/#/profile/{{user._id}}">User</a></li>
+            <li><a href="scenario.php">Scenario</a></li>
+            <li><a href="dashboard.php">Logged in</a></li>
           </ul>
         </li>
         </li>
@@ -75,7 +76,7 @@
 
 
 
-      <a ng-hide=user class="pull-right btn btn-primary btn-sm login-top" href="/#/login">Logi sisse</a>
+      <a ng-hide=user class="pull-right btn btn-primary btn-sm login-top" href="/#/login">Log in</a>
 
       <div style="padding:10px" class="dropdown pull-right " ng-show=user {{user.first_name}}>
         <img src="{{user.google.image}}" alt="myFace" class="img-square" style="height:30px;width:30px">
@@ -84,7 +85,7 @@
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="/#/profile/{{user._id}}">Minu profiil</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/#/profile/{{user._id}}">My profile</a></li>
           <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="logout()" href="#">Log out</a></li>
         </ul>
       </div>
@@ -106,9 +107,16 @@
 
 
 
+
+
     </div><!-- /.navbar-collapse -->
 
   </div>
+
+
+
+
+
 
 </nav>
 
@@ -121,7 +129,7 @@
 <div class="container footer">
 
   <div class="col-md-8">
-    <a href="#">Abi</a>
+    <a href="#">Help</a>
   </div>
 
   <div class="col-md-4">

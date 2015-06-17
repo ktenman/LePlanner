@@ -54,6 +54,13 @@ leplannerControllers.controller('homeCtrl', [
         $scope.$parent.setUser();
         console.log('user set homectrl');
         console.log(data);
+        console.log(data.created);
+        var newScenarioDate = moment(Scenario.created).format("DD.MM.YYYY");
+        console.log(newScenarioDate);
+
+        $scope.scenarioDateAndTime = newScenarioDate;
+        console.log($scope.scenarioDateAndTime);
+
 
       })
       .error(function (data, status, headers, config) {
@@ -127,10 +134,9 @@ leplannerControllers.controller('AddCtrl', [
     $scope.languages = languageList();
     $scope.licenses = licenseList();
     $scope.materials = materialList();
-    $scope.methods = method();
-    $scope.stages = stageList();
+    $scope.methods = method2();
+    $scope.stages = stageList2();
 
-    $scope.method = [];
     $scope.stage = [];
 
     $scope.methodSettings = {externalIdProp: '', selectionLimit: 1, smartButtonMaxItems: 1};
@@ -141,7 +147,6 @@ leplannerControllers.controller('AddCtrl', [
     $scope.submit = function() {
       if ($scope.name) {
           var stage = $scope.stage.label;
-          var method = $scope.method.label;
 
           var scenario = {  //  inserts values to the scenario object
             name: $scope.name,
@@ -154,7 +159,7 @@ leplannerControllers.controller('AddCtrl', [
             language: $scope.language, // ng-modeli järgi
             license: $scope.license,
             materialType: $scope.materialType,
-            method: method,
+            method: $scope.method,
             stage: stage,
             description: $scope.description
           };
@@ -255,6 +260,11 @@ leplannerControllers.controller('ProfileCtrl', [
         $scope.$parent.setUser();
         console.log('user set Addctrl');
 
+        var dates = data.created;
+        var newDate = moment(dates).format("MMMM YYYY");
+        console.log(newDate);
+
+        $scope.dateAndTime = newDate;
       }).error(function (data, status, headers, config) {console.log(data);});
 
     }
@@ -374,6 +384,7 @@ leplannerControllers.controller('SearchCtrl', [
     $scope.subject = [];
     $scope.method = [];
     $scope.stage = [];
+    $scope.tech = [];
 
     $scope.searchSettings = {externalIdProp: '',scrollableHeight: '400px',
     scrollable: true, enableSearch: true,smartButtonMaxItems: 3,};
@@ -404,7 +415,6 @@ leplannerControllers.controller('SearchCtrl', [
       var search = {
 
       };
-
       if($scope.name){search.name = $scope.name;}
       if($scope.subject.length > 0){
         search.subject = subjects;
@@ -461,6 +471,10 @@ function materialList() {
 function stageList() {
   return [{id:1, label:'I_stage'}, {id:2, label:'II_stage'}, {id:3, label:'III_stage'}, {id:4, label:'IV_stage'}];
 }
+//  stage list
+function stageList2() {
+  return ['I_stage', 'II_stage', 'III_stage', 'IV_stage'];
+}
 
 // List of languages
 function languageList() {
@@ -469,6 +483,9 @@ function languageList() {
 
 function method() {
   return [{id:1, label:'Game-based'}, {id:2, label:'Project-based'}, {id:3, label:'Exploratory-based'}, {id:4, label:'Task-based'}, {id:5, label:'Inverted'}];
+}
+function method2() {
+  return ['Game-based', 'Project-based', 'Exploratory-based', 'Task-based', 'Inverted'];
 }
 
 // Techical (database preferred)
