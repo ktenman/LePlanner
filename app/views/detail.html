@@ -1,25 +1,405 @@
+<div class="container main-content">
+  <body>
 
-          <div ng-if="user">
-            <div ng-if="!isSubscribed()">
-              <button ng-click="subscribe()" >
-              Subscribe
-              </button>
-            </div>
-            <div ng-if="isSubscribed()">
-              <button ng-click="unsubscribe()">
-                Unsubscribe
-              </button>
-            </div>
-          </div>
+<!-- ////////////////////// -->
+<!-- ||||||   MENU   |||||| -->
+<!-- ////////////////////// -->
 
 
-          <div ng-show="!user">
-            <a href="/#/login">Login to Subscribe</a>
-          </div>
+<nav class="navbar navbar-default navbar-fixed-top">
+<div class="container">
+<!-- Brand and toggle get grouped for better mobile display -->
+<div class="navbar-header">
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
 
-        <div >
-          <h2>
-            {{scenario.name}}
-            <span> {{scenario.rating}}</span>
-          </h2>
-        </div>
+</div>
+
+<!-- Collect the nav links, forms, and other content for toggling -->
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+<!--<ul class="nav navbar-nav">
+<li><a href="home.php">Avaleht</a></li><li><a href="search.php">Otsi</a></li><li><a href="subject.php">Aine</a></li><li><a href="member.php">Kasutaja</a></li><li class="active"><a href="scenario.php"> Stsenaarium</a></li><li><a href="dashboard.php"> Sisse logitud</a></li>
+</ul>-->
+
+<ul class="nav navbar-nav">
+  <li ><a class="navbar-brand" href="#/"></a>
+  <li ><a style="cursor:pointer" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false" >LePlanner</a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+      <li><a href="/#/">Home</a></li>
+      <li><a href="/#/search">Search</a></li>
+      <li><a href="/#/profile/{{user._id}}" ng-show="user">User</a></li>
+      <li><a href="/#/add">Create Scenario</a></li>
+    </ul>
+  </li>
+  </li>
+</ul><!--<ul class="nav navbar-nav navbar-right">
+<li class="login-home">
+   <a href="login.php" class="btn btn-primary btn-sm login-top"> LOGI SISSE</a>
+  <span class="login-or-create">või</span>
+  <a href="#" class="btn btn-default btn-sm create-new-user-top"> LOO KASUTAJA</a>
+</li>
+</ul>-->
+
+<a class="header-login pull-right" href="/#/login"> Log in</a>
+
+<div class="header-search inner-addon right-addon pull-right">
+<a href="search.php"><i class="glyphicon glyphicon-search"></i></a>
+<input type="text" class="form-control" placeholder="Search">
+</div>
+
+</div><!-- /.navbar-collapse -->
+
+</div>
+
+</nav>
+
+
+<!-- ///////////////////////// -->
+<!-- ||||||   CONTENT   |||||| -->
+<!-- ///////////////////////// -->
+
+<div class="container main-content">
+
+
+<img class="full-scenario-image" src="./assets/full_scenario.png" alt="Scenario">
+
+
+<br>
+<div class="row scenario-page">
+<div class="col-sm-3">
+
+<div class="profile-sidebar">
+<div class="profile-userpic">
+<img src="{{user.google.image}}" class="img-responsive" alt="Me">
+</div>
+<div class="profile-userbuttons">
+<a href="" class="btn btn-success btn-sm" disabled="disabled"><span class="glyphicon glyphicon-plus-sign"></span> Follow</a>
+</div>
+<div class="profile-usertitle">
+<div class="profile-usertitle-name">
+<a a href="/#/profile/{{user._id}}">{{user.first_name}} {{user.last_name}}</a>
+</div>
+<div class="profile-usertitle-job">
+Tallinn University
+</div>
+<div class="profile-usertitle-sign-up">
+<span class="glyphicon glyphicon-time"></span> <span ng-controller="ProfileCtrl">Joined {{dateAndTime}}</span>
+</div>
+</div>
+
+</div>
+
+<div class="similar-scenarios">
+<h3>Similar scenarios</h3>
+
+<div class="">
+<div class="thumbnail thumbnail-first-page">
+<a href="scenario.php">
+  <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+</a>
+<div class="caption">
+  <h4>{{scenario.name}}</h4>
+  <p class="thumbnail-caption">{{scenario.description}}</p>
+  <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="#">OPEN <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+</div>
+</div>
+</div>
+<div class="">
+<div class="thumbnail thumbnail-first-page">
+<a href="scenario.php">
+  <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+</a>
+<div class="caption">
+  <h4>{{scenario.name}}</h4>
+  <p class="thumbnail-caption">{{scenario.description}}</p>
+  <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="#">OPEN <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+</div>
+</div>
+</div>
+<div class="">
+<div class="thumbnail thumbnail-first-page">
+<a href="scenario.php">
+  <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+</a>
+<div class="caption">
+  <h4>{{scenario.name}}</h4>
+  <p class="thumbnail-caption">{{scenario.description}}</p>
+  <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="#">OPEN <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+
+</div>
+
+<div class="col-sm-9">
+
+
+
+<div class="single_scenario_item">
+
+<div class="row">
+<div class="col-sm-12">
+<h2><strong>{{scenario.name}}</strong></h2>
+
+<div ng-if="user">
+  <div ng-if="!isSubscribed()">
+      <a ng-click="subscribe()" class="add-favorite-button btn btn-success btn-sm pull-right"><span class="glyphicon glyphicon-heart"></span> Subscribe</a>
+  </div>
+  <div ng-if="isSubscribed()">
+    <a ng-click="unsubscribe()" class="add-favorite-button btn btn-danger btn-sm pull-right"><span class="glyphicon glyphicon-ban-circle"></span> Unsubscribe</a>
+  </div>
+</div>
+<div ng-if="!user">
+  <a href="/#/login">Login to Subscribe</a>
+</div>
+
+
+
+</div>
+
+</div>
+
+<div class="row">
+<div class="col-sm-12">
+<span class="glyphicon glyphicon-calendar"></span> <span ng-controller="homeCtrl">{{scenarioTime}}</span>
+
+<br />
+<span style="color:blue">{{scenario.license}}</span>, <span style="color:orange">{{scenario.language}}</span>
+<!--
+| <span class="rating">
+    <span class="glyphicon glyphicon-star"></span>
+    <span class="glyphicon glyphicon-star"></span>
+    <span class="glyphicon glyphicon-star"></span>
+    <span class="glyphicon glyphicon-star"></span>
+    <span class="glyphicon glyphicon-star-empty"></span>
+    <br>
+ </span>
+-->
+<br />
+
+ <a class="print-button btn btn-sm pull-right" href="/#/edit/{{scenario._id}}"><span class="glyphicon glyphicon-edit"></span> Edit</a><a class="save-button btn btn-sm pull-right" ng-click="delete(scenario._id)" href="/#/"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+
+</div>
+</div>
+
+
+
+<div class="row">
+<div class="col-sm-12">
+<br>
+<p>
+    {{scenario.description}}
+</p>
+<div class="row">
+  <div class="col-sm-12">
+    <span class="labels">
+    <a href=""><span class="label label-danger">{{scenario.method}}</span></a>
+      <a href=""><span class="label label-success">{{scenario.materialType}}</span></a>
+     </span>
+  </div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+
+<div class="commets">
+
+<h3>Comments (3)</h3>
+
+<!-- First Comment -->
+<article class="row">
+<div class="col-md-2 col-sm-2 hidden-xs">
+  <figure class="thumbnail">
+    <img style="min-height: 81px;" class="img-responsive" src="./assets/unnamed.png">
+  </figure>
+</div>
+<div class="col-sm-10 comment-closer">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <header class="text-left">
+        <div class="comment-user">Kati Kask</div>
+        <time class="comment-date"><span class="glyphicon glyphicon-time"></span> 03.05.2015</time>
+      </header>
+      <div class="comment-post">
+        <p>
+          {{scenario.description}}
+        </p>
+      </div>
+      <p class="text-right"><a href="#" disabled="disabled" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-share-alt"></span> Respond</a></p>
+    </div>
+  </div>
+</div>
+</article>
+<!-- Second Comment Reply -->
+<article class="row">
+<div class="col-md-2 col-sm-2 col-md-offset-1 col-sm-offset-0 hidden-xs">
+  <figure class="thumbnail">
+    <img class="img-responsive" src="./assets/profile_l.jpeg">
+
+  </figure>
+</div>
+<div class="col-sm-9 comment-closer">
+  <div class="panel panel-default">
+    <div class="panel-heading right">Answer</div>
+    <div class="panel-body">
+      <header class="text-left">
+        <div class="comment-user">Romil Rõbtšenkov</div>
+        <time class="comment-date"> <span class="glyphicon glyphicon-time"></span> 03.05.2015</time>
+      </header>
+      <div class="comment-post">
+        <p>
+          {{scenario.description}}
+        </p>
+      </div>
+      <p class="text-right"><a href="#" disabled="disabled" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-share-alt"></span> Respond</a></p>
+    </div>
+  </div>
+</div>
+</article>
+<!-- Third Comment -->
+<article class="row">
+<div class="col-md-2 col-sm-2 hidden-xs">
+  <figure class="thumbnail">
+    <img style="min-height: 81px;" class="img-responsive" src="./assets/unnamed.png">
+  </figure>
+</div>
+<div class="col-sm-10 comment-closer">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <header class="text-left">
+        <div class="comment-user">Kati Kask</div>
+        <time class="comment-date"><span class="glyphicon glyphicon-time"></span> 03.05.2015</time>
+      </header>
+      <div class="comment-post">
+        <p>
+          {{scenario.description}}
+        </p>
+      </div>
+      <p class="text-right"><a href="#" disabled="disabled" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-share-alt"></span> Respond</a></p>
+    </div>
+  </div>
+</div>
+</article>
+
+<h3>Add a comment</h3>
+
+<p><strong>You have to login to comment!</strong></p>
+
+<!-- <div class="post-comment">
+<form>
+
+<div class="form-group name">
+  <input type="name" class="form-control" id="name" placeholder="Nimi">
+</div>
+
+<div class="form-group email">
+  <input type="email" class="form-control" id="epost" placeholder="E-posti aadress">
+</div>
+
+<textarea class="form-control" rows="3" placeholder="Kirjuta kommentaar"></textarea>
+
+<br>
+<button type="submit" class="btn btn-success green"> POSTITA</button>
+</form>
+</div>-->
+
+
+
+
+</div>
+
+
+</div>
+</div>
+
+
+
+</div><!-- /.container MAIN CONTENT-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div ng-if="user">
+  <div ng-if="!isSubscribed()">
+    <button ng-click="subscribe()" >
+    Subscribe
+    </button>
+  </div>
+  <div ng-if="isSubscribed()">
+    <button ng-click="unsubscribe()">
+      Unsubscribe
+    </button>
+  </div>
+</div>
+<div ng-if="!user">
+  <a href="/#/login">Login to Subscribe</a>
+</div>
+
+<div >
+<h2>
+  Name: {{scenario.name}}
+  <span> {{scenario.rating}}</span>
+</h2>
+Category: {{scenario.subject}} <br>
+Created by: {{scenario.author.name}} <br>
+Description: {{scenario.description}} <br>
+<span ng-controller="homeCtrl">
+Created: {{scenarioDateAndTime}} <br />
+</span>
+</div>
+<div>
+<a href="/#/edit/{{scenario._id}}">Edit</a>
+</div>
+-->
+
+
+
+
+
+</div>

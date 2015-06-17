@@ -1,9 +1,26 @@
 var leplannerApp = angular.module('leplannerApp', [
   'ngResource',
   'ngRoute',
-  'leplannerControllers'
+  'leplannerControllers',
+  'angularjs-dropdown-multiselect',
+  'ngMessages'
 ]);
 
+//  Used for tabs on the home.html
+//  makes selected tab active visualy
+leplannerApp.controller('TabController', function () {
+      this.tab = 1;
+
+      this.setTab = function (tabId) {
+        this.tab = tabId;
+      };
+
+      this.isSet = function (tabId) {
+        return this.tab === tabId;
+      };
+    });
+
+//  Angular config that sets what controller is used on what page
 leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
   function($routeProvider,$locationProvider,$resourceProvider) {
     $routeProvider
@@ -18,36 +35,55 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
       .when('/add', {
         templateUrl: 'views/add.html',
         controller: 'AddCtrl',
-
-        resolve: {
-
-          app: function($q, $rootScope, $location) {
-              var defer = $q.defer();
-              if (!$rootScope.user) {
-                // only if user was not logged in
-                $location.path('/login');
-              }
-              defer.resolve();
-              return defer.promise;
-          }
-          }
       })
       .when('/scenarios/:id', {
         templateUrl: 'views/detail.html',
         controller: 'DetailCtrl'
       })
+      .when('/edit/:id', {
+        templateUrl: 'views/edit.html',
+        controller: 'EditCtrl'
+      })
+      .when('/search', {
+        templateUrl: 'views/search.html',
+        controller: 'SearchCtrl'
+      })
+      .when('/profile/:id', {
+        templateUrl: 'views/profile.html',
+        controller: 'ProfileCtrl'
+      })
+      .when('/help', {
+        templateUrl: 'views/help.html'
+      })
       .otherwise({
         redirectTo: '/'
       });
-
-      //$locationProvider.html5Mode(true);
-
   }]);
 
+  //  Scenario factory that acts as a bridge between client side and server side
   leplannerApp.factory('Scenario', ['$resource', function($resource) {
     return $resource('/api/scenarios/:_id');
   }]);
 
+  //  factory for User that acts as a bridge between client side and server side
+  leplannerApp.factory('User', ['$resource', function($resource) {
+    return $resource('/api/profile/:_id');
+  }]);
+  //  Seacrh factory that acts as a bridge between client side and server side
+  leplannerApp.factory('Search', ['$resource', function($resource) {
+    return $resource('/api/search/');
+  }]);
+
+  //  Delete factory that acts as a bridge between client side and server side
+  //  has a function scenario that is used to delete scenarios
+  leplannerApp.factory('Delete', function($http){
+    return {
+      scenario: function(id){
+        return $http.post('/api/deletescenario', { scenarioId: id});
+      }
+    };
+  });
+  //  Subscription factory that acts as a bridge between client side and server side
   leplannerApp.factory('Subscription', function($http) {
     return {
       subscribe: function(scenario) {
@@ -59,32 +95,18 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
     };
   });
 
-  leplannerApp.factory('Auth', ['$window', '$http', '$rootScope', function($window, $http, $rootScope) {
 
-    $rootScope.user = null;
-
-    return{
-
-        setUser : function(user){
-            $rootScope.user = user;
-            //console.log('rootscope user saved');
-        },
-        unsetUser : function(){
-            $rootScope.user = null;
-            //console.log('rootscope user unset');
-        }
-      };
-  }]);
-
-  leplannerApp.run(['$rootScope', '$location', '$http', 'Auth', function ($rootScope, $location, $http, Auth) {
+  leplannerApp.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $http) {
       $rootScope.$on('$routeChangeStart', function (event) {
+
+        console.log('onroutechange '+$rootScope.user);
 
         $http({url: '/api/me', method: 'GET'})
         .success(function (data, status, headers, config) {
-          if(!$rootScope.user){
-            //console.log('saved to rootscope');
+         if(!$rootScope.user){
+            console.log('rootscope null, saved to rootscope');
             $rootScope.user = data;
-          }
+         }
           //console.log('routechange still logged in');
           //console.log($rootScope.user);
 
