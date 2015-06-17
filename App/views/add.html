@@ -1,30 +1,101 @@
-<div class="container main-content">
-<p ng-hide="user"> Please login to add scenario</p>
-
-<br />
-<br />
-
+<!--<p ng-hide="user"> Please login to add scenario</p>
 <form ng-show="user" ng-submit="submit()" name="addScenario">
 
-  <span>Title: &nbsp</span>
-  <input type="text" ng-model="name" name="titleName" class="input-group input-group-lg" style="display:inline" autofocus required/>
+  <span>Title: </span>
+  <input type="text" ng-model="name" name="titleName" autofocus required/>
   <div ng-messages="addScenario.titleName.$error" role="alert">
-    <div ng-message="required" class="alert alert-warning" style="width:250px"><strong>Required!</strong> Field can't be empty!</div>
+    <div ng-message="required" style="color: red" style="display: inline">Field can't be empty!</div>
     <div ng-message="minlength">At least 1 character required</div>
   </div>
 
   <br />
 
-  <span>Subject: &nbsp</span>
+  <span>Subject: </span>
   <select ng-model="subject" name="subjectName" required>
     <option ng-repeat="subject in subjects" value="{{subject}}">{{subject}}</option>
   </select>
 
   <div ng-messages="addScenario.subjectName.$error" role="alert">
-    <div ng-message="required" class="alert alert-warning" style="width:250px"><strong>Required!</strong> Choose a subject</div>
+    <div ng-message="required" style="color: red">Choose a subject</div>
+  </div>
+
+  <br />
+
+  <span>License: </span>
+  <select ng-model="license" name="licenseName">
+    <option></option>
+  </select>
+
+  <br/>
+
+  <span>Language: </span>
+  <select ng-model="language" name="languageName">
+    <option></option>
+  </select>
+
+  <br />
+
+  <span>Material type: </span>
+  <select ng-model="materialType" name="materialTypeName">
+    <option></option>
+  </select>
+
+  <span>Method: </span>
+  <select ng-model="method" name="methodName">
+    <option></option>
+  </select>
+
+  <span>Stage: </span>
+  <select ng-model="stage" name="stageName">
+    <option></option>
+  </select>
+
+  <span>Technical: </span>
+  <select ng-model="technical" name="techinalName">
+    <option></option>
+  </select>
+
+  <span>Add description:</span> <br>
+  <textarea ng-model="description" name="description"></textarea>
+  <input type="submit" id="submit" value="Submit" />
+</form>
+-->
+
+<div class="container main-content">
+
+
+<h2>Add scenario</h2>
+
+<p ng-hide="user"><strong>Please login to add scenario</strong></p>
+
+<br />
+
+<form ng-show="user" ng-submit="submit()" name="addScenario">
+
+  <span><strong>Title: &nbsp </strong></span>
+  <input type="text" placeholder="Title subject" ng-model="name" name="titleName" class="input-group input-group-lg" style="display:inline;text-align:center" autofocus required/>
+  <br />
+  <br />
+  <div ng-messages="addScenario.titleName.$error" role="alert">
+    <div ng-message="required" class="alert alert-warning" style="width:250px;text-align:center;display:inline"><strong>Required!</strong> Field can't be empty!</div>
+    <div ng-message="minlength">At least 1 character required</div>
+  </div>
+
+  <br />
+  <br />
+
+  <span><strong>Subject: &nbsp </strong></span>
+  <select ng-model="subject" name="subjectName" required>
+    <option ng-repeat="subject in subjects" value="{{subject}}">{{subject}}</option>
+  </select>
+  <br />
+  <br />
+  <div ng-messages="addScenario.subjectName.$error" role="alert">
+    <div ng-message="required" class="alert alert-warning" style="width:250px;text-align:center;"><strong>Required!</strong> Choose a subject</div>
   </div>
 
 
+  <br />
   <br />
 
   <span>License: &nbsp</span>
@@ -36,7 +107,8 @@
     <div ng-message="required" style="color: red">Choose a license</div>
   </div>
 
-  <br/>
+  <br />
+  <br />
 
   <span>Language: &nbsp</span>
   <select ng-model="language" name="languageName">
@@ -49,6 +121,7 @@
   </div>
 -->
 
+  <br />
   <br />
 
   <span>Material type: &nbsp</span>
@@ -63,6 +136,7 @@
 -->
 
   <br />
+  <br />
 
   <span>Method: &nbsp</span>
   <select ng-model="method" name="methodName">
@@ -75,6 +149,7 @@
   </div>
 -->
 
+  <br />
   <br />
 
   <span>Stage: &nbsp</span>
@@ -89,6 +164,7 @@
 -->
 
   <br />
+  <br />
 
   <span>Technical coming soon!</span>
 <!--
@@ -100,13 +176,15 @@
 
 
   <br />
-
-  <span>Add description: &nbsp</span> <br />
-  <textarea ng-model="description" name="description"></textarea>
-
   <br />
 
-  <input type="submit" id="submit" value="Submit" class="btn btn-default" />
+  <span>Add description: &nbsp</span> <br />
+  <textarea style="text-align:center;" ng-model="description" placeholder="Add a description to the subject" name="description"></textarea>
+
+  <br />
+  <br />
+
+  <input type="submit" id="submit" value="Submit" class="btn btn-success" />
 </form>
 
 <br />
@@ -115,4 +193,5 @@
 <!-- Success / Error messages -->
 <div style="width:400px" id="successMessage" ng-show="successMessage" class="alert alert-success" role="alert"><strong>Success!</strong> {{successMessage}}</div>
 <div style="width:400px" id="errorMessage" ng-show="errorMessage" class="alert alert-danger" role="alert"><strong>Error!</strong> {{errorMessage}}</div>
+
 </div>

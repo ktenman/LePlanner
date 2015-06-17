@@ -16,16 +16,16 @@ leplannerControllers.controller('MainCtrl', [
 
     $scope.logout = function(){
       $http({url: '/api/logout', method: 'GET'})
-          .success(function (data, status, headers, config) {
-            console.log(data);
-            $scope.user = null;
-            $rootScope.user = null;
-            $location.path('/');
+      .success(function (data, status, headers, config) {
+        console.log(data);
+        $scope.user = null;
+        $rootScope.user = null;
+        $location.path('/');
 
-          })
-          .error(function (data, status, headers, config) {
-            console.log(data);
-          });
+      })
+      .error(function (data, status, headers, config) {
+        console.log(data);
+      });
     };
 
     $scope.searchScenario = function(name) {
@@ -48,22 +48,21 @@ leplannerControllers.controller('homeCtrl', [
 
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
-          .success(function (data, status, headers, config) {
-            $rootScope.user = data;
-            $scope.user = $rootScope.user;
-            $scope.$parent.setUser();
-            console.log('user set homectrl');
-            console.log(data);
-            console.log(data.created);
-            var newScenarioDate = moment(data.created).format("DD.MM.YYYY");
-            console.log(newScenarioDate);
-            $scope.scenarioDateAndTime = newScenarioDate;
-            console.log($scope.scenarioDateAndTime);
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set homectrl');
+        console.log(data);
+        console.log(data.created);
+        console.log(newScenarioDate);
 
-          })
-          .error(function (data, status, headers, config) {
-            console.log(data);
-          });
+
+
+      })
+      .error(function (data, status, headers, config) {
+        console.log(data);
+      });
 
     }
 
@@ -79,10 +78,10 @@ leplannerControllers.controller('homeCtrl', [
 
     $scope.delete = function(id){
       Delete.scenario(id).success(function() {
-        document.getElementById('scenarios_list').removeChild(document.getElementById(id));
-      }).error(function(data, status, headers, config) {
-        alert('not logged in');
-      });
+          document.getElementById('scenarios_list').removeChild(document.getElementById(id));
+        }).error(function(data, status, headers, config) {
+          alert('not logged in');
+        });
     };
   }
 ]);
@@ -112,16 +111,16 @@ leplannerControllers.controller('AddCtrl', [
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
-          .success(function (data, status, headers, config) {
-            $rootScope.user = data;
-            $scope.user = $rootScope.user;
-            $scope.$parent.setUser();
-            console.log('user set homectrl');
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set homectrl');
 
-          })
-          .error(function (data, status, headers, config) {
-            console.log(data);
-          });
+      })
+      .error(function (data, status, headers, config) {
+        console.log(data);
+      });
 
     }
     //  ---------------------------------------------------------------------------
@@ -132,10 +131,9 @@ leplannerControllers.controller('AddCtrl', [
     $scope.languages = languageList();
     $scope.licenses = licenseList();
     $scope.materials = materialList();
-    $scope.methods = method();
-    $scope.stages = stageList();
+    $scope.methods = method2();
+    $scope.stages = stageList2();
 
-    $scope.method = [];
     $scope.stage = [];
 
     $scope.methodSettings = {externalIdProp: '', selectionLimit: 1, smartButtonMaxItems: 1};
@@ -145,44 +143,43 @@ leplannerControllers.controller('AddCtrl', [
 
     $scope.submit = function() {
       if ($scope.name) {
-        var stage = $scope.stage.label;
-        var method = $scope.method.label;
+          var stage = $scope.stage.label;
 
-        var scenario = {  //  inserts values to the scenario object
-          name: $scope.name,
-          subject: $scope.subject,
-          author: {
-            id:$scope.user._id,
-            name: $scope.user.first_name +' '+$scope.user.last_name //  both names in one place
-                                                                    //  used to show who made the scenario
-          },
-          language: $scope.language, // ng-modeli järgi
-          license: $scope.license,
-          materialType: $scope.materialType,
-          method: method,
-          stage: stage,
-          description: $scope.description
-        };
+          var scenario = {  //  inserts values to the scenario object
+            name: $scope.name,
+            subject: $scope.subject,
+            author: {
+              id:$scope.user._id,
+              name: $scope.user.first_name +' '+$scope.user.last_name //  both names in one place
+                                                                      //  used to show who made the scenario
+            },
+            language: $scope.language, // ng-modeli järgi
+            license: $scope.license,
+            materialType: $scope.materialType,
+            method: $scope.method,
+            stage: stage,
+            description: $scope.description
+          };
 
-        $http.post('/api/savescenario', scenario) //  sends object to /api/savescenario (index.js)
-            .success(function(data, status, headers, config) {
-              console.log('saved');
-              $scope.successMessage = "Scenario has been submitted successfully";
+          $http.post('/api/savescenario', scenario) //  sends object to /api/savescenario (index.js)
+          .success(function(data, status, headers, config) {
+            console.log('saved');
+            $scope.successMessage = "Scenario has been submitted successfully";
 
-              $scope.name = null;
-              $scope.subject = null;
-              $scope.language = null;
-              $scope.license = null;
-              $scope.materialType = null;
-              $scope.method = null;
-              $scope.stage = null;
-              $scope.description = null;
-            }).
-            error(function(data, status, headers, config) {
-              // called asynchronously if an error occurs
-              // or server returns response with an error status.
-              $scope.errorMessage = "There was an error while submitting scenario";
-            });
+            $scope.name = null;
+            $scope.subject = null;
+            $scope.language = null;
+            $scope.license = null;
+            $scope.materialType = null;
+            $scope.method = null;
+            $scope.stage = null;
+            $scope.description = null;
+          }).
+          error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            $scope.errorMessage = "There was an error while submitting scenario";
+          });
       }
     };
   }
@@ -202,13 +199,13 @@ leplannerControllers.controller('DetailCtrl', [
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
-          .success(function (data, status, headers, config) {
-            $rootScope.user = data;
-            $scope.user = $rootScope.user;
-            $scope.$parent.setUser();
-            console.log('user set Addctrl');
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set Addctrl');
 
-          }).error(function (data, status, headers, config) {console.log(data);});
+      }).error(function (data, status, headers, config) {console.log(data);});
 
     }
     //  ---------------------------------------------------------------------------
@@ -239,7 +236,7 @@ leplannerControllers.controller('DetailCtrl', [
       };
 
     });
-  }]);
+}]);
 
 //  Profile controller
 leplannerControllers.controller('ProfileCtrl', [
@@ -254,26 +251,29 @@ leplannerControllers.controller('ProfileCtrl', [
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
-          .success(function (data, status, headers, config) {
-            $rootScope.user = data;
-            $scope.user = $rootScope.user;
-            $scope.$parent.setUser();
-            var dates = data.created;
-            var newDate = moment(dates).format("MMMM YYYY");
-            console.log(newDate);
-            $scope.dateAndTime = newDate;
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set Addctrl');
 
-          }).error(function (data, status, headers, config) {console.log(data);});
+        var dates = data.created;
+        var newDate = moment(dates).format("MMMM YYYY");
+        console.log(newDate);
+
+        $scope.dateAndTime = newDate;
+      }).error(function (data, status, headers, config) {console.log(data);});
 
     }
     //  ---------------------------------------------------------------------------
-
     User.get({ _id: $routeParams.id }, function(user) {
       $scope.profile = user;
       console.log($scope.profile);
 
+
     });
-  }]);
+
+}]);
 
 
 //  Scenario Editing controller
@@ -289,13 +289,13 @@ leplannerControllers.controller('EditCtrl', [
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
-          .success(function (data, status, headers, config) {
-            $rootScope.user = data;
-            $scope.user = $rootScope.user;
-            $scope.$parent.setUser();
-            console.log('user set Addctrl');
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set Addctrl');
 
-          }).error(function (data, status, headers, config) {console.log(data);});
+      }).error(function (data, status, headers, config) {console.log(data);});
 
     }
     //  ---------------------------------------------------------------------------
@@ -327,20 +327,20 @@ leplannerControllers.controller('EditCtrl', [
           };
 
           $http.post('/api/updatescenario', scenario) //  sends the scenario object to /api/updatescenario
-            //  in index.js
-              .success(function(data, status, headers, config) {
-                console.log('Updated');
-              }).
-              error(function(data, status, headers, config) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
-              });
+                                                      //  in index.js
+          .success(function(data, status, headers, config) {
+            console.log('Updated');
+          }).
+          error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+          });
 
         }
       };
 
     });
-  }]);
+}]);
 
 //  Controller for the search page
 leplannerControllers.controller('SearchCtrl', [
@@ -357,13 +357,13 @@ leplannerControllers.controller('SearchCtrl', [
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
-          .success(function (data, status, headers, config) {
-            $rootScope.user = data;
-            $scope.user = $rootScope.user;
-            $scope.$parent.setUser();
-            console.log('user set Searchctrl');
+      .success(function (data, status, headers, config) {
+        $rootScope.user = data;
+        $scope.user = $rootScope.user;
+        $scope.$parent.setUser();
+        console.log('user set Searchctrl');
 
-          }).error(function (data, status, headers, config) {console.log(data);});
+      }).error(function (data, status, headers, config) {console.log(data);});
 
     }
     //  ---------------------------------------------------------------------------
@@ -371,7 +371,7 @@ leplannerControllers.controller('SearchCtrl', [
     //  default sets $scope.scenarios to ALL scenarios
     $scope.scenarios = Search.query();
     //  Get the subjects so we can search by them
-    $scope.subjects = subjectJSONList().sort();;
+    $scope.subjects = subjectJSONList();
 
     console.log($scope.scenarios);
     //  can be used later on to see on the Search page if User is subscribed to a scenario or not
@@ -382,9 +382,10 @@ leplannerControllers.controller('SearchCtrl', [
     $scope.subject = [];
     $scope.method = [];
     $scope.stage = [];
+    $scope.tech = [];
 
     $scope.searchSettings = {externalIdProp: '',scrollableHeight: '400px',
-      scrollable: true, enableSearch: true,smartButtonMaxItems: 3,};
+    scrollable: true, enableSearch: true,smartButtonMaxItems: 3,};
     $scope.methodSettings = {externalIdProp: '', selectionLimit: 1, smartButtonMaxItems: 1};
     $scope.methodText = {buttonDefaultText: 'Method'};
     $scope.stageText = {buttonDefaultText: 'Stage'};
@@ -412,7 +413,6 @@ leplannerControllers.controller('SearchCtrl', [
       var search = {
 
       };
-
       if($scope.name){search.name = $scope.name;}
       if($scope.subject.length > 0){
         search.subject = subjects;
@@ -423,14 +423,14 @@ leplannerControllers.controller('SearchCtrl', [
       $scope.scenarios = Search.query(search);
 
       /*
-       var subjects = [];
-       $scope.subject.forEach(function(element) {
-       subjects.push(element.label);
-       });
-       $scope.scenarios = Search.query({name: $scope.name, subject: subjects, license: $scope.license, language: $scope.language,
-       materialType: $scope.materialType, method: $scope.method, stage: $scope.stage, description: $scope.description}); */
+      var subjects = [];
+      $scope.subject.forEach(function(element) {
+        subjects.push(element.label);
+      });
+      $scope.scenarios = Search.query({name: $scope.name, subject: subjects, license: $scope.license, language: $scope.language,
+        materialType: $scope.materialType, method: $scope.method, stage: $scope.stage, description: $scope.description}); */
     };
-  }]);
+}]);
 
 //  Function used to get subject array
 //  as subjects are used in mutiple places, it is bette to have it in a single function
@@ -442,8 +442,8 @@ function subjectList() {
 }
 function subjectJSONList() {
   return [{id: 1, label: 'Maths'}, {id: 2, label: 'History'}, {id: 3, label: 'English'}, {id: 4, label: 'Basic Education'}, {id:5, label: 'Biology'},
-    {id:6, label: 'Estonian (native language)'},
-    {id:7, label: 'Estonian (foreign language)'},
+  {id:6, label: 'Estonian (native language)'},
+  {id:7, label: 'Estonian (foreign language)'},
     {id:8, label: 'Speciality language'}, {id:9, label: 'Special Education'}, {id:10, label: 'Physics'}, {id:11, label: 'Geography'}, {id:12, label: 'Educational Technology'},
     {id:13, label: 'Informatics'}, {id:14, label: 'Human Studies'},
     {id:15, label: 'Chemistry'}, {id:16, label: 'Physical Education'},
@@ -469,6 +469,10 @@ function materialList() {
 function stageList() {
   return [{id:1, label:'I_stage'}, {id:2, label:'II_stage'}, {id:3, label:'III_stage'}, {id:4, label:'IV_stage'}];
 }
+//  stage list
+function stageList2() {
+  return ['I_stage', 'II_stage', 'III_stage', 'IV_stage'];
+}
 
 // List of languages
 function languageList() {
@@ -477,6 +481,9 @@ function languageList() {
 
 function method() {
   return [{id:1, label:'Game-based'}, {id:2, label:'Project-based'}, {id:3, label:'Exploratory-based'}, {id:4, label:'Task-based'}, {id:5, label:'Inverted'}];
+}
+function method2() {
+  return ['Game-based', 'Project-based', 'Exploratory-based', 'Task-based', 'Inverted'];
 }
 
 // Techical (database preferred)

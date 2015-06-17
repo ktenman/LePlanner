@@ -69,10 +69,8 @@
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
             <li><a href="/#/">Home</a></li>
             <li><a href="/#/search">Search</a></li>
-            <li><a href="subject.php">Subject</a></li>
             <li><a href="/#/profile/{{user._id}}">User</a></li>
-            <li><a href="scenario.php">Scenario</a></li>
-            <li><a href="dashboard.php">Logged in</a></li>
+            <li><a href="/#/add">Create Scenario</a></li>
           </ul>
         </li>
         </li>
@@ -96,7 +94,8 @@
       </div>
 
       <div style="margin-right: 50px;" class="header-search inner-addon right-addon pull-right" ng-controller="SearchCtrl">
-        <a href="/#/search"><i type="submit" class="glyphicon glyphicon-search" ng-click="search()"></i></a>
+
+        <a href="/#/search" ng-click="search()"><i type="submit" class="glyphicon glyphicon-search" ng-click="search()"></i></a>
         <input type="text" name="search" ng-model="name" class="form-control" placeholder="Search">
       </div>
 
@@ -127,7 +126,18 @@
   </div>
 
   <div class="col-md-4">
-    <p class="pull-right">2015 LePLanner. Creative Commons</p>
+    <p class="pull-right">
+      &copy;
+        <script language="JavaScript" type="text/javascript">
+        now = new Date
+        theYear=now.getYear()
+        if (theYear < 1900)
+          theYear=theYear+1900
+        document.write(theYear)
+        </script>
+      <a href="/#/help">TLÜ Informaatika Instituut</a>
+    </p>
+
   </div>
 
 </div>

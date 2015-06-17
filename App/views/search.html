@@ -15,10 +15,6 @@
 		</form>
 	</div>
 
-
-	  <!--<div id="{{scenario._id}}" class="text-center" ng-repeat="scenario in scenarios | filter:query">
-	    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
-	  </div>-->
 	<div class="row advanced-options-and-results">
 		<div class="col-sm-3">
 			<div id="accordion" class="panel-group">
@@ -32,7 +28,12 @@
 
 						<div id="collapseOne" class="panel-collapse collapse">
 							<div class="panel-body">
-								SELECT SIIA
+								<ui-select multiple ng-model="tech" theme="bootstrap" ng-disabled="disabled" close-on-select="false" style="width: 200px;" title="Choose tech">
+							    <ui-select-match placeholder="Select tech...">{{$item}}</ui-select-match>
+							    <ui-select-choices repeat="tech in techs" theme="bootstrap">
+							      {{tech}}
+							    </ui-select-choices><br>
+							  </ui-select>
 							</div>
 						</div>
           </div>

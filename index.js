@@ -26,6 +26,40 @@ var Method = require('./models/method');
 var Stage = require('./models/stage');
 var Technical = require('./models/technical');
 
+var FacebookStrategy = require('passport-facebook').Strategy;
+passport.use(new FacebookStrategy({
+    clientID: config.facebookAuth.clientID,
+    clientSecret: config.facebookAuth.clientSecret,
+    callbackURL: config.facebookAuth.callbackURL
+  },
+  function(accessToken, refreshToken, profile, done){
+    console.log(profile);
+    var new_user = new User({
+      first_name: profile._json.first_name,
+      last_name: profile._json.last_name,
+      facebook: {
+        id: profile.id
+      }
+    });
+
+    User.findOne({ facebook: {id: new_user.facebook.id} }, function(err, user){
+      if(err) {return done(err); }
+      if(!user){
+        new_user.save(function(err,user){
+          if(err) {return done(err); }
+
+          console.log('created new user with id: '+user._id);
+          done(null,user);
+        });
+
+      }else{
+        console.log('got user from db with id: '+user._id);
+        done(null,user);
+      }
+
+    });
+  }
+));
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 passport.use(new GoogleStrategy({
@@ -101,6 +135,17 @@ app.use(session(sessionOpt));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/api/auth/facebook',
+  passport.authenticate('facebook', function(req, res){
+    // The request will be redirected to Facebook for authentication, so this
+    // function will not be called.
+  }));
+
+app.get('/api/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/#/login'}),
+  function(req, res){
+    res.redirect('/#/');
+  });
 
 app.get('/api/auth/google',
   passport.authenticate('google', { scope: [
@@ -159,7 +204,6 @@ app.get('/api/logout', auth, function(req, res){
       query.where({ name: regex, deleted: false}); //  find all where name is similar to regex and deleted is false
     }else {
       query.where({ deleted: false });  //  if you are not searching anything it will show all results or only 12 if too many
-      //query.limit(4);
     }
     query.exec(function(err, scenarios) { //  executes the query(show all on the page or show what was searched)
       if (err) return next(err);
@@ -269,33 +313,34 @@ var server = app.listen(config.port, function () {
 app.get('/api/search', function(req, res, next) {
   var query = Scenario.find();
   //console.log(req.query);
-  console.log(req.query);
+  var searchAPI = { };
+  var searchArray = [];
+
   var escapeRegExp = function escapeRegExp(str){
-      return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
-    };
-  
-  if(req.query.name && !req.query.subject){
-    var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similar names
-    query.where({ $and : [{deleted: false}, {name: regex }] });  //  find all where name is similar to regex and deleted is false
-  }
-  else if(req.query.name && req.query.subject){
-    var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similar names
-    if(typeof req.query.subject == 'string'){
-      query.where({ $and : [{name: regex }, {deleted: false}, {subject: req.query.subject }] });  //  find all where name is similar to regex and deleted is false
-      console.log(req.query.stage);
-    }else {
-      query.where({ $and : [{name: regex }, {deleted: false}, {subject: { $in : req.query.subject } }] });  //  find all where name is similar to regex and deleted is false
-      console.log(req.query.stage);
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
+  };
+
+
+  if(req.query.name || req.query.subject || req.query.method || req.query.stage){
+    if(req.query.name){
+      var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similar names
+      searchArray.push({name: regex});
     }
-  }
-  else if(req.query.subject && !req.query.name){
-    if(typeof req.query.subject == 'string'){
-      query.where({ $and : [{deleted: false}, {subject: req.query.subject }] });  //  find all where name is similar to regex and deleted is false
-      console.log(req.query.stage);
-    }else {
-      query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }] });  //  find all where name is similar to regex and deleted is false
-      console.log(req.query.stage);
+    if(req.query.subject){
+      if(typeof req.query.subject == 'string'){
+        searchArray.push({subject: req.query.subject});  //  find all where name is similar to regex and deleted is false
+      }else {
+        searchArray.push({subject: { $in : req.query.subject }});  //  find all where name is similar to regex and deleted is false
+      }
     }
+    if(req.query.method){
+      searchArray.push({method: req.query.method});
+      }
+    if(req.query.stage){
+      searchArray.push({stage: req.query.stage});
+    }
+    searchAPI.$and = searchArray;
+    query.where(searchAPI);
   }
   else
   {
@@ -306,149 +351,4 @@ app.get('/api/search', function(req, res, next) {
     if (err) return next(err);
     res.send(scenarios);
   });
-  /*
-  if(req.query.name)
-  {  // if scenario name is sent to the Scenario.query (controllers.js)
-
-    var escapeRegExp = function escapeRegExp(str){
-      return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
-    };
-    var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similar names
-
-    if(req.query.subject){
-      query.where({ $and : [{ name: regex}, {deleted: false}, {subject: { $in: req.query.subject }}] });  //  find all where name is similar to regex and deleted is false
-      console.log(req.query.name);
-      console.log(req.query.subject);
-    }else{
-      query.where({ name: regex, deleted: false});  //  find all where name is similar to regex and deleted is false
-      console.log(req.query.name);
-    }
-    //query.where({ name: regex, deleted: false});  //  find all where name is similar to regex and deleted is false
-  }
-  else if(!req.query.name)
-  {
-    if(req.query.subject)
-    {
-      if(req.query.stage)
-      {
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }, {stage: req.query.stage}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.stage);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }, {stage: req.query.stage}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.stage);
-        }
-      }
-      else if(req.query.method){
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.method);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.method);
-        }
-      }
-      else
-      {
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }
-      }
-    }
-    else if(req.query.stage)
-    {
-      if(req.query.subject)
-      {
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }
-      }
-      else if(req.query.method){
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.method);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.method);
-        }
-      }
-      else
-      {
-
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }, {stage: req.query.stage}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.stage);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }, {stage: req.query.stage}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.stage);
-        }
-      }
-    }
-    else if(req.query.method)
-    {
-      if(req.query.subject)
-      {
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.subject);
-        }
-      }
-      else if(req.query.stage){
-
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }, {stage: req.query.stage}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.stage);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }, {stage: req.query.stage}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.stage);
-        }
-      }
-      else
-      {
-        if(!req.query.subject){
-          query.where({ $and : [{deleted: false}, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.method);
-        }
-        if(typeof req.query.subject == 'string'){
-          query.where({ $and : [{deleted: false}, {subject: req.query.subject }, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.method);
-        }else {
-          query.where({ $and : [{deleted: false}, {subject: { $in : req.query.subject } }, {method: req.query.method}] });  //  find all where name is similar to regex and deleted is false
-          console.log(req.query.method);
-        }
-      }
-    }
-    */
-
-    /*
-    var escapeRegExp = function escapeRegExp(str){
-      return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
-    };
-    var regex = new RegExp('(?=.*'+ escapeRegExp(req.query.name).split(' ').join(')(?=.*') + ')', 'i'); //  sets req.query.name so that we can search similar names
-    query.where({ $and : [{ name: regex},{deleted: false}, {subject: { $in : req.query.subject }}, {license: req.query.license}, {language: req.query.language},
-      {materialType: req.query.materialType}, {method: req.query.method}, { stage: req.query.stage}, { description: req.query.description}] });
-    */
-/*
-  }
-  else
-  {
-    query.where({ deleted: false });  //  if you are not searching anything it will show all results or only 12 if too many
-    query.limit(12);
-  }
-
-  query.exec(function(err, scenarios){
-    if (err) return next(err);
-    res.send(scenarios);
-  });*/
 });
