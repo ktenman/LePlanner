@@ -69,120 +69,85 @@
           </ul>
 
             <div ng-show="tab.isSet(1)">
-                <div class="col-xs-6 col-sm-3" id="scenarios_list" ng-repeat="scenario in scenarios | filter:query | orderBy: '-created' | limitTo:4">
+                <div class="col-xs-6 col-sm-3" id="scenarios_list" ng-repeat="scenario in scenarios | filter:query | orderBy: '-created' | limitTo:4" >
                   <div class="thumbnail thumbnail-first-page" ng-controller="homeCtrl">
                       <a href="/#/scenarios/{{scenario._id}}">
                         <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
                       </a>
-                      <div class="caption" ng-controller="homeCtrl" id="{{scenario._id}}">
+                      <p  ng-controller="homeCtrl" id="{{scenario._id}}">
                         <h4>{{scenario.name}}</h4>
-                          <p>{{scenario.description | limitTo: 60}}{{scenario.description.length > 60 ? '...' : ''}}</p>
-                          <div id="bottom">
-                              <span>
+                          <p class="thumbnail-caption">{{scenario.description | limitTo: 60}}{{scenario.description.length > 60 ? '...' : ''}}</p>
+
+                              <span class="favorited-and-comments">
                                   <span class="glyphicon glyphicon-heart">23</span>
-                                  &nbsp;&nbsp;
                                   <span class="glyphicon glyphicon-comment">2</span>
                               </span>
 
-                              <a href="/#/scenarios/{{scenario._id}}" class="open-link pull-right">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OPEN
+                              <a class="open-link pull-right" href="/#/scenarios/{{scenario._id}}">
+                               OPEN
                                   <span class="glyphicon glyphicon-chevron-right"></span>
                               </a>
-                          </div>
+
                       </div>
                   </div>
                 </div>
-            </div>
 
-          <div ng-show="tab.isSet(2)">
-              <div class="col-xs-6 col-sm-3" id="scenarios_list" ng-repeat="scenario in scenarios | filter:query | orderBy: 'name' | limitTo:4">
-                  <div class="thumbnail thumbnail-first-page" ng-controller="homeCtrl">
-                      <a href="/#/scenarios/{{scenario._id}}">
-                          <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
-                      </a>
-                      <div class="caption" ng-controller="homeCtrl" id="{{scenario._id}}">
+
+
+
+              <div ng-show="tab.isSet(2)">
+                  <div class="col-xs-6 col-sm-3" id="scenarios_list" ng-repeat="scenario in scenarios | filter:query | orderBy: 'name' | limitTo:4" >
+                      <div class="thumbnail thumbnail-first-page" ng-controller="homeCtrl">
+                          <a href="/#/scenarios/{{scenario._id}}">
+                              <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+                          </a>
+                          <p  ng-controller="homeCtrl" id="{{scenario._id}}">
                           <h4>{{scenario.name}}</h4>
-                          <p>{{scenario.description | limitTo: 60}}{{scenario.description.length > 60 ? '...' : ''}}</p>
-                          <div id="header-content">
-                          <span class="favorited-and-comments">
-                              <span class="glyphicon glyphicon-heart">23</span>
-                              <span class="glyphicon glyphicon-comment">2</span>
-                          </span>
-                              <a href="/#/scenarios/{{scenario._id}}">
-                                  OPEN
-                                  <span class="glyphicon glyphicon-chevron-right"></span>
-                              </a>
-                          </div>
+                          <p class="thumbnail-caption">{{scenario.description | limitTo: 60}}{{scenario.description.length > 60 ? '...' : ''}}</p>
+
+                              <span class="favorited-and-comments">
+                                  <span class="glyphicon glyphicon-heart">23</span>
+                                  <span class="glyphicon glyphicon-comment">2</span>
+                              </span>
+
+                          <a class="open-link pull-right" href="/#/scenarios/{{scenario._id}}">
+                              OPEN
+                              <span class="glyphicon glyphicon-chevron-right"></span>
+                          </a>
+
                       </div>
                   </div>
               </div>
-          </div>
 
-          <div ng-show="tab.isSet(3)" >
-              <div class="col-xs-6 col-sm-3" id="scenarios_list" ng-repeat="scenario in scenarios | filter:query | orderBy: 'created' | limitTo:4">
-                  <div class="thumbnail thumbnail-first-page" ng-controller="homeCtrl">
-                      <a href="/#/scenarios/{{scenario._id}}">
-                          <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
-                      </a>
-                      <div class="caption" ng-controller="homeCtrl" id="{{scenario._id}}">
+
+              <div ng-show="tab.isSet(3)">
+                  <div class="col-xs-6 col-sm-3" id="scenarios_list" ng-repeat="scenario in scenarios | filter:query | orderBy: '-created' | limitTo:4" >
+                      <div class="thumbnail thumbnail-first-page" ng-controller="homeCtrl">
+                          <a href="/#/scenarios/{{scenario._id}}">
+                              <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
+                          </a>
+                          <p  ng-controller="homeCtrl" id="{{scenario._id}}">
                           <h4>{{scenario.name}}</h4>
-                          <p>{{scenario.description | limitTo: 60}}{{scenario.description.length > 60 ? '...' : ''}}</p>
-                          <div id="header-content">
-                          <span class="favorited-and-comments">
-                              <span class="glyphicon glyphicon-heart">23</span>
-                              <span class="glyphicon glyphicon-comment">2</span>
-                          </span>
-                              <a href="/#/scenarios/{{scenario._id}}">
-                                  OPEN
-                                  <span class="glyphicon glyphicon-chevron-right"></span>
-                              </a>
-                          </div>
+                          <p class="thumbnail-caption">{{scenario.description | limitTo: 60}}{{scenario.description.length > 60 ? '...' : ''}}</p>
+
+                              <span class="favorited-and-comments">
+                                  <span class="glyphicon glyphicon-heart">23</span>
+                                  <span class="glyphicon glyphicon-comment">2</span>
+                              </span>
+
+                          <a class="open-link pull-right" href="/#/scenarios/{{scenario._id}}">
+                              OPEN
+                              <span class="glyphicon glyphicon-chevron-right"></span>
+                          </a>
+
                       </div>
                   </div>
               </div>
-          </div>
 
-            </section>
+
+          </section>
         </div>
-
-
-
-
-
-
-  </div>
-
-
-
-
-
-
-
-
-
-  <!-- /////////////////////////////////// -->
-  <!-- ||||||   SEARCH AND BROWSE   |||||| -->
-  <!-- /////////////////////////////////// -->
-
-  <!--<div class="row simple-search">
-
-   <div class="col-sm-4">
-      <h3>Otsi </h3>
-      <p class="search-desc">Pellentesqus eu. Fusce vel congue lectus, a molestie magna. rhoncus, ante urna vulputate nisl, eget co märksõna, autor, aine...</p>
-   </div>
-
-    <div class="col-sm-5">
-      <div class="input-group">
-          <input type="text" class="form-control">
-          <span class="input-group-btn">
-            <a href="search.php" class="btn btn-default" >
-              <span class="glyphicon glyphicon-search"></span>
-            </a>
-         </span>
-      </div>
-      <a class="more-spec-search" href="search.php">Täpsem otsing</a>
-    </div>
--->
+</div>
 
   <h3>Ained</h3>
 
