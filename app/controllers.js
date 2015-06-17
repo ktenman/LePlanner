@@ -31,6 +31,7 @@ leplannerControllers.controller('MainCtrl', [
     $scope.searchScenario = function(name) {
       $scope.scenarios = Scenario.query({ name: name });
     };
+
   }
 ]);
 
@@ -54,11 +55,12 @@ leplannerControllers.controller('homeCtrl', [
         console.log('user set homectrl');
         console.log(data);
         console.log(data.created);
-        var newScenarioDate = moment(data.created).format("DD.MM.YYYY");
-        console.log(newScenarioDate);
+        var ScenarioDate = moment(Scenario.created).format("DD.MM.YYYY");
+        console.log(ScenarioDate);
 
-        $scope.scenarioDateAndTime = newScenarioDate;
-        console.log($scope.scenarioDateAndTime);
+        $scope.scenarioTime = ScenarioDate;
+
+
 
       })
       .error(function (data, status, headers, config) {
@@ -68,6 +70,13 @@ leplannerControllers.controller('homeCtrl', [
     }
 
     $scope.user = $rootScope.user;
+
+    /*
+    var userDate = moment($scope.user.created).format("MMMM YYYY");
+    console.log(userDate);
+
+    $scope.userDateCreated = userDate;
+    */
 
     $scope.subjects = subjectList();
 
@@ -132,15 +141,20 @@ leplannerControllers.controller('AddCtrl', [
     $scope.languages = languageList();
     $scope.licenses = licenseList();
     $scope.materials = materialList();
-    $scope.methods = method();
-    $scope.stages = stageList();
+    $scope.methods = method2();
+    $scope.stages = stageList2();
+
+    $scope.stage = [];
+
+    $scope.methodSettings = {externalIdProp: '', selectionLimit: 1, smartButtonMaxItems: 1};
+    $scope.methodText = {buttonDefaultText: 'Method'};
+    $scope.stageText = {buttonDefaultText: 'Stage'};
+
 
     $scope.submit = function() {
       if ($scope.name) {
-          console.log($scope.name);
-          console.log($scope.subject);
-          console.log($scope.description);
-          console.log($scope);
+          var stage = $scope.stage.label;
+
           var scenario = {  //  inserts values to the scenario object
             name: $scope.name,
             subject: $scope.subject,
@@ -153,14 +167,15 @@ leplannerControllers.controller('AddCtrl', [
             license: $scope.license,
             materialType: $scope.materialType,
             method: $scope.method,
-            stage: $scope.stage,
+            stage: stage,
             description: $scope.description
           };
 
           $http.post('/api/savescenario', scenario) //  sends object to /api/savescenario (index.js)
           .success(function(data, status, headers, config) {
-            console.log('Saved');
+            console.log('saved');
             $scope.successMessage = "Scenario has been submitted successfully";
+            $scope.errorMessage = null;
 
             $scope.name = null;
             $scope.subject = null;
@@ -175,6 +190,7 @@ leplannerControllers.controller('AddCtrl', [
             // called asynchronously if an error occurs
             // or server returns response with an error status.
             $scope.errorMessage = "There was an error while submitting scenario";
+            $scope.successMessage = null;
           });
       }
     };
@@ -199,8 +215,7 @@ leplannerControllers.controller('DetailCtrl', [
         $rootScope.user = data;
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
-        console.log('user set DetailCtrl');
-
+        console.log('user set Addctrl');
 
       }).error(function (data, status, headers, config) {console.log(data);});
 
@@ -252,26 +267,24 @@ leplannerControllers.controller('ProfileCtrl', [
         $rootScope.user = data;
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
-        console.log('User set ProfileCtrl');
+        console.log('user set Addctrl');
 
         var dates = data.created;
-        var newDate = moment(dates).format("MMMM YYYY");
+        var newDate = moment(User.created).format("MMMM YYYY");
         console.log(newDate);
 
         $scope.dateAndTime = newDate;
-
 
       }).error(function (data, status, headers, config) {console.log(data);});
 
     }
     //  ---------------------------------------------------------------------------
-
     User.get({ _id: $routeParams.id }, function(user) {
       $scope.profile = user;
       console.log($scope.profile);
 
-    });
 
+    });
 
 }]);
 
@@ -371,7 +384,7 @@ leplannerControllers.controller('SearchCtrl', [
     //  default sets $scope.scenarios to ALL scenarios
     $scope.scenarios = Search.query();
     //  Get the subjects so we can search by them
-    $scope.subjects = subjectJSONList().sort();
+    $scope.subjects = subjectJSONList();
 
     console.log($scope.scenarios);
     //  can be used later on to see on the Search page if User is subscribed to a scenario or not
@@ -380,14 +393,23 @@ leplannerControllers.controller('SearchCtrl', [
     };
 
     $scope.subject = [];
+    $scope.method = [];
+    $scope.stage = [];
+    $scope.tech = [];
+
     $scope.searchSettings = {externalIdProp: '',scrollableHeight: '400px',
-    scrollable: true, enableSearch: true};
+    scrollable: true, enableSearch: true,smartButtonMaxItems: 3,};
+    $scope.methodSettings = {externalIdProp: '', selectionLimit: 1, smartButtonMaxItems: 1};
+    $scope.methodText = {buttonDefaultText: 'Method'};
+    $scope.stageText = {buttonDefaultText: 'Stage'};
+    $scope.searchText = {buttonDefaultText: 'Subject'};
 
     $scope.languages = languageList();
     $scope.licenses = licenseList();
     $scope.materials = materialList();
     $scope.methods = method();
     $scope.stages = stageList();
+    $scope.techs = tech();
 
 
     //  search function for the NEW search page
@@ -398,18 +420,20 @@ leplannerControllers.controller('SearchCtrl', [
       $scope.subject.forEach(function(element) {
         subjects.push(element.label);
       });
+      var method = $scope.method.label;
       var name = $scope.name;
+      var stage = $scope.stage.label;
       var search = {
 
       };
-
       if($scope.name){search.name = $scope.name;}
       if($scope.subject.length > 0){
         search.subject = subjects;
       }
-      if($scope.method){search.method = $scope.method;}
-      if($scope.stage){search.stage = $scope.stage;}
-        $scope.scenarios = Search.query(search);
+      if(method){search.method = method; console.log(method);}
+      if(stage){search.stage = stage; console.log(stage);}
+
+      $scope.scenarios = Search.query(search);
 
       /*
       var subjects = [];
@@ -456,6 +480,10 @@ function materialList() {
 
 //  stage list
 function stageList() {
+  return [{id:1, label:'I_stage'}, {id:2, label:'II_stage'}, {id:3, label:'III_stage'}, {id:4, label:'IV_stage'}];
+}
+//  stage list
+function stageList2() {
   return ['I_stage', 'II_stage', 'III_stage', 'IV_stage'];
 }
 
@@ -465,7 +493,13 @@ function languageList() {
 }
 
 function method() {
-  return ['Game-based', 'Project-based', 'Exploratory-based', 'Task-based', 'Inverted'].sort();
+  return [{id:1, label:'Game-based'}, {id:2, label:'Project-based'}, {id:3, label:'Exploratory-based'}, {id:4, label:'Task-based'}, {id:5, label:'Inverted'}];
+}
+function method2() {
+  return ['Game-based', 'Project-based', 'Exploratory-based', 'Task-based', 'Inverted'];
 }
 
 // Techical (database preferred)
+function tech() {
+  return ['VOSK', 'Arvutiklass'];
+}

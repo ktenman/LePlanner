@@ -1,14 +1,78 @@
+<div class="container main-content">
+
+<div ng-show=!user>
+	<strong class="alert alert-warning" role="alert">Please <a href="/#/login">login</a> to edit</strong></p>
+</div>
 <div ng-show="user">
+
+	<h1>Editing: {{scenario.name}}</h1>
+
+	<br />
+
 	<form ng-show="user">
-		Name<input type="text" value="{{scenario.name}}" name="name" ng-model="scenario.name"><br>
-		Subject 
+		<span>Title </span> <br /> <input class="input-group input-group-lg" type="text" placeholder="Scenario name" value="{{scenario.name}}" name="name" ng-model="scenario.name">
+
+		<br />
+
+		<span>Subject</span> <br />
 		<select ng-model="scenario.subject">
-			<!--<option selected="selected" value="{{scenario.subject}}" name="scenario.subject">{{scenario.subject}}</option>-->
     		<option ng-repeat="subject in subjects" value="{{subject}}"  name="subject">{{subject}}</option>
-  		</select><br>
-		<textarea ng-model="scenario.description" name="description" name="description">{{scenario.description}}</textarea>
-		<input type="submit" ng-click="saveEdit()" value="Save"><br>
-		<button type="cancel" ng-click="cancelEdit()">Cancel</button>
+  	</select>
+
+		<br />
+		<br />
+<!--
+		<span>License</span> <br />
+		<select ng-model="scenario.license">
+    		<option ng-repeat="license in licenses" value="{{license}}"  name="license">{{license}}</option>
+  	</select>
+
+		<br />
+		<br />
+
+		<span>Language: &nbsp</span>
+	  <select ng-model="language" name="languageName">
+	    <option ng-repeat="language in languages" value="{{language}}">{{language}}</option>
+	  </select>
+
+		<br />
+		<br />
+
+		<span>Material type: &nbsp</span>
+	  <select ng-model="materialType" name="materialTypeName">
+	    <option ng-repeat="material in materials" value="{{material}}">{{material}}</option>
+	  </select>
+
+		<br />
+		<br />
+
+		<span>Method: &nbsp</span>
+	  <select ng-model="method" name="methodName">
+	    <option ng-repeat="method in methods" value="{{method}}">{{method}}</option>
+	  </select>
+
+		<br />
+		<br />
+
+		<span>Stage: &nbsp</span>
+	  <select ng-model="stage" name="stageName">
+	    <option ng-repeat="stage in stages" value="{{stage}}">{{stage}}</option>
+	  </select>
+
+		<br />
+		<br />
+
+-->
+
+		<span>Description </span> <br />
+		<textarea placeholder="Description" ng-model="scenario.description" name="description" name="description">{{scenario.description}}</textarea> <br />
+
+		<br />
+		<br />
+
+		<input type="submit" ng-click="saveEdit()" value="Save" class="btn btn-success">
+		<button type="cancel" ng-click="cancelEdit()" class="btn btn-danger">Cancel</button>
 
 	</form>
+</div>
 </div>

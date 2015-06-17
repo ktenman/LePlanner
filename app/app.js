@@ -6,6 +6,18 @@ var leplannerApp = angular.module('leplannerApp', [
   'ngMessages'
 ]);
 
+leplannerApp.controller('TabController', function () {
+      this.tab = 1;
+
+      this.setTab = function (tabId) {
+        this.tab = tabId;
+      };
+
+      this.isSet = function (tabId) {
+        return this.tab === tabId;
+      };
+    });
+
 leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
   function($routeProvider,$locationProvider,$resourceProvider) {
     $routeProvider
@@ -51,6 +63,10 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
         templateUrl: 'views/profile.html',
         controller: 'ProfileCtrl'
       })
+      .when('/help', {
+        templateUrl: 'views/help.html'
+      })
+
       .otherwise({
         redirectTo: '/'
       });
@@ -63,12 +79,13 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
     return $resource('/api/scenarios/:_id');
   }]);
 
-  leplannerApp.factory('Search', ['$resource', function($resource) {
-    return $resource('/api/search/');
-  }]);
-
+  //  factory for User
   leplannerApp.factory('User', ['$resource', function($resource) {
     return $resource('/api/profile/:_id');
+  }]);
+
+  leplannerApp.factory('Search', ['$resource', function($resource) {
+    return $resource('/api/search/');
   }]);
 
 

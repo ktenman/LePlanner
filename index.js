@@ -11,7 +11,7 @@ var moment = require('moment');
 
 mongoose.connect(config.db, function(err){
   if(err) throw err;
-  console.log('successfully connected to Mongo db');
+  console.log('Successfully connected to MongoDB');
 });
 
 var db = mongoose.connection;
@@ -26,6 +26,40 @@ var Method = require('./models/method');
 var Stage = require('./models/stage');
 var Technical = require('./models/technical');
 
+var FacebookStrategy = require('passport-facebook').Strategy;
+passport.use(new FacebookStrategy({
+    clientID: config.facebookAuth.clientID,
+    clientSecret: config.facebookAuth.clientSecret,
+    callbackURL: config.facebookAuth.callbackURL
+  },
+  function(accessToken, refreshToken, profile, done){
+    console.log(profile);
+    var new_user = new User({
+      first_name: profile._json.first_name,
+      last_name: profile._json.last_name,
+      facebook: {
+        id: profile.id
+      }
+    });
+
+    User.findOne({ facebook: {id: new_user.facebook.id} }, function(err, user){
+      if(err) {return done(err); }
+      if(!user){
+        new_user.save(function(err,user){
+          if(err) {return done(err); }
+
+          console.log('created new user with id: '+user._id);
+          done(null,user);
+        });
+
+      }else{
+        console.log('got user from db with id: '+user._id);
+        done(null,user);
+      }
+
+    });
+  }
+));
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 passport.use(new GoogleStrategy({
@@ -48,18 +82,18 @@ passport.use(new GoogleStrategy({
       }
     });
 
-    User.findOne({ email: new_user.email}, function(err, user){
+    User.findOne({ email: new_user.email }, function(err, user){
       if(err) {return done(err); }
       if(!user){
         new_user.save(function(err,user){
           if(err) {return done(err); }
 
-          console.log('Created new user with id: ' + user._id + ' on ' + user.created);
+          console.log('Created new user with id: '+user._id);
           done(null,user);
         });
 
       }else{
-        console.log('Got user from db with id: '+user._id + ' on ' + user.created);
+        console.log('Got user from db with id: '+user._id);
         done(null,user);
       }
 
@@ -101,6 +135,17 @@ app.use(session(sessionOpt));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/api/auth/facebook',
+  passport.authenticate('facebook', function(req, res){
+    // The request will be redirected to Facebook for authentication, so this
+    // function will not be called.
+  }));
+
+app.get('/api/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/#/login'}),
+  function(req, res){
+    res.redirect('/#/');
+  });
 
 app.get('/api/auth/google',
   passport.authenticate('google', { scope: [
@@ -145,7 +190,6 @@ app.get('/api/logout', auth, function(req, res){
 });
 
 
-
   app.get('/api/scenarios', function(req, res, next) {
 
     var query = Scenario.find();
@@ -160,7 +204,6 @@ app.get('/api/logout', auth, function(req, res){
       query.where({ name: regex, deleted: false}); //  find all where name is similar to regex and deleted is false
     }else {
       query.where({ deleted: false });  //  if you are not searching anything it will show all results or only 12 if too many
-      query.limit(12);
     }
     query.exec(function(err, scenarios) { //  executes the query(show all on the page or show what was searched)
       if (err) return next(err);
@@ -204,7 +247,7 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
-  //  Scenario updating
+  //  Scenario updateing
   app.post('/api/updatescenario', function(req, res, next){ //  req is the scenario object sent from controllers.js
     Scenario.findById(req.body.id, function(err, scenario) {  //  get the scenario by id
       console.log(req.body.id); //  for developement, prints the id to web console

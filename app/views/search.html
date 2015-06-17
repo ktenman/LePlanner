@@ -1,73 +1,192 @@
 <div class="container main-content">
 	<h2>Search</h2>
-	<form>
-		<input type="text" ng-model="name" name="name">
-	  <div style="display: inline" ng-dropdown-multiselect="" options="subjects" selected-model="subject" extra-settings="searchSettings"></div>
-		<select class="" ng-model="method" name="method">
-			<option ng-repeat="method in methods" value="{{method}}">{{method}}</option>
-		</select>
+	<div class="row search-fields-top">
+		<form>
+			<div class="col-sm-3">
+				<input class="form-control" type="text" ng-model="name" name="name" placeholder="Search">
+			</div>
+		  <div style="display: inline" ng-dropdown-multiselect="" options="subjects" selected-model="subject" extra-settings="searchSettings" translation-texts="searchText"></div>
 
-		<select class="" ng-model="stage" name="stage">
-			<option ng-repeat="stage in stages" value="{{stage}}">{{stage}}</option>
-		</select>
+			<div style="display: inline" ng-dropdown-multiselect="" options="methods" selected-model="method" extra-settings="methodSettings" translation-texts="methodText"></div>
 
-		<input style="width:100px;display: inline" class="btn btn-primary btn-block" type="submit" value="Search" ng-click="search()">
-	</form>
+			<div style="display: inline" ng-dropdown-multiselect="" options="stages" selected-model="stage" extra-settings="methodSettings" translation-texts="stageText"></div>
 
+			<input style="width:100px;display: inline" class="btn btn-primary btn-block" type="submit" value="Search" ng-click="search()">
+		</form>
+	</div>
 
-	  <!--<div id="{{scenario._id}}" class="text-center" ng-repeat="scenario in scenarios | filter:query">
-	    <a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a><button ng-click="delete(scenario._id);">Delete</button>
-	  </div>-->
+	<div class="row advanced-options-and-results">
+		<div class="col-sm-3">
+			<div id="accordion" class="panel-group">
+          <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-target="#collapseOne" data-parent="#accordion" >Tehnilised vahendid<span class="glyphicon glyphicon-menu-down"></span></a>
+							</h4>
+						</div>
 
-
-		<div class="single_scenario_item" id="{{scenario._id}}" ng-repeat="scenario in scenarios | filter:query">
-
-    <div class="row">
-      <div class="col-sm-12">
-        <h4><strong><a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a></strong></h4>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-4">
-        <a href="scenario.php" class="thumbnail">
-            <img src="./assets/thumbnail_200.png" alt="">
-        </a>
-				<!--
-         <span class="rating">
-          	<span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-star-empty"></span>
-            <br>
-            <span class="glyphicon glyphicon-comment"></span> <a href="scenario.php">3 comments</a>
-         </span>
-			-->
-			<br />
-      </div>
-      <div class="col-sm-8">
-        <p class="extra-info">
-          <span class="glyphicon glyphicon-user"></span> <a href="scenario.php">{{scenario.author.name}}</a><br>
-          <span class="glyphicon glyphicon-calendar"></span> <span ng-controller="homeCtrl">{{scenarioDateAndTime}}</span>
-        </p>
-        <p>
-					{{scenario.description}}
-        </p>
-        <div class="row">
-          <div class="col-sm-9">
-            <span class="labels">
-							<a href="scenario.php"><span class="label label-danger">{{scenario.method}}</span></a>
-							<a href="scenario.php"><span class="label label-success">{{scenario.materialType}}</span></a>
-             </span>
+						<div id="collapseOne" class="panel-collapse collapse">
+							<div class="panel-body">
+								<ui-select multiple ng-model="tech" theme="bootstrap" ng-disabled="disabled" close-on-select="false" style="width: 200px;" title="Choose tech">
+							    <ui-select-match placeholder="Select tech...">{{$item}}</ui-select-match>
+							    <ui-select-choices repeat="tech in techs" theme="bootstrap">
+							      {{tech}}
+							    </ui-select-choices><br>
+							  </ui-select>
+							</div>
+						</div>
           </div>
-          <div class="col-sm-3">
-           <a class="btn btn-success btn-block btn-sm pull-right" href="/#/scenarios/{{scenario._id}}">OPEN <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+          <div class="panel panel-default">
+            <!-- Default panel contents -->
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-target="#collapseTwo" data-parent="#accordion" >Õpilaste arv<span class="glyphicon glyphicon-menu-down"></span></a>
+							</h4>
+						</div>
+
+						<div id="collapseTwo" class="panel-collapse collapse">
+							<div class="panel-body">
+								<p>SLIDER HERE</p>
+							</div>
+						</div>
           </div>
-        </div>
 
+          <div class="panel panel-default">
+            <!-- Default panel contents -->
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-target="#collapseThree" data-parent="#accordion" >Keel<span class="glyphicon glyphicon-menu-down"></span></a>
+
+							</h4>
+						</div>
+
+						<div id="collapseThree" class="panel-collapse collapse">
+							<div class="panel-body">
+								<p>SELECT HERE</p>
+							</div>
+						</div>
+          </div>
+
+          <div class="panel panel-default">
+            <!-- Default panel contents -->
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-target="#collapseFour" data-parent="#accordion" >Litsents<span class="glyphicon glyphicon-menu-down"></span></a>
+
+							</h4>
+						</div>
+
+						<div id="collapseFour" class="panel-collapse collapse">
+							<div class="panel-body">
+								<p>SELECT HERE</p>
+							</div>
+						</div>
+          </div>
+
+          <div class="panel panel-default">
+            <!-- Default panel contents -->
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-target="#collapseFive" data-parent="#accordion" >Õppematerjali tüüp<span class="glyphicon glyphicon-menu-down"></span></a>
+
+							</h4>
+						</div>
+
+						<div id="collapseFive" class="panel-collapse collapse">
+							<div class="panel-body">
+								<p>SELECT HERE</p>
+							</div>
+						</div>
+          </div>
+
+          <div class="panel panel-default">
+            <!-- Default panel contents -->
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-target="#collapseSix" data-parent="#accordion" >Loodud alates<span class="glyphicon glyphicon-menu-down"></span></a>
+
+							</h4>
+						</div>
+
+						<div id="collapseSix" class="panel-collapse collapse">
+							<div class="panel-body">
+								<p>SELECT HERE</p>
+							</div>
+						</div>
+
+          </div>
+
+          <div class="panel panel-default">
+            <!-- Default panel contents -->
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-target="#collapseSeven" data-parent="#accordion" >Loodud kuni<span class="glyphicon glyphicon-menu-down"></span></a>
+
+							</h4>
+						</div>
+
+						<div id="collapseSeven" class="panel-collapse collapse">
+							<div class="panel-body">
+								<p>SELECT HERE</p>
+							</div>
+						</div>
+          </div>
+				</div>
       </div>
-    </div>
+		<div class="col-sm-9">
+			<h4 class="results-heading">Found some answers</h4>
+			<div class="single_scenario_item" id="{{scenario._id}}" ng-repeat="scenario in scenarios | filter:query">
 
-</div>
+		    <div class="row">
+		      <div class="col-sm-12">
+		        <h4><strong><a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a></strong></h4>
+		      </div>
+		    </div>
+
+		    <div class="row">
+		      <div class="col-sm-4">
+		        <a href="scenario.php" class="thumbnail">
+		            <img src="./assets/thumbnail_200.png" alt="">
+		        </a>
+
+						<!--
+		         <span class="rating">
+		          	<span class="glyphicon glyphicon-star"></span>
+		            <span class="glyphicon glyphicon-star"></span>
+		            <span class="glyphicon glyphicon-star"></span>
+		            <span class="glyphicon glyphicon-star"></span>
+		            <span class="glyphicon glyphicon-star-empty"></span>
+		            <br>
+		            <span class="glyphicon glyphicon-comment"></span> <a href="scenario.php">3 Kommentaari</a>
+		         </span>
+					-->
+
+					<br />
+		      </div>
+		      <div class="col-sm-8">
+		        <p class="extra-info">
+		          <span class="glyphicon glyphicon-user"></span> <a href="/#/profile/{{scenario.author.id}}">{{scenario.author.name}}</a><br>
+		          <span class="glyphicon glyphicon-calendar"></span> {{scenarioTime}}
+		        </p>
+		        <p>
+							{{scenario.description}}
+		        </p>
+		        <div class="row">
+		          <div class="col-sm-9">
+		            <span class="labels">
+									<a href="scenario.php"><span class="label label-danger">{{scenario.method}}</span></a>
+									<a href="scenario.php"><span class="label label-success">{{scenario.materialType}}</span></a>
+		             </span>
+		          </div>
+		          <div class="col-sm-3">
+		           <a class="btn btn-success btn-block btn-sm pull-right" href="/#/scenarios/{{scenario._id}}">AVA <span class="glyphicon glyphicon-chevron-right"></span></a>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+			</div>
+		</div>
+	</div>
 </div>

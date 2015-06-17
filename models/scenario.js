@@ -4,12 +4,11 @@ var mongoose = require('mongoose'),
 var ScenarioSchema = new Schema({
     name: { type: String, required: true },
     subject: { type: String, required: true },
-    //  Scenario author
+    //  scenario author
     author: {
         id: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         name: { type: String, required: true}
     },
-
     //  date of creation
     created: { type: Date, default: Date.now},
     //  Number of students

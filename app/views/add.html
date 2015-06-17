@@ -66,7 +66,9 @@
 
 <h2>Add scenario</h2>
 
-<p ng-hide="user"><strong>Please login to add scenario</strong></p>
+<br />
+
+<p ng-hide="user"><strong class="alert alert-warning" role="alert">Please <a href="/#/login">login</a> to add scenario</strong></p>
 
 <br />
 
@@ -77,7 +79,7 @@
   <br />
   <br />
   <div ng-messages="addScenario.titleName.$error" role="alert">
-    <div ng-message="required" class="alert alert-warning" style="width:250px;text-align:center;display:inline"><strong>Required!</strong> Field can't be empty!</div>
+    <div ng-message="required" class="alert alert-info" style="width:250px;text-align:center;display:inline"><strong>Required!</strong> Field can't be empty!</div>
     <div ng-message="minlength">At least 1 character required</div>
   </div>
 
@@ -91,7 +93,7 @@
   <br />
   <br />
   <div ng-messages="addScenario.subjectName.$error" role="alert">
-    <div ng-message="required" class="alert alert-warning" style="width:250px;text-align:center;"><strong>Required!</strong> Choose a subject</div>
+    <div ng-message="required" class="alert alert-info" style="width:250px;text-align:center;"><strong>Required!</strong> Choose a subject</div>
   </div>
 
 
@@ -161,17 +163,6 @@
   <div ng-messages="addScenario.stageName.$error" role="alert">
     <div ng-message="required" style="color: red">Choose a stage</div>
   </div>
--->
-
-  <br />
-  <br />
-
-  <span>Technical coming soon!</span>
-<!--
-  <span>Technical: </span>
-  <select ng-model="technical" name="techinalName">
-    <option></option>
-  </select>
 -->
 
 

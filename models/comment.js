@@ -5,11 +5,7 @@ var CommentSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'User'
 	},
-	// Scenario
-	scenario: {
-		type: Schema.Types.ObjectId,
-		ref: 'Scenario'
-	},
+	//scenario ObjectId
 	comment: {
 		type: String,
 		required: true
