@@ -69,7 +69,7 @@
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
             <li><a href="/#/">Home</a></li>
             <li><a href="/#/search">Search</a></li>
-            <li><a href="/#/profile/{{user._id}}">User</a></li>
+            <li><a href="/#/profile/{{user._id}}" ng-show="user">User</a></li>
             <li><a href="/#/add">Create Scenario</a></li>
           </ul>
         </li>
@@ -82,14 +82,14 @@
       <a ng-hide=user class="pull-right btn btn-primary btn-sm login-top" href="/#/login">Log in</a>
 
       <div class="header-search dropdown pull-right" ng-show=user {{user.first_name}}>
-        <img src="{{user.google.image}}" alt="myFace" class="img-square" style="height:30px;width:30px">
+        <a href="/#/profile/{{user._id}}"><img src="{{user.google.image}}" alt="myFace" class="img-square" style="height:30px;width:30px"></a>
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
           {{user.first_name}}
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
           <li role="presentation"><a role="menuitem" tabindex="-1" href="/#/profile/{{user._id}}">My profile</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="logout()" href="/#/">Log out</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="logout()" href="#">Log out</a></li>
         </ul>
       </div>
 
@@ -122,21 +122,12 @@
 <div class="container footer">
 
   <div class="col-md-8">
-    <a href="#">Help</a>
+    <a href="/#/help">Help</a>
   </div>
 
   <div class="col-md-4">
     <p class="pull-right">
-      &copy;
-        <script language="JavaScript" type="text/javascript">
-        now = new Date
-        theYear=now.getYear()
-        if (theYear < 1900)
-          theYear=theYear+1900
-        document.write(theYear)
-        </script>
-      <a href="/#/help">TLÜ Informaatika Instituut</a>
-    </p>
+      2015 LePlanner. Creative Commons</p>
   </div>
 
 </div>

@@ -178,6 +178,7 @@ leplannerControllers.controller('AddCtrl', [
             // called asynchronously if an error occurs
             // or server returns response with an error status.
             $scope.errorMessage = "There was an error while submitting scenario";
+            $scope.successMessage = null;
           });
       }
     };
@@ -256,7 +257,7 @@ leplannerControllers.controller('ProfileCtrl', [
         console.log('user set Addctrl');
         //  script to format date
         var dates = data.created;
-        var newDate = moment(dates).format("MMMM YYYY");
+        var newDate = moment(User.created).format("MMMM YYYY");
         console.log(newDate);
 
         $scope.dateAndTime = newDate;
@@ -301,7 +302,7 @@ leplannerControllers.controller('EditCtrl', [
     $scope.user = $rootScope.user;
 
     //  Subject array used to change the subject in edit.html
-    $scope.subjects = subjectList($scope);
+    $scope.subjects = subjectList();
 
     Scenario.get({ _id: $routeParams.id }, function(scenario) {
       $scope.scenario = scenario;

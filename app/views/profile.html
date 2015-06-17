@@ -11,7 +11,7 @@
 
 
       <div class="profile-userbuttons">
-        <a href="" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Follow</a>
+        <a href="" class="btn btn-success btn-sm" disabled="disabled" ><span class="glyphicon glyphicon-plus-sign"></span> Follow</a>
       </div>
 
 			<div class="profile-usertitle">
@@ -23,7 +23,7 @@
 				</div>
             <div class="profile-usertitle-sign-up">
 					<span class="glyphicon glyphicon-time"></span>
-          Joined {{profile.created}}
+          Joined {{dateAndTime}}
 				</div>
 			</div>
 
@@ -178,7 +178,7 @@
       <span class="glyphicon glyphicon-user"></span> <a href="/#/profile/{{scenario.author.id}}">{{scenario.author.name}}</a><br>
       <span class="glyphicon glyphicon-calendar"></span>
       <span ng-controller="homeCtrl">
-      {{scenario.created}}
+      {{scenarioTime}}
     </span>
     </p>
     <p>

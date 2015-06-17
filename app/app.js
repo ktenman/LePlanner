@@ -52,6 +52,9 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
         templateUrl: 'views/profile.html',
         controller: 'ProfileCtrl'
       })
+      .when('/help', {
+        templateUrl: 'views/help.html'
+      })
       .otherwise({
         redirectTo: '/'
       });
