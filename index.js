@@ -204,7 +204,6 @@ app.get('/api/logout', auth, function(req, res){
       query.where({ name: regex, deleted: false}); //  find all where name is similar to regex and deleted is false
     }else {
       query.where({ deleted: false });  //  if you are not searching anything it will show all results or only 12 if too many
-      query.limit(12);
     }
     query.exec(function(err, scenarios) { //  executes the query(show all on the page or show what was searched)
       if (err) return next(err);

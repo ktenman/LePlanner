@@ -670,6 +670,11 @@ p.content-for-notification {
   margin-left: 30px;
   margin-top: 14px;
 }
+#bottom {
+  position: absolute;
+  bottom: 10%;
+}
+
 
 .search-dash {
   margin-right: 20px;

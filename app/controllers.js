@@ -55,11 +55,8 @@ leplannerControllers.controller('homeCtrl', [
         console.log('user set homectrl');
         console.log(data);
         console.log(data.created);
-        var newScenarioDate = moment(Scenario.created).format("DD.MM.YYYY");
         console.log(newScenarioDate);
 
-        $scope.scenarioDateAndTime = newScenarioDate;
-        console.log($scope.scenarioDateAndTime);
 
 
       })
