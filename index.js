@@ -155,8 +155,10 @@ app.get('/api/logout', auth, function(req, res){
   //res.redirect('/#/');
 });
 
-
-  app.get('/api/scenarios', function(req, res, next) {
+//  Scenarios search/return function - Home.html
+//  retuns certain object that includes all scenarios from databse or
+//  specific schenarios that match criterions
+app.get('/api/scenarios', function(req, res, next) {
 
     var query = Scenario.find();
     if (req.query.subject) {
@@ -178,6 +180,8 @@ app.get('/api/logout', auth, function(req, res){
 
   });
 
+//  Specific scenario data function - details.html
+//  returns specifig scenario data from database by id on the URL
   app.get('/api/scenarios/:id', function(req, res, next) {
     Scenario.findById(req.params.id, function(err, scenario) {
       if (err) return next(err);
@@ -185,7 +189,8 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
-  //  Profile app.get
+//  Specific user data function - profile.html
+//  returns specifig user data from database by id on the URL
   app.get('/api/profile/:id', function(req, res, next) {
     User.findById(req.params.id, function(err, profile) {
       if (err) return next(err);
@@ -193,7 +198,9 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
-  //  Scenario editing
+  //  Scenario editing function - edit.html
+  //  returns specifig scenario data from database by id on the URL
+  //  so it can be edited
   app.get('/api/edit/:id', function(req, res, next){
       Scenario.findById(req.params.id, function(err, scenario) {
         if(err) return next(err);
@@ -201,7 +208,9 @@ app.get('/api/logout', auth, function(req, res){
       });
   });
 
-  //  Scenario deleting
+  //  Scenario deleting function - details.html
+  //  changes the schenario Deleted value to True on specific scenario
+  //  id of the scenario is sent to the page and accessed as req.body.scenarioId
   app.post('/api/deletescenario', function(req, res, next) {
     Scenario.findById(req.body.scenarioId, function(err, scenario) {  //  get the scenario by id
       console.log(req.body.scenarioId); //  for developement, prints the id to web console
@@ -213,7 +222,8 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
-  //  Scenario updateing
+  //  Scenario updateing function - edit.html
+  //  updates specific scenario with new values that are sent to the page
   app.post('/api/updatescenario', function(req, res, next){ //  req is the scenario object sent from controllers.js
     Scenario.findById(req.body.id, function(err, scenario) {  //  get the scenario by id
       console.log(req.body.id); //  for developement, prints the id to web console
@@ -228,6 +238,8 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
+  //  Scenario updateing function - edit.html
+  //  updates specific scenario with new values that are sent to the page
   app.post('/api/savescenario', auth, function(req, res, next) {
     var scenariodata = req.body;
     console.log(scenariodata);
@@ -242,6 +254,9 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
+//  Scenario subscribing function - details.html
+//  allows to Users to subscribe to scenario
+//  lists users id to scenario subrscribers array
   app.post('/api/subscribe', auth, function(req, res, next) {
     Scenario.findById(req.body.scenarioId, function(err, scenario) {
       if (err) return next(err);
@@ -253,6 +268,9 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
+  //  Scenario unsubscribing function - details.html
+  //  allows to Users to unsubscribe from scenario
+  //  removes users id from array
   app.post('/api/unsubscribe', auth, function(req, res, next) {
     Scenario.findById(req.body.scenarioId, function(err, scenario) {
       if (err) return next(err);
@@ -265,7 +283,7 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
-
+//  server settings
 var server = app.listen(config.port, function () {
 
   var host = server.address().address;
@@ -275,12 +293,14 @@ var server = app.listen(config.port, function () {
 
 });
 
-//  SEARCH
+//  SEARCH page function
+//  shows all or 12 results if there are no criterions
+//  returns scenarios based on criterion or criterions chosen
 app.get('/api/search', function(req, res, next) {
   var query = Scenario.find();
   //console.log(req.query);
   var searchAPI = { };
-  var searchArray = [];
+  var searchArray = []; //  array that will be used to search multiple criterions
 
   var escapeRegExp = function escapeRegExp(str){
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
@@ -293,10 +313,10 @@ app.get('/api/search', function(req, res, next) {
       searchArray.push({name: regex});
     }
     if(req.query.subject){
-      if(typeof req.query.subject == 'string'){
-        searchArray.push({subject: req.query.subject});  //  find all where name is similar to regex and deleted is false
+      if(typeof req.query.subject == 'string'){ //  check if subject is array or string
+        searchArray.push({subject: req.query.subject});
       }else {
-        searchArray.push({subject: { $in : req.query.subject }});  //  find all where name is similar to regex and deleted is false
+        searchArray.push({subject: { $in : req.query.subject }});
       }
     }
     if(req.query.method){
@@ -305,8 +325,8 @@ app.get('/api/search', function(req, res, next) {
     if(req.query.stage){
       searchArray.push({stage: req.query.stage});
     }
-    searchAPI.$and = searchArray;
-    query.where(searchAPI);
+    searchAPI.$and = searchArray; //  gives $and the array that will be used to search by multiple criterions
+    query.where(searchAPI); //  searches all scerions that match the criterions inside the objecr(searchAPI)
   }
   else
   {
@@ -315,6 +335,6 @@ app.get('/api/search', function(req, res, next) {
   }
   query.exec(function(err, scenarios){
     if (err) return next(err);
-    res.send(scenarios);
+    res.send(scenarios);  //  returns found results
   });
 });

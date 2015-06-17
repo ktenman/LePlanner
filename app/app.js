@@ -6,6 +6,8 @@ var leplannerApp = angular.module('leplannerApp', [
   'ngMessages'
 ]);
 
+//  Used for tabs on the home.html
+//  makes selected tab active visualy
 leplannerApp.controller('TabController', function () {
       this.tab = 1;
 
@@ -18,6 +20,7 @@ leplannerApp.controller('TabController', function () {
       };
     });
 
+//  Angular config that sets what controller is used on what page
 leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
   function($routeProvider,$locationProvider,$resourceProvider) {
     $routeProvider
@@ -32,20 +35,6 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
       .when('/add', {
         templateUrl: 'views/add.html',
         controller: 'AddCtrl',
-        // BUG IN THE CODE BELOW!!!! DOESN'T GET USER DATA AFTER PAGE REFRESH!!!
-        /*resolve: {
-
-          app: function($q, $rootScope, $location) {
-              var defer = $q.defer();
-              if (!$rootScope.user) {
-                // only if user was not logged in
-                $location.path('/login');
-                console.log('User not logged in, send him to /login');
-              }
-              defer.resolve();
-              return defer.promise;
-          }
-        }*/
       })
       .when('/scenarios/:id', {
         templateUrl: 'views/detail.html',
@@ -66,25 +55,24 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
       .otherwise({
         redirectTo: '/'
       });
-
-      //$locationProvider.html5Mode(true);
-
   }]);
 
+  //  Scenario factory that acts as a bridge between client side and server side
   leplannerApp.factory('Scenario', ['$resource', function($resource) {
     return $resource('/api/scenarios/:_id');
   }]);
 
-  //  factory for User
+  //  factory for User that acts as a bridge between client side and server side
   leplannerApp.factory('User', ['$resource', function($resource) {
     return $resource('/api/profile/:_id');
   }]);
-
+  //  Seacrh factory that acts as a bridge between client side and server side
   leplannerApp.factory('Search', ['$resource', function($resource) {
     return $resource('/api/search/');
   }]);
 
-
+  //  Delete factory that acts as a bridge between client side and server side
+  //  has a function scenario that is used to delete scenarios
   leplannerApp.factory('Delete', function($http){
     return {
       scenario: function(id){
@@ -92,7 +80,7 @@ leplannerApp.config(['$routeProvider', '$locationProvider', '$resourceProvider',
       }
     };
   });
-
+  //  Subscription factory that acts as a bridge between client side and server side
   leplannerApp.factory('Subscription', function($http) {
     return {
       subscribe: function(scenario) {

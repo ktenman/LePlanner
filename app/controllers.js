@@ -1,5 +1,7 @@
 var leplannerControllers = angular.module('leplannerControllers', []);
 
+//  main controller that is used on index.html
+//  is used for user authentication on client side
 leplannerControllers.controller('MainCtrl', [
   '$scope',
   '$http',
@@ -35,6 +37,8 @@ leplannerControllers.controller('MainCtrl', [
   }
 ]);
 
+//   controller for home.html mostly
+//  Used for deleting scenarios, showing scernarios on home page
 leplannerControllers.controller('homeCtrl', [
   '$scope',
   '$rootScope',
@@ -56,14 +60,10 @@ leplannerControllers.controller('homeCtrl', [
         console.log(data);
         console.log(data.created);
         console.log(newScenarioDate);
-
-
-
       })
       .error(function (data, status, headers, config) {
         console.log(data);
       });
-
     }
 
     $scope.user = $rootScope.user;
@@ -86,6 +86,8 @@ leplannerControllers.controller('homeCtrl', [
   }
 ]);
 
+//  Login page controller
+//   if user is set then sends him to index.html
 leplannerControllers.controller('loginCtrl', [
   '$scope',
   '$location',
@@ -101,6 +103,10 @@ leplannerControllers.controller('loginCtrl', [
   }
 ]);
 
+//  controller for adding new scenarios
+//  sets new values on client side
+//  function submit to send new values as an object to server side and reset
+//  the form on html
 leplannerControllers.controller('AddCtrl', [
   '$scope',
   '$http',
@@ -126,7 +132,7 @@ leplannerControllers.controller('AddCtrl', [
     //  ---------------------------------------------------------------------------
 
     console.log($scope.user);
-
+    //  arrays that are used for multiple dropdown menus
     $scope.subjects = subjectList();
     $scope.languages = languageList();
     $scope.licenses = licenseList();
@@ -134,16 +140,9 @@ leplannerControllers.controller('AddCtrl', [
     $scope.methods = method2();
     $scope.stages = stageList2();
 
-    $scope.stage = [];
-
-    $scope.methodSettings = {externalIdProp: '', selectionLimit: 1, smartButtonMaxItems: 1};
-    $scope.methodText = {buttonDefaultText: 'Method'};
-    $scope.stageText = {buttonDefaultText: 'Stage'};
-
-
+//  submit function to save new scenario
     $scope.submit = function() {
       if ($scope.name) {
-          var stage = $scope.stage.label;
 
           var scenario = {  //  inserts values to the scenario object
             name: $scope.name,
@@ -153,11 +152,11 @@ leplannerControllers.controller('AddCtrl', [
               name: $scope.user.first_name +' '+$scope.user.last_name //  both names in one place
                                                                       //  used to show who made the scenario
             },
-            language: $scope.language, // ng-modeli järgi
+            language: $scope.language, // based on ng-model
             license: $scope.license,
             materialType: $scope.materialType,
             method: $scope.method,
-            stage: stage,
+            stage: $scope.stage,
             description: $scope.description
           };
 
@@ -185,7 +184,8 @@ leplannerControllers.controller('AddCtrl', [
   }
 
 ]);
-
+//  Detail controller used to show info about scenario
+//  has functions to subscrive and unsubscribe
 leplannerControllers.controller('DetailCtrl', [
   '$scope',
   '$rootScope',
@@ -238,7 +238,7 @@ leplannerControllers.controller('DetailCtrl', [
     });
 }]);
 
-//  Profile controller
+//  Profile controller to show profile data on profile.html
 leplannerControllers.controller('ProfileCtrl', [
   '$scope',
   '$rootScope',
@@ -246,8 +246,6 @@ leplannerControllers.controller('ProfileCtrl', [
   'User',
   '$http',
   function($scope, $rootScope, $routeParams, User, $http) {
-
-
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
@@ -256,7 +254,7 @@ leplannerControllers.controller('ProfileCtrl', [
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
         console.log('user set Addctrl');
-
+        //  script to format date
         var dates = data.created;
         var newDate = moment(dates).format("MMMM YYYY");
         console.log(newDate);
@@ -265,7 +263,7 @@ leplannerControllers.controller('ProfileCtrl', [
       }).error(function (data, status, headers, config) {console.log(data);});
 
     }
-    //  ---------------------------------------------------------------------------
+    //  sets $scope.profile to the found user data
     User.get({ _id: $routeParams.id }, function(user) {
       $scope.profile = user;
       console.log($scope.profile);
@@ -379,11 +377,13 @@ leplannerControllers.controller('SearchCtrl', [
       return $scope.scenario.subscribers.indexOf($scope.user._id) !== -1;
     };
 
+    //  arrays to save selected values from dropdown menus
     $scope.subject = [];
     $scope.method = [];
     $scope.stage = [];
     $scope.tech = [];
 
+    //  dropdown menu settings
     $scope.searchSettings = {externalIdProp: '',scrollableHeight: '400px',
     scrollable: true, enableSearch: true,smartButtonMaxItems: 3,};
     $scope.methodSettings = {externalIdProp: '', selectionLimit: 1, smartButtonMaxItems: 1};
@@ -391,6 +391,7 @@ leplannerControllers.controller('SearchCtrl', [
     $scope.stageText = {buttonDefaultText: 'Stage'};
     $scope.searchText = {buttonDefaultText: 'Subject'};
 
+    //  arrays with values to use for dropdown menus
     $scope.languages = languageList();
     $scope.licenses = licenseList();
     $scope.materials = materialList();
@@ -400,19 +401,19 @@ leplannerControllers.controller('SearchCtrl', [
 
 
     //  search function for the NEW search page
-    //  sets $scope.scenarios array to all scenarios where name: name
     $scope.search = function() {
 
-      var subjects = [];
+      var subjects = [];  //  selected subjects from dropdown menu
       $scope.subject.forEach(function(element) {
         subjects.push(element.label);
       });
       var method = $scope.method.label;
       var name = $scope.name;
       var stage = $scope.stage.label;
-      var search = {
+      var search = {  //   empty object used to search with
 
       };
+      //  add criterions to search object that will be used to search with
       if($scope.name){search.name = $scope.name;}
       if($scope.subject.length > 0){
         search.subject = subjects;
@@ -422,13 +423,6 @@ leplannerControllers.controller('SearchCtrl', [
 
       $scope.scenarios = Search.query(search);
 
-      /*
-      var subjects = [];
-      $scope.subject.forEach(function(element) {
-        subjects.push(element.label);
-      });
-      $scope.scenarios = Search.query({name: $scope.name, subject: subjects, license: $scope.license, language: $scope.language,
-        materialType: $scope.materialType, method: $scope.method, stage: $scope.stage, description: $scope.description}); */
     };
 }]);
 

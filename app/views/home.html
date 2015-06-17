@@ -75,7 +75,7 @@
                         <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
                       </a>
                       <p  ng-controller="homeCtrl" id="{{scenario._id}}">
-                        <h4>{{scenario.name}}</h4>
+                        <h4>{{scenario.name | limitTo: 40}}{{scenario.name.length > 40 ? '...' : ''}}</h4>
                           <p class="thumbnail-caption">{{scenario.description | limitTo: 60}}{{scenario.description.length > 60 ? '...' : ''}}</p>
 
                               <span class="favorited-and-comments">
@@ -102,7 +102,7 @@
                               <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
                           </a>
                           <p  ng-controller="homeCtrl" id="{{scenario._id}}">
-                          <h4>{{scenario.name}}</h4>
+                            <h4>{{scenario.name | limitTo: 40}}{{scenario.name.length > 40 ? '...' : ''}}</h4>
                           <p class="thumbnail-caption">{{scenario.description | limitTo: 60}}{{scenario.description.length > 60 ? '...' : ''}}</p>
 
                               <span class="favorited-and-comments">
@@ -127,7 +127,7 @@
                               <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
                           </a>
                           <p  ng-controller="homeCtrl" id="{{scenario._id}}">
-                          <h4>{{scenario.name}}</h4>
+                            <h4>{{scenario.name | limitTo: 40}}{{scenario.name.length > 40 ? '...' : ''}}</h4>
                           <p class="thumbnail-caption">{{scenario.description | limitTo: 60}}{{scenario.description.length > 60 ? '...' : ''}}</p>
 
                               <span class="favorited-and-comments">
