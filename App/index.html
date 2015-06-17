@@ -9,14 +9,10 @@
   <script src="assets/libs/lodash/dist/lodash.min.js" charset="utf-8"></script>
   <script src="assets/libs/angularjs-dropdown-multiselect/dist/angularjs-dropdown-multiselect.min.js" charset="utf-8"></script>
   <script src="assets/libs/angular-messages/angular-messages.min.js"></script>
+  <script src="assets/libs/moment/min/moment.min.js"></script>
+
   <script src="controllers.js" charset="utf-8"></script>
   <script src="app.js" charset="utf-8"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="tabs.js"></script>
-  <script>if((self.parent&&!(self.parent===self))&&(self.parent.frames.length!=0)){self.parent.location=document.location}</script>
-
-
-
 
 
  <!-- Latest compiled and minified CSS -->
@@ -69,14 +65,14 @@
 
       <ul class="nav navbar-nav">
         <li ><a class="navbar-brand" href="#/"></a>
-        <li ><a href="#/" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false" ><h4>Menu</h4></a>
+        <li ><a style="cursor:pointer" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false" >LePlanner</a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <li class="active"><a href="/#/">Avaleht</a></li>
-            <li><a href="/#/search">Otsi</a></li>
-            <li><a href="subject.php">Aine</a></li>
-            <li><a href="member.php">Kasutaja</a></li>
-            <li><a href="scenario.php">Stsenaarium</a></li>
-            <li><a href="dashboard.php">Sisse logitud</a></li>
+            <li><a href="/#/">Home</a></li>
+            <li><a href="/#/search">Search</a></li>
+            <li><a href="subject.php">Subject</a></li>
+            <li><a href="/#/profile/{{user._id}}">User</a></li>
+            <li><a href="scenario.php">Scenario</a></li>
+            <li><a href="dashboard.php">Logged in</a></li>
           </ul>
         </li>
         </li>
@@ -84,34 +80,29 @@
 
 
 
-      <a ng-hide=user class="pull-right btn btn-primary btn-sm login-top" href="/#/login">Logi sisse</a>
 
-      <div style="padding:10px" class="dropdown pull-right " ng-show=user {{user.first_name}}>
-        <img src="{{user.google.image}}" alt="myFace" class="square" style="height:40px;width:40px">
+      <a ng-hide=user class="pull-right btn btn-primary btn-sm login-top" href="/#/login">Log in</a>
+
+      <div class="header-search dropdown pull-right" ng-show=user {{user.first_name}}>
+        <img src="{{user.google.image}}" alt="myFace" class="img-square" style="height:30px;width:30px">
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
           {{user.first_name}}
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Minu profiil</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/#/profile/{{user._id}}">My profile</a></li>
           <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="logout()" href="#">Log out</a></li>
         </ul>
+      </div>
+
+      <div style="margin-right: 50px;" class="header-search inner-addon right-addon pull-right" ng-controller="SearchCtrl">
+        <a href="/#/search"><i type="submit" class="glyphicon glyphicon-search" ng-click="search()"></i></a>
+        <input type="text" name="search" ng-model="name" class="form-control" placeholder="Search">
       </div>
 
 
       <!--<a ng-show=user {{user.first_name}}, ng-click="logout()"  class="pull-right btn btn-primary btn-sm login-top" href="/#">Logi välja</a>-->
 
-
-      <div class="header-search inner-addon right-addon pull-right" >
-        <!--<a href="/#/views/home"><i type="submit" class="glyphicon glyphicon-search" ng-click="searchScenario(name)"></i></a>
-        <input type="text" name="search" ng-model="name" class="form-control" placeholder="Search">
-        <form class="form-inline">
-          <input ng-model="query" type="text"
-                 placeholder="Filter by" autofocus>
-        </form>-->
-        <a href="/#/search"><i type="submit" class="glyphicon glyphicon-search" ng-click="searchScenario(name)"></i></a>
-        <input type="text" name="search" ng-model="name" class="form-control" placeholder="Search">
-      </div>
 
 
 
@@ -132,11 +123,11 @@
 <div class="container footer">
 
   <div class="col-md-8">
-    <a href="#">Abi</a>
+    <a href="#">Help</a>
   </div>
 
   <div class="col-md-4">
-    <p class="pull-right">VLADMINAJEV</p>
+    <p class="pull-right">2015 LePLanner. Creative Commons</p>
   </div>
 
 </div>

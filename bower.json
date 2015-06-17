@@ -15,7 +15,7 @@
     "angular-resource": "~1.4.0",
     "angularjs-dropdown-multiselect": "~1.5.2",
     "angular-messages": "~1.4.0",
-    "jquery": "~2.1.4"
+    "moment": "~2.10.3"
   },
   "resolutions": {
     "angular": "~1.4.0"

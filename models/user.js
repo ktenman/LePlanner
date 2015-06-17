@@ -14,6 +14,9 @@ var UserSchema = new Schema({
         email: String,
         name : String,
         image: String
+    },
+    facebook: {
+        id: String
     }
 });
 
