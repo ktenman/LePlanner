@@ -269,12 +269,13 @@ leplannerControllers.controller('ProfileCtrl', [
 
     }
     //  ---------------------------------------------------------------------------
-
     User.get({ _id: $routeParams.id }, function(user) {
       $scope.profile = user;
       console.log($scope.profile);
 
+
     });
+
 }]);
 
 
