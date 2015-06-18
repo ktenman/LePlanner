@@ -1,7 +1,7 @@
 var leplannerControllers = angular.module('leplannerControllers', []);
 
-//  main controller that is used on index.html
-//  is used for user authentication on client side
+//  Main controller for getting user data, logging user out
+//  and scenario search on index.html
 leplannerControllers.controller('MainCtrl', [
   '$scope',
   '$http',
@@ -11,11 +11,13 @@ leplannerControllers.controller('MainCtrl', [
   function($scope,$http,$rootScope,$location, Scenario){
 
     console.log('main '+$rootScope.user);
-
+    
+    //  on user log in give $scope.user user data
     $scope.setUser = function(){
       $scope.user = $rootScope.user;
     };
-
+    
+    //  when user logs out sets the variables to null
     $scope.logout = function(){
       $http({url: '/api/logout', method: 'GET'})
       .success(function (data, status, headers, config) {
@@ -30,6 +32,7 @@ leplannerControllers.controller('MainCtrl', [
       });
     };
 
+    //  Search box on index.html
     $scope.searchScenario = function(name) {
       $scope.scenarios = Scenario.query({ name: name });
     };
@@ -37,8 +40,9 @@ leplannerControllers.controller('MainCtrl', [
   }
 ]);
 
-//   controller for home.html mostly
-//  Used for deleting scenarios, showing scernarios on home page
+//  Home controller for home page
+//  show scenarios on home page
+//  scenario delete function
 leplannerControllers.controller('homeCtrl', [
   '$scope',
   '$rootScope',
@@ -59,23 +63,34 @@ leplannerControllers.controller('homeCtrl', [
         console.log('user set homectrl');
         console.log(data);
         console.log(data.created);
-        console.log(newScenarioDate);
+        var ScenarioDate = moment(Scenario.created).format("DD.MM.YYYY");
+        console.log(ScenarioDate);
+
+        $scope.scenarioTime = ScenarioDate;
+
+
+
       })
       .error(function (data, status, headers, config) {
         console.log(data);
       });
+
     }
 
     $scope.user = $rootScope.user;
-
+    
+    //  subject list from array
     $scope.subjects = subjectList();
-
+    
+    //  default Scenario query to show all scenarios
     $scope.scenarios = Scenario.query();
 
+    //  filter scenarios by subject on home page
     $scope.filterBySubject = function(subject) {
       $scope.scenarios = Scenario.query({ subject: subject });
     };
-
+    
+    //  function to delete scenarios by scenario id
     $scope.delete = function(id){
       Delete.scenario(id).success(function() {
           document.getElementById('scenarios_list').removeChild(document.getElementById(id));
@@ -86,8 +101,8 @@ leplannerControllers.controller('homeCtrl', [
   }
 ]);
 
-//  Login page controller
-//   if user is set then sends him to index.html
+//  user login controller
+//  if user is logged in they will be redirected
 leplannerControllers.controller('loginCtrl', [
   '$scope',
   '$location',
@@ -103,10 +118,8 @@ leplannerControllers.controller('loginCtrl', [
   }
 ]);
 
-//  controller for adding new scenarios
-//  sets new values on client side
-//  function submit to send new values as an object to server side and reset
-//  the form on html
+//  Add controller to add scenarios
+//  submit function to add scenarios with inserted criterions
 leplannerControllers.controller('AddCtrl', [
   '$scope',
   '$http',
@@ -132,7 +145,8 @@ leplannerControllers.controller('AddCtrl', [
     //  ---------------------------------------------------------------------------
 
     console.log($scope.user);
-    //  arrays that are used for multiple dropdown menus
+    
+    //  getting all needed criterions from their arrays
     $scope.subjects = subjectList();
     $scope.languages = languageList();
     $scope.licenses = licenseList();
@@ -140,7 +154,6 @@ leplannerControllers.controller('AddCtrl', [
     $scope.methods = method2();
     $scope.stages = stageList2();
 
-//  submit function to save new scenario
     $scope.submit = function() {
       if ($scope.name) {
 
@@ -152,19 +165,21 @@ leplannerControllers.controller('AddCtrl', [
               name: $scope.user.first_name +' '+$scope.user.last_name //  both names in one place
                                                                       //  used to show who made the scenario
             },
-            language: $scope.language, // based on ng-model
+            language: $scope.language, // from ng-model
             license: $scope.license,
             materialType: $scope.materialType,
             method: $scope.method,
             stage: $scope.stage,
             description: $scope.description
           };
-
+          
+          //  sends the scenario object to server side - index.js
           $http.post('/api/savescenario', scenario) //  sends object to /api/savescenario (index.js)
           .success(function(data, status, headers, config) {
             console.log('saved');
             $scope.successMessage = "Scenario has been submitted successfully";
-
+            $scope.errorMessage = null;
+            //  resets the selected criterions
             $scope.name = null;
             $scope.subject = null;
             $scope.language = null;
@@ -185,8 +200,8 @@ leplannerControllers.controller('AddCtrl', [
   }
 
 ]);
-//  Detail controller used to show info about scenario
-//  has functions to subscrive and unsubscribe
+
+//  detail controller for scenario detail view
 leplannerControllers.controller('DetailCtrl', [
   '$scope',
   '$rootScope',
@@ -210,14 +225,15 @@ leplannerControllers.controller('DetailCtrl', [
 
     }
     //  ---------------------------------------------------------------------------
-
+    //  get the scenario by its id from the URL
     Scenario.get({ _id: $routeParams.id }, function(scenario) {
       $scope.scenario = scenario;
-
+      
+      //  checks if the user is subscribed to the scenario
       $scope.isSubscribed = function() {
         return $scope.scenario.subscribers.indexOf($scope.user._id) !== -1;
       };
-
+      //  subscribe to scenario
       $scope.subscribe = function() {
         Subscription.subscribe(scenario).success(function() {
           $scope.scenario.subscribers.push($scope.user._id);
@@ -226,7 +242,7 @@ leplannerControllers.controller('DetailCtrl', [
           alert('not logged in');
         });
       };
-
+      //  unsubscribe from scenario
       $scope.unsubscribe = function() {
         Subscription.unsubscribe(scenario).success(function() {
           var index = $scope.scenario.subscribers.indexOf($scope.user._id);
@@ -239,7 +255,7 @@ leplannerControllers.controller('DetailCtrl', [
     });
 }]);
 
-//  Profile controller to show profile data on profile.html
+//  Profile controller
 leplannerControllers.controller('ProfileCtrl', [
   '$scope',
   '$rootScope',
@@ -247,6 +263,8 @@ leplannerControllers.controller('ProfileCtrl', [
   'User',
   '$http',
   function($scope, $rootScope, $routeParams, User, $http) {
+
+
     //  USER CONTROL SCRIPT NEED TO COPY TO EVERY CONTROLLER THAT USES USER DATA!!!
     if(!$rootScope.user){
       $http({url: '/api/me', method: 'GET'})
@@ -255,16 +273,20 @@ leplannerControllers.controller('ProfileCtrl', [
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
         console.log('user set Addctrl');
-        //  script to format date
+        
+        //  formatted date to show on profile page
         var dates = data.created;
         var newDate = moment(User.created).format("MMMM YYYY");
         console.log(newDate);
 
         $scope.dateAndTime = newDate;
+
       }).error(function (data, status, headers, config) {console.log(data);});
 
     }
-    //  sets $scope.profile to the found user data
+    //  ---------------------------------------------------------------------------
+    //  get the user by its id from URL
+    //   and return its data
     User.get({ _id: $routeParams.id }, function(user) {
       $scope.profile = user;
       console.log($scope.profile);
@@ -302,8 +324,9 @@ leplannerControllers.controller('EditCtrl', [
     $scope.user = $rootScope.user;
 
     //  Subject array used to change the subject in edit.html
-    $scope.subjects = subjectList();
+    $scope.subjects = subjectList($scope);
 
+    //  get scenario data by its id from URL
     Scenario.get({ _id: $routeParams.id }, function(scenario) {
       $scope.scenario = scenario;
       console.log($scope.scenario);
@@ -378,13 +401,13 @@ leplannerControllers.controller('SearchCtrl', [
       return $scope.scenario.subscribers.indexOf($scope.user._id) !== -1;
     };
 
-    //  arrays to save selected values from dropdown menus
+    //  arrays to store selected multiple choices
     $scope.subject = [];
     $scope.method = [];
     $scope.stage = [];
     $scope.tech = [];
 
-    //  dropdown menu settings
+    //  settings for the dropdown menus
     $scope.searchSettings = {externalIdProp: '',scrollableHeight: '400px',
     scrollable: true, enableSearch: true,smartButtonMaxItems: 3,};
     $scope.methodSettings = {externalIdProp: '', selectionLimit: 1, smartButtonMaxItems: 1};
@@ -392,7 +415,7 @@ leplannerControllers.controller('SearchCtrl', [
     $scope.stageText = {buttonDefaultText: 'Stage'};
     $scope.searchText = {buttonDefaultText: 'Subject'};
 
-    //  arrays with values to use for dropdown menus
+    //  get all the values from arrays to use in dropdown menus
     $scope.languages = languageList();
     $scope.licenses = licenseList();
     $scope.materials = materialList();
@@ -402,26 +425,28 @@ leplannerControllers.controller('SearchCtrl', [
 
 
     //  search function for the NEW search page
+    //  sets $scope.scenarios array to all scenarios where name: name
     $scope.search = function() {
 
-      var subjects = [];  //  selected subjects from dropdown menu
+      var subjects = [];
       $scope.subject.forEach(function(element) {
         subjects.push(element.label);
       });
       var method = $scope.method.label;
       var name = $scope.name;
       var stage = $scope.stage.label;
-      var search = {  //   empty object used to search with
+      //  empty object to include ONLY selected criterions
+      var search = {
 
       };
-      //  add criterions to search object that will be used to search with
-      if($scope.name){search.name = $scope.name;}
+      if($scope.name){search.name = name;}
       if($scope.subject.length > 0){
         search.subject = subjects;
       }
       if(method){search.method = method; console.log(method);}
       if(stage){search.stage = stage; console.log(stage);}
 
+      //  searches all scenarios with the criterions in search object
       $scope.scenarios = Search.query(search);
 
     };

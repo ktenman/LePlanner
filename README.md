@@ -1,12 +1,9 @@
 # LePlanner
-Summer practice 2015
+Suvepraktika rühmatöö 2015
 
-Tallinn University 
-Institute of Informatics
-
-Members:
-Konstantin Tenman manager, testing, documentation
-Andre Post development
-Marten Rebane development, design, testing, documentation, translating
-Elinda Tragel design, documentation
-Vladislav Minajev design, testing
+Liikmed:
+Vladislav Minajev / disain; 
+Andre Post / arendus; 
+Marten Rebane / arendus; 
+Konstantin Tenman / arendus, dokumentatsioon; 
+Elinda Tragel / disain, testimine; 
