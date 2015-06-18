@@ -11,12 +11,13 @@ var moment = require('moment');
 
 mongoose.connect(config.db, function(err){
   if(err) throw err;
-  console.log('Successfully connected to MongoDB');
+  console.log('successfully connected to Mongo db');
 });
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, db.error));
 
+//  variables for database table connection
 var User = require('./models/user');
 var Scenario = require('./models/scenario');
 var Language = require('./models/language');
@@ -26,41 +27,9 @@ var Method = require('./models/method');
 var Stage = require('./models/stage');
 var Technical = require('./models/technical');
 
-var FacebookStrategy = require('passport-facebook').Strategy;
-passport.use(new FacebookStrategy({
-    clientID: config.facebookAuth.clientID,
-    clientSecret: config.facebookAuth.clientSecret,
-    callbackURL: config.facebookAuth.callbackURL
-  },
-  function(accessToken, refreshToken, profile, done){
-    console.log(profile);
-    var new_user = new User({
-      first_name: profile._json.first_name,
-      last_name: profile._json.last_name,
-      facebook: {
-        id: profile.id
-      }
-    });
-
-    User.findOne({ facebook: {id: new_user.facebook.id} }, function(err, user){
-      if(err) {return done(err); }
-      if(!user){
-        new_user.save(function(err,user){
-          if(err) {return done(err); }
-
-          console.log('created new user with id: '+user._id);
-          done(null,user);
-        });
-
-      }else{
-        console.log('got user from db with id: '+user._id);
-        done(null,user);
-      }
-
-    });
-  }
-));
-
+//  Google login function
+//  If it cant find the user, it will make a new one
+//  if it does find it then gets the data from database
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 passport.use(new GoogleStrategy({
     callbackURL: config.googleAuth.callbackURL,
@@ -88,12 +57,12 @@ passport.use(new GoogleStrategy({
         new_user.save(function(err,user){
           if(err) {return done(err); }
 
-          console.log('Created new user with id: '+user._id);
+          console.log('created new user with id: '+user._id);
           done(null,user);
         });
 
       }else{
-        console.log('Got user from db with id: '+user._id);
+        console.log('got user from db with id: '+user._id);
         done(null,user);
       }
 
@@ -116,6 +85,7 @@ passport.deserializeUser(function(id, done) {
 
 });
 
+//  session settings
 var sessionOpt = {
   secret: config.secret,
   resave: false,
@@ -128,6 +98,7 @@ var app = express();
 // logging for developing
 app.use(morgan('dev'));
 
+//  functions that Express needs to use for proper functionality
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser(config.secret));
@@ -135,24 +106,15 @@ app.use(session(sessionOpt));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/api/auth/facebook',
-  passport.authenticate('facebook', function(req, res){
-    // The request will be redirected to Facebook for authentication, so this
-    // function will not be called.
-  }));
-
-app.get('/api/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/#/login'}),
-  function(req, res){
-    res.redirect('/#/');
-  });
-
+//  google server side function that runs when on certain page
 app.get('/api/auth/google',
   passport.authenticate('google', { scope: [
     'https://www.googleapis.com/auth/userinfo.profile',
     'https://www.googleapis.com/auth/userinfo.email'
   ]}));
 
+//  google server side function that runs when on certain page
+//  if authentication is successful then redirects
 app.get('/api/oauth2callback',
   passport.authenticate('google', { failureRedirect: '/#/login' }),
   function(req, res) {
@@ -160,6 +122,8 @@ app.get('/api/oauth2callback',
     res.redirect('/#/');
   });
 
+//  function that checks if the user is logged in or not
+//  only logged in users can continue
 var auth = function(req, res, next){
   if(!req.isAuthenticated()){
     res.status(401).send({error: 'unauthorized'});
@@ -168,6 +132,7 @@ var auth = function(req, res, next){
   }
 };
 
+//   server side function that returns object with User data inside(first_name, last_nae, etc)
 app.get('/api/me', auth, function(req, res){
   //req.session.passport.user = [serializeUser ==> user.id ]
   User.findById(req.session.passport.user, function(err, user){
@@ -182,6 +147,7 @@ app.get('/api/me', auth, function(req, res){
 
 });
 
+//  logs out the user on server side
 app.get('/api/logout', auth, function(req, res){
   console.log('logged out');
   req.logOut();
@@ -189,8 +155,10 @@ app.get('/api/logout', auth, function(req, res){
   //res.redirect('/#/');
 });
 
-
-  app.get('/api/scenarios', function(req, res, next) {
+//  Scenarios search/return function - Home.html
+//  retuns certain object that includes all scenarios from databse or
+//  specific schenarios that match criterions
+app.get('/api/scenarios', function(req, res, next) {
 
     var query = Scenario.find();
     if (req.query.subject) {
@@ -212,6 +180,8 @@ app.get('/api/logout', auth, function(req, res){
 
   });
 
+//  Specific scenario data function - details.html
+//  returns specifig scenario data from database by id on the URL
   app.get('/api/scenarios/:id', function(req, res, next) {
     Scenario.findById(req.params.id, function(err, scenario) {
       if (err) return next(err);
@@ -219,7 +189,8 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
-  //  Profile app.get
+//  Specific user data function - profile.html
+//  returns specifig user data from database by id on the URL
   app.get('/api/profile/:id', function(req, res, next) {
     User.findById(req.params.id, function(err, profile) {
       if (err) return next(err);
@@ -227,7 +198,9 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
-  //  Scenario editing
+  //  Scenario editing function - edit.html
+  //  returns specifig scenario data from database by id on the URL
+  //  so it can be edited
   app.get('/api/edit/:id', function(req, res, next){
       Scenario.findById(req.params.id, function(err, scenario) {
         if(err) return next(err);
@@ -235,7 +208,9 @@ app.get('/api/logout', auth, function(req, res){
       });
   });
 
-  //  Scenario deleting
+  //  Scenario deleting function - details.html
+  //  changes the schenario Deleted value to True on specific scenario
+  //  id of the scenario is sent to the page and accessed as req.body.scenarioId
   app.post('/api/deletescenario', function(req, res, next) {
     Scenario.findById(req.body.scenarioId, function(err, scenario) {  //  get the scenario by id
       console.log(req.body.scenarioId); //  for developement, prints the id to web console
@@ -247,7 +222,8 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
-  //  Scenario updateing
+  //  Scenario updateing function - edit.html
+  //  updates specific scenario with new values that are sent to the page
   app.post('/api/updatescenario', function(req, res, next){ //  req is the scenario object sent from controllers.js
     Scenario.findById(req.body.id, function(err, scenario) {  //  get the scenario by id
       console.log(req.body.id); //  for developement, prints the id to web console
@@ -262,6 +238,8 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
+  //  Scenario updateing function - edit.html
+  //  updates specific scenario with new values that are sent to the page
   app.post('/api/savescenario', auth, function(req, res, next) {
     var scenariodata = req.body;
     console.log(scenariodata);
@@ -276,6 +254,9 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
+//  Scenario subscribing function - details.html
+//  allows to Users to subscribe to scenario
+//  lists users id to scenario subrscribers array
   app.post('/api/subscribe', auth, function(req, res, next) {
     Scenario.findById(req.body.scenarioId, function(err, scenario) {
       if (err) return next(err);
@@ -287,6 +268,9 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
+  //  Scenario unsubscribing function - details.html
+  //  allows to Users to unsubscribe from scenario
+  //  removes users id from array
   app.post('/api/unsubscribe', auth, function(req, res, next) {
     Scenario.findById(req.body.scenarioId, function(err, scenario) {
       if (err) return next(err);
@@ -299,7 +283,7 @@ app.get('/api/logout', auth, function(req, res){
     });
   });
 
-
+//  server settings
 var server = app.listen(config.port, function () {
 
   var host = server.address().address;
@@ -309,12 +293,14 @@ var server = app.listen(config.port, function () {
 
 });
 
-//  SEARCH
+//  SEARCH page function
+//  shows all or 12 results if there are no criterions
+//  returns scenarios based on criterion or criterions chosen
 app.get('/api/search', function(req, res, next) {
   var query = Scenario.find();
   //console.log(req.query);
   var searchAPI = { };
-  var searchArray = [];
+  var searchArray = []; //  array that will be used to search multiple criterions
 
   var escapeRegExp = function escapeRegExp(str){
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); // replaces special chars
@@ -327,10 +313,10 @@ app.get('/api/search', function(req, res, next) {
       searchArray.push({name: regex});
     }
     if(req.query.subject){
-      if(typeof req.query.subject == 'string'){
-        searchArray.push({subject: req.query.subject});  //  find all where name is similar to regex and deleted is false
+      if(typeof req.query.subject == 'string'){ //  check if subject is array or string
+        searchArray.push({subject: req.query.subject});
       }else {
-        searchArray.push({subject: { $in : req.query.subject }});  //  find all where name is similar to regex and deleted is false
+        searchArray.push({subject: { $in : req.query.subject }});
       }
     }
     if(req.query.method){
@@ -339,8 +325,8 @@ app.get('/api/search', function(req, res, next) {
     if(req.query.stage){
       searchArray.push({stage: req.query.stage});
     }
-    searchAPI.$and = searchArray;
-    query.where(searchAPI);
+    searchAPI.$and = searchArray; //  gives $and the array that will be used to search by multiple criterions
+    query.where(searchAPI); //  searches all scerions that match the criterions inside the objecr(searchAPI)
   }
   else
   {
@@ -349,6 +335,6 @@ app.get('/api/search', function(req, res, next) {
   }
   query.exec(function(err, scenarios){
     if (err) return next(err);
-    res.send(scenarios);
+    res.send(scenarios);  //  returns found results
   });
 });

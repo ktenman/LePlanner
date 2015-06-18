@@ -1,70 +1,4 @@
 <div class="container main-content">
-  <body>
-
-<!-- ////////////////////// -->
-<!-- ||||||   MENU   |||||| -->
-<!-- ////////////////////// -->
-
-
-<nav class="navbar navbar-default navbar-fixed-top">
-<div class="container">
-<!-- Brand and toggle get grouped for better mobile display -->
-<div class="navbar-header">
-<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-<span class="sr-only">Toggle navigation</span>
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-</button>
-
-</div>
-
-<!-- Collect the nav links, forms, and other content for toggling -->
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-<!--<ul class="nav navbar-nav">
-<li><a href="home.php">Avaleht</a></li><li><a href="search.php">Otsi</a></li><li><a href="subject.php">Aine</a></li><li><a href="member.php">Kasutaja</a></li><li class="active"><a href="scenario.php"> Stsenaarium</a></li><li><a href="dashboard.php"> Sisse logitud</a></li>
-</ul>-->
-
-<ul class="nav navbar-nav">
-  <li ><a class="navbar-brand" href="#/"></a>
-  <li ><a style="cursor:pointer" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false" >LePlanner</a>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-      <li><a href="/#/">Home</a></li>
-      <li><a href="/#/search">Search</a></li>
-      <li><a href="/#/profile/{{user._id}}" ng-show="user">User</a></li>
-      <li><a href="/#/add">Create Scenario</a></li>
-    </ul>
-  </li>
-  </li>
-</ul><!--<ul class="nav navbar-nav navbar-right">
-<li class="login-home">
-   <a href="login.php" class="btn btn-primary btn-sm login-top"> LOGI SISSE</a>
-  <span class="login-or-create">või</span>
-  <a href="#" class="btn btn-default btn-sm create-new-user-top"> LOO KASUTAJA</a>
-</li>
-</ul>-->
-
-<a class="header-login pull-right" href="/#/login"> Log in</a>
-
-<div class="header-search inner-addon right-addon pull-right">
-<a href="search.php"><i class="glyphicon glyphicon-search"></i></a>
-<input type="text" class="form-control" placeholder="Search">
-</div>
-
-</div><!-- /.navbar-collapse -->
-
-</div>
-
-</nav>
-
-
-<!-- ///////////////////////// -->
-<!-- ||||||   CONTENT   |||||| -->
-<!-- ///////////////////////// -->
-
-<div class="container main-content">
-
 
 <img class="full-scenario-image" src="./assets/full_scenario.png" alt="Scenario">
 
@@ -174,17 +108,8 @@ Tallinn University
 <span class="glyphicon glyphicon-calendar"></span> <span ng-controller="homeCtrl">{{scenarioTime}}</span>
 
 <br />
-<span style="color:blue">{{scenario.license}}</span>, <span style="color:orange">{{scenario.language}}</span>
-<!--
-| <span class="rating">
-    <span class="glyphicon glyphicon-star"></span>
-    <span class="glyphicon glyphicon-star"></span>
-    <span class="glyphicon glyphicon-star"></span>
-    <span class="glyphicon glyphicon-star"></span>
-    <span class="glyphicon glyphicon-star-empty"></span>
-    <br>
- </span>
--->
+<span> Created by <a href="/#/profile/{{scenario.author.id}}">{{scenario.author.name}} </a><br /></span><span style="color:green">{{scenario.license}}</span> <span style="color:orange">{{scenario.language}}</span>
+
 <br />
 
  <a class="print-button btn btn-sm pull-right" href="/#/edit/{{scenario._id}}"><span class="glyphicon glyphicon-edit"></span> Edit</a><a class="save-button btn btn-sm pull-right" ng-click="delete(scenario._id)" href="/#/"><span class="glyphicon glyphicon-remove"></span> Delete</a>
@@ -298,36 +223,12 @@ Tallinn University
 
 <p><strong>You have to login to comment!</strong></p>
 
-<!-- <div class="post-comment">
-<form>
-
-<div class="form-group name">
-  <input type="name" class="form-control" id="name" placeholder="Nimi">
-</div>
-
-<div class="form-group email">
-  <input type="email" class="form-control" id="epost" placeholder="E-posti aadress">
-</div>
-
-<textarea class="form-control" rows="3" placeholder="Kirjuta kommentaar"></textarea>
-
-<br>
-<button type="submit" class="btn btn-success green"> POSTITA</button>
-</form>
-</div>-->
-
-
-
-
 </div>
 
 
 </div>
 </div>
 
-
-
-</div><!-- /.container MAIN CONTENT-->
 
 
 
