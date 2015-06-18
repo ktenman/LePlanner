@@ -1,20 +1,22 @@
+<!-- Main content container that is inserted to index.html-->
 <div class="container main-content">
 
 
 <h2>Add scenario</h2>
 
 <br />
-
+<!-- if user is not logged in a message will be shown to login-->
 <p ng-hide="user"><strong class="alert alert-warning" role="alert">Please <a href="/#/login">login</a> to add scenario</strong></p>
 
 <br />
-
+<!-- Scenario adding form-->
 <form ng-show="user" ng-submit="submit()" name="addScenario">
 
   <span><strong>Title: &nbsp </strong></span>
   <input type="text" placeholder="Title subject" ng-model="name" name="titleName" class="input-group input-group-lg" style="display:inline;text-align:center" autofocus required/>
   <br />
   <br />
+  <!-- Error messages if User doesnt not write anything to textbox-->
   <div ng-messages="addScenario.titleName.$error" role="alert">
     <div ng-message="required" class="alert alert-info" style="width:250px;text-align:center;display:inline"><strong>Required!</strong> Field can't be empty!</div>
     <div ng-message="minlength">At least 1 character required</div>
@@ -22,13 +24,14 @@
 
   <br />
   <br />
-
+  <!-- dropdown menu for all subjects-->
   <span><strong>Subject: &nbsp </strong></span>
   <select ng-model="subject" name="subjectName" required>
     <option ng-repeat="subject in subjects" value="{{subject}}">{{subject}}</option>
   </select>
   <br />
   <br />
+  <!-- Scenario error message, user needs to select one subject-->
   <div ng-messages="addScenario.subjectName.$error" role="alert">
     <div ng-message="required" class="alert alert-info" style="width:250px;text-align:center;"><strong>Required!</strong> Choose a subject</div>
   </div>
@@ -36,7 +39,7 @@
 
   <br />
   <br />
-
+  <!-- dropdown menu for licenses-->
   <span>License: &nbsp</span>
   <select ng-model="license" name="licenseName">
     <option ng-repeat="license in licenses" value="{{license}}">{{license}}</option>
@@ -48,64 +51,42 @@
 
   <br />
   <br />
-
+    <!-- dropdown menu for language-->
   <span>Language: &nbsp</span>
   <select ng-model="language" name="languageName">
     <option ng-repeat="language in languages" value="{{language}}">{{language}}</option>
   </select>
 
-<!--
-  <div ng-messages="addScenario.languageName.$error" role="alert">
-    <div ng-message="required" style="color: red">Choose a language</div>
-  </div>
--->
-
   <br />
   <br />
-
+  <!-- dropdown menu for material type-->
   <span>Material type: &nbsp</span>
   <select ng-model="materialType" name="materialTypeName">
     <option ng-repeat="material in materials" value="{{material}}">{{material}}</option>
   </select>
 
-<!--
-  <div ng-messages="addScenario.materialTypeName.$error" role="alert">
-    <div ng-message="required" style="color: red">Choose a material type</div>
-  </div>
--->
 
   <br />
   <br />
-
+  <!-- dropdown menu for scenario method-->
   <span>Method: &nbsp</span>
   <select ng-model="method" name="methodName">
     <option ng-repeat="method in methods" value="{{method}}">{{method}}</option>
   </select>
 
-<!--
-  <div ng-messages="addScenario.methodName.$error" role="alert">
-    <div ng-message="required" style="color: red">Choose a method</div>
-  </div>
--->
-
   <br />
   <br />
-
+  <!-- dropdown menu for lscenario stage-->
   <span>Stage: &nbsp</span>
   <select ng-model="stage" name="stageName">
     <option ng-repeat="stage in stages" value="{{stage}}">{{stage}}</option>
   </select>
 
-<!--
-  <div ng-messages="addScenario.stageName.$error" role="alert">
-    <div ng-message="required" style="color: red">Choose a stage</div>
-  </div>
--->
 
 
   <br />
   <br />
-
+  <!-- textbox for adding description-->
   <span>Add description: &nbsp</span> <br />
   <textarea style="text-align:center;" ng-model="description" placeholder="Add a description to the subject" name="description"></textarea>
 

@@ -1,5 +1,5 @@
 <div class="container main-content">
-
+<!-- if the user is not logged in show user warning-->
 <div ng-show=!user>
 	<strong class="alert alert-warning" role="alert">Please <a href="/#/login">login</a> to edit</strong></p>
 </div>
@@ -8,12 +8,12 @@
 	<h1>Editing: {{scenario.name}}</h1>
 
 	<br />
-
+	<!-- textbox with current scenario name that can be changed-->
 	<form ng-show="user">
 		<span>Title </span> <br /> <input class="input-group input-group-lg" type="text" placeholder="Scenario name" value="{{scenario.name}}" name="name" ng-model="scenario.name">
 
 		<br />
-
+			<!-- dropdown menu with selected subject that can be changed-->
 		<span>Subject</span> <br />
 		<select ng-model="scenario.subject">
     		<option ng-repeat="subject in subjects" value="{{subject}}"  name="subject">{{subject}}</option>
@@ -21,13 +21,13 @@
 
 		<br />
 		<br />
-
+			<!-- textbox with current description-->
 		<span>Description </span> <br />
 		<textarea placeholder="Description" ng-model="scenario.description" name="description" name="description">{{scenario.description}}</textarea> <br />
 
 		<br />
 		<br />
-
+			<!-- submit and cancel buttons-->
 		<input type="submit" ng-click="saveEdit()" value="Save" class="btn btn-success">
 		<button type="cancel" ng-click="cancelEdit()" class="btn btn-danger">Cancel</button>
 

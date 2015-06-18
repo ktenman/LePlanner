@@ -4,15 +4,18 @@
 
    <div style="border-right: 1px solid lightgray;" class="col-sm-3">
 
+     <!-- Profile image from Google -->
       <div class="profile-sidebar">
 			<div class="profile-userpic">
 				<img src="{{profile.google.image}}" class="img-responsive" alt="Me">
 			</div>
 
-
+      <!-- Follow button -->
       <div class="profile-userbuttons">
         <a href="" class="btn btn-success btn-sm" disabled="disabled" ><span class="glyphicon glyphicon-plus-sign"></span> Follow</a>
       </div>
+
+      <!-- Profile's username and password -->
 
 			<div class="profile-usertitle">
 				<div class="profile-usertitle-name">
@@ -21,6 +24,8 @@
 				<div class="profile-usertitle-job">
           Tallinn University
 				</div>
+
+        <!-- Sign up month -->
             <div class="profile-usertitle-sign-up">
 					<span class="glyphicon glyphicon-time"></span>
           Joined {{dateAndTime}}
@@ -28,6 +33,8 @@
 			</div>
 
    	 </div>
+
+      <!-- Who he / she follows -->
 
 	<div class="following">
 	<h3>Follows</h3>
@@ -81,7 +88,7 @@
 
 	</div>
 
-
+<!-- Subjects -->
 	<div class="following">
 	<h3>Subjects</h3>
 
@@ -111,7 +118,7 @@
 		<a href="#" class="pull-right" style="margin-right:-10px; margin-top:10px;"></a>
 
 	</div>
-
+<!-- Technical resources -->
 	<div class="following">
 	<h3>Technical resources</h3>
 
@@ -124,7 +131,7 @@
 		</div>
 
 	</div>
-
+<!-- Methods -->
 	<div class="following">
 	<h3>Methods</h3>
 
@@ -148,7 +155,7 @@
 
 
 <div class="single_scenario_item" id="{{scenario._id}}" ng-repeat="scenario in scenarios | filter:query | orderBy: '-created' | limitTo:6">
-
+<!-- Scenario name -->
 <div class="row">
   <div class="col-sm-12">
     <h4><strong><a href="/#/scenarios/{{scenario._id}}">{{scenario.name}}</a></strong></h4>
@@ -160,19 +167,9 @@
     <a href="scenario.php" class="thumbnail">
         <img src="./assets/thumbnail_200.png" alt="">
     </a>
-    <!--
-     <span class="rating">
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star-empty"></span>
-        <br>
-        <span class="glyphicon glyphicon-comment"></span> <a href="scenario.php">3 comments</a>
-     </span>
-   -->
 
   </div>
+  <!-- Scenario info -->
   <div class="col-sm-8">
     <p class="extra-info">
       <span class="glyphicon glyphicon-user"></span> <a href="/#/profile/{{scenario.author.id}}">{{scenario.author.name}}</a><br>
@@ -204,26 +201,8 @@
 
 <hr>
 
-<!--
-
-<nav class="pagination-scenarios-list">
-  <ul class="pagination">
-    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-  </ul>
-</nav>
--->
+</div>
 
 </div>
 
-
-</div>
-
-
-
-  </div><!-- /.container MAIN CONTENT-->
+</div><!-- /.container MAIN CONTENT-->
