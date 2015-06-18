@@ -1,3 +1,5 @@
+
+// Javascript function to select clicked tab (to put it active)
 (function($) {
 $(function() {
 

@@ -7,37 +7,45 @@
 <div class="row scenario-page">
 <div class="col-sm-3">
 
+<!-- Users Google profile picture -->
 <div class="profile-sidebar">
 <div class="profile-userpic">
 <img src="{{user.google.image}}" class="img-responsive" alt="Me">
 </div>
+<!-- Follow button -->
 <div class="profile-userbuttons">
 <a href="" class="btn btn-success btn-sm" disabled="disabled"><span class="glyphicon glyphicon-plus-sign"></span> Follow</a>
 </div>
+
+<!-- Users first name and last name -->
 <div class="profile-usertitle">
 <div class="profile-usertitle-name">
 <a a href="/#/profile/{{user._id}}">{{user.first_name}} {{user.last_name}}</a>
 </div>
+<!-- School -->
 <div class="profile-usertitle-job">
 Tallinn University
 </div>
+<!-- Join date -->
 <div class="profile-usertitle-sign-up">
 <span class="glyphicon glyphicon-time"></span> <span ng-controller="ProfileCtrl">Joined {{dateAndTime}}</span>
 </div>
 </div>
 
 </div>
-
+<!-- Similar scenarios -->
 <div class="similar-scenarios">
 <h3>Similar scenarios</h3>
 
 <div class="">
 <div class="thumbnail thumbnail-first-page">
-<a href="scenario.php">
+<a href="">
   <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
 </a>
+<!-- Scenario name -->
 <div class="caption">
   <h4>{{scenario.name}}</h4>
+  <!-- Scenario description -->
   <p class="thumbnail-caption">{{scenario.description}}</p>
   <p class="clearfix"><span class="favorited-and-comments"><span class="glyphicon glyphicon-heart"></span> 23 <span class="glyphicon glyphicon-comment"></span> 2</span><a class="open-link pull-right" href="#">OPEN <span class="glyphicon glyphicon-chevron-right"></span></a></p>
 </div>
@@ -45,7 +53,7 @@ Tallinn University
 </div>
 <div class="">
 <div class="thumbnail thumbnail-first-page">
-<a href="scenario.php">
+<a href="">
   <img class="thumbnail-preview" src="./assets/thumbnail_200.png" alt="Generic placeholder thumbnail">
 </a>
 <div class="caption">
@@ -85,6 +93,7 @@ Tallinn University
 <div class="col-sm-12">
 <h2><strong>{{scenario.name}}</strong></h2>
 
+<!-- Subscribe and unsubscribe -->
 <div ng-if="user">
   <div ng-if="!isSubscribed()">
       <a ng-click="subscribe()" class="add-favorite-button btn btn-success btn-sm pull-right"><span class="glyphicon glyphicon-heart"></span> Subscribe</a>
@@ -103,6 +112,7 @@ Tallinn University
 
 </div>
 
+<!-- Scenario info -->
 <div class="row">
 <div class="col-sm-12">
 <span class="glyphicon glyphicon-calendar"></span> <span ng-controller="homeCtrl">{{scenarioTime}}</span>
@@ -139,6 +149,8 @@ Tallinn University
 
 </div>
 
+
+<!-- Comments -->
 
 <div class="commets">
 
@@ -218,89 +230,12 @@ Tallinn University
   </div>
 </div>
 </article>
-
+<!-- Add a comment info -->
 <h3>Add a comment</h3>
 
 <p><strong>You have to login to comment!</strong></p>
 
 </div>
-
-
 </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-<div ng-if="user">
-  <div ng-if="!isSubscribed()">
-    <button ng-click="subscribe()" >
-    Subscribe
-    </button>
-  </div>
-  <div ng-if="isSubscribed()">
-    <button ng-click="unsubscribe()">
-      Unsubscribe
-    </button>
-  </div>
-</div>
-<div ng-if="!user">
-  <a href="/#/login">Login to Subscribe</a>
-</div>
-
-<div >
-<h2>
-  Name: {{scenario.name}}
-  <span> {{scenario.rating}}</span>
-</h2>
-Category: {{scenario.subject}} <br>
-Created by: {{scenario.author.name}} <br>
-Description: {{scenario.description}} <br>
-<span ng-controller="homeCtrl">
-Created: {{scenarioDateAndTime}} <br />
-</span>
-</div>
-<div>
-<a href="/#/edit/{{scenario._id}}">Edit</a>
-</div>
--->
-
-
-
-
-
 </div>
