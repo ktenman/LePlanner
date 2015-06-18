@@ -1,15 +1,15 @@
-# LePlanner
-Summer practice 2015
-
-Tallinn University 
-Institute of Informatics
-
-Members:
-Konstantin Tenman manager, testing, documentation <br>
-Andre Post development
-Marten Rebane development, design, testing, documentation, translating
-Elinda Tragel design, documentation
-Vladislav Minajev design, testing
-
-Installation guide:
-http://www.tlu.ee/~tenman/leplanner/Leplanner_installation_setup_manual.pdf
+# LePlanner<br />
+Summer practice 2015<br />
+<br />
+Tallinn University <br />
+Institute of Informatics<br />
+<br />
+Members:<br />
+Konstantin Tenman manager, testing, documentation <br />
+Andre Post development<br />
+Marten Rebane development, design, testing, documentation, translating<br />
+Elinda Tragel design, documentation<br />
+Vladislav Minajev design, testing<br />
+<br />
+Installation guide:<br />
+http://www.tlu.ee/~tenman/leplanner/Leplanner_installation_setup_manual.pdf<br />
