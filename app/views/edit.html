@@ -9,15 +9,28 @@
 
 	<br />
 	<!-- textbox with current scenario name that can be changed-->
-	<form ng-show="user">
-		<span>Title </span> <br /> <input class="input-group input-group-lg" type="text" placeholder="Scenario name" value="{{scenario.name}}" name="name" ng-model="scenario.name">
+	<form ng-show="user" name="editScenario">
+		<span><strong>Title</strong> </span> <br />
+		<input class="input-group input-group-lg" type="text" placeholder="Scenario name" value="{{scenario.name}}" name="editTitleName" ng-model="scenario.name" required>
+		<br />
+		<br />
+		<div ng-messages="editScenario.editTitleName.$error" role="alert">
+	    <div ng-message="required" class="alert alert-info" style="width:250px;text-align:center;display:inline"><strong>Required!</strong> Field can't be empty!</div>
+	    <div ng-message="minlength">At least 1 character required</div>
+	  </div>
 
 		<br />
 			<!-- dropdown menu with selected subject that can be changed-->
-		<span>Subject</span> <br />
+		<span><strong>Subject</strong></span> <br />
 		<select ng-model="scenario.subject">
-    		<option ng-repeat="subject in subjects" value="{{subject}}"  name="subject">{{subject}}</option>
+    		<option ng-repeat="subject in subjects" value="{{subject}}"  name="subjectEditName" required>{{subject}}</option>
   	</select>
+
+		<!-- Scenario error message, user needs to select one subject-->
+	  <div ng-messages="editScenario.subjectEditName.$error" role="alert">
+	    <div ng-message="required" class="alert alert-info" style="width:250px;text-align:center;"><strong>Required!</strong> Choose a subject</div>
+	  </div>
+
 
 		<br />
 		<br />
@@ -32,5 +45,12 @@
 		<button type="cancel" ng-click="cancelEdit()" class="btn btn-danger">Cancel</button>
 
 	</form>
+	<br />
+	<br />
+
+	<!-- Success / Error messages -->
+	<div style="width:400px" id="successEditing" ng-show="successEditing" class="alert alert-success" role="alert"><strong>Success!</strong> {{successEditing}}</div>
+	<div style="width:400px" id="errorEditing" ng-show="errorEditing" class="alert alert-danger" role="alert"><strong>Error!</strong> {{errorEditing}}</div>
+
 </div>
 </div>

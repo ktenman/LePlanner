@@ -11,12 +11,12 @@ leplannerControllers.controller('MainCtrl', [
   function($scope,$http,$rootScope,$location, Scenario){
 
     console.log('main '+$rootScope.user);
-    
+
     //  on user log in give $scope.user user data
     $scope.setUser = function(){
       $scope.user = $rootScope.user;
     };
-    
+
     //  when user logs out sets the variables to null
     $scope.logout = function(){
       $http({url: '/api/logout', method: 'GET'})
@@ -78,10 +78,10 @@ leplannerControllers.controller('homeCtrl', [
     }
 
     $scope.user = $rootScope.user;
-    
+
     //  subject list from array
     $scope.subjects = subjectList();
-    
+
     //  default Scenario query to show all scenarios
     $scope.scenarios = Scenario.query();
 
@@ -89,7 +89,7 @@ leplannerControllers.controller('homeCtrl', [
     $scope.filterBySubject = function(subject) {
       $scope.scenarios = Scenario.query({ subject: subject });
     };
-    
+
     //  function to delete scenarios by scenario id
     $scope.delete = function(id){
       Delete.scenario(id).success(function() {
@@ -145,7 +145,7 @@ leplannerControllers.controller('AddCtrl', [
     //  ---------------------------------------------------------------------------
 
     console.log($scope.user);
-    
+
     //  getting all needed criterions from their arrays
     $scope.subjects = subjectList();
     $scope.languages = languageList();
@@ -172,7 +172,7 @@ leplannerControllers.controller('AddCtrl', [
             stage: $scope.stage,
             description: $scope.description
           };
-          
+
           //  sends the scenario object to server side - index.js
           $http.post('/api/savescenario', scenario) //  sends object to /api/savescenario (index.js)
           .success(function(data, status, headers, config) {
@@ -228,7 +228,7 @@ leplannerControllers.controller('DetailCtrl', [
     //  get the scenario by its id from the URL
     Scenario.get({ _id: $routeParams.id }, function(scenario) {
       $scope.scenario = scenario;
-      
+
       //  checks if the user is subscribed to the scenario
       $scope.isSubscribed = function() {
         return $scope.scenario.subscribers.indexOf($scope.user._id) !== -1;
@@ -273,7 +273,7 @@ leplannerControllers.controller('ProfileCtrl', [
         $scope.user = $rootScope.user;
         $scope.$parent.setUser();
         console.log('user set Addctrl');
-        
+
         //  formatted date to show on profile page
         var dates = data.created;
         var newDate = moment(User.created).format("MMMM YYYY");
@@ -352,10 +352,14 @@ leplannerControllers.controller('EditCtrl', [
                                                       //  in index.js
           .success(function(data, status, headers, config) {
             console.log('Updated');
+            $scope.successEditing = "Scenario has been edited successfully";
+            $scope.errorEditing = null;
           }).
           error(function(data, status, headers, config) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
+            $scope.errorEditing = "There was an error while editing scenario";
+            $scope.successEditing = null;
           });
 
         }
