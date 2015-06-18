@@ -1,5 +1,6 @@
 <div class="container main-content">
 	<h2>Search</h2>
+	<!-- Dropd down menu and textbox for search criterions -->
 	<div class="row search-fields-top">
 		<form>
 			<div class="col-sm-3">
@@ -14,12 +15,12 @@
 			<input style="width:100px;display: inline" class="btn btn-primary btn-block" type="submit" value="Search" ng-click="search()">
 		</form>
 	</div>
-
+<!-- Search div where all the results are shown -->
 	<div class="row advanced-options-and-results">
-		<div class="col-sm-3">
+		<!-- <div class="col-sm-3">
 			<div id="accordion" class="panel-group">
           <div class="panel panel-default">
-            <!-- Default panel contents -->
+            <!-- Default panel contents 
             <div class="panel-heading">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-target="#collapseOne" data-parent="#accordion" >Technical resources<span class="glyphicon glyphicon-menu-down"></span></a>
@@ -31,7 +32,7 @@
 								<ui-select multiple ng-model="tech" theme="bootstrap" ng-disabled="disabled" close-on-select="false" style="width: 200px;" title="Choose tech">
 							    <ui-select-match placeholder="Select tech...">{{$item}}</ui-select-match>
 							    <ui-select-choices repeat="tech in techs" theme="bootstrap">
-							      <!-- {{tech}} -->
+							      <!-- {{tech}} 
 							    </ui-select-choices><br>
 							  </ui-select>
 							</div>
@@ -39,7 +40,7 @@
           </div>
 
           <div class="panel panel-default">
-            <!-- Default panel contents -->
+            <!-- Default panel contents 
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-target="#collapseTwo" data-parent="#accordion" >Number of students<span class="glyphicon glyphicon-menu-down"></span></a>
@@ -54,7 +55,7 @@
           </div>
 
           <div class="panel panel-default">
-            <!-- Default panel contents -->
+            <!-- Default panel contents 
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-target="#collapseThree" data-parent="#accordion" >Language<span class="glyphicon glyphicon-menu-down"></span></a>
@@ -70,7 +71,7 @@
           </div>
 
           <div class="panel panel-default">
-            <!-- Default panel contents -->
+            <!-- Default panel contents 
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-target="#collapseFour" data-parent="#accordion" >License<span class="glyphicon glyphicon-menu-down"></span></a>
@@ -86,7 +87,7 @@
           </div>
 
           <div class="panel panel-default">
-            <!-- Default panel contents -->
+            <!-- Default panel contents 
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-target="#collapseFive" data-parent="#accordion" >Material type<span class="glyphicon glyphicon-menu-down"></span></a>
@@ -102,7 +103,7 @@
           </div>
 
           <div class="panel panel-default">
-            <!-- Default panel contents -->
+            <!-- Default panel contents 
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-target="#collapseSix" data-parent="#accordion" >Created from<span class="glyphicon glyphicon-menu-down"></span></a>
@@ -119,7 +120,7 @@
           </div>
 
           <div class="panel panel-default">
-            <!-- Default panel contents -->
+            <!-- Default panel contents 
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-target="#collapseSeven" data-parent="#accordion" >Created to<span class="glyphicon glyphicon-menu-down"></span></a>
@@ -134,9 +135,10 @@
 						</div>
           </div>
 				</div>
-      </div>
+      </div> -->
 		<div class="col-sm-9">
 			<h4 class="results-heading">Found some answers</h4>
+			<!-- ng-repeat that repeats the divs for each scenario in scenarios array/object -->
 			<div class="single_scenario_item" id="{{scenario._id}}" ng-repeat="scenario in scenarios | filter:query">
 
 		    <div class="row">
@@ -150,18 +152,6 @@
 		        <a href="scenario.php" class="thumbnail">
 		            <img src="./assets/thumbnail_200.png" alt="">
 		        </a>
-
-						<!--
-		         <span class="rating">
-		          	<span class="glyphicon glyphicon-star"></span>
-		            <span class="glyphicon glyphicon-star"></span>
-		            <span class="glyphicon glyphicon-star"></span>
-		            <span class="glyphicon glyphicon-star"></span>
-		            <span class="glyphicon glyphicon-star-empty"></span>
-		            <br>
-		            <span class="glyphicon glyphicon-comment"></span> <a href="scenario.php">3 Kommentaari</a>
-		         </span>
-					-->
 
 					<br />
 		      </div>
