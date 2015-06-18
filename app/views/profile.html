@@ -28,7 +28,7 @@
         <!-- Sign up month -->
             <div class="profile-usertitle-sign-up">
 					<span class="glyphicon glyphicon-time"></span>
-          Joined {{dateAndTime}}
+          Joined {{profile.created | date:'MMMM yyyy'}}
 				</div>
 			</div>
 
@@ -175,7 +175,7 @@
       <span class="glyphicon glyphicon-user"></span> <a href="/#/profile/{{scenario.author.id}}">{{scenario.author.name}}</a><br>
       <span class="glyphicon glyphicon-calendar"></span>
       <span ng-controller="homeCtrl">
-      {{scenarioTime}}
+      {{scenario.created | date:'dd.MM.yyyy HH:mm'}}
     </span>
     </p>
     <p>

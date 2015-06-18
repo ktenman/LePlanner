@@ -185,6 +185,9 @@ app.get('/api/scenarios', function(req, res, next) {
   app.get('/api/scenarios/:id', function(req, res, next) {
     Scenario.findById(req.params.id, function(err, scenario) {
       if (err) return next(err);
+      if (scenario.created) {
+        console.log("\nUSER JUST OPENED SCENARIO, WHICH WAS CREATED: "+scenario.created+"\n");
+      }
       res.send(scenario);
     });
   });

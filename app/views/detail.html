@@ -28,7 +28,7 @@ Tallinn University
 </div>
 <!-- Join date -->
 <div class="profile-usertitle-sign-up">
-<span class="glyphicon glyphicon-time"></span> <span ng-controller="ProfileCtrl">Joined {{dateAndTime}}</span>
+<span class="glyphicon glyphicon-time"></span> <span ng-controller="ProfileCtrl">Joined {{user.created | date:'MMMM yyyy'}}</span>
 </div>
 </div>
 
@@ -115,10 +115,10 @@ Tallinn University
 <!-- Scenario info -->
 <div class="row">
 <div class="col-sm-12">
-<span class="glyphicon glyphicon-calendar"></span> <span ng-controller="homeCtrl">{{scenarioTime}}</span>
+<span class="glyphicon glyphicon-calendar"></span> <span ng-controller="homeCtrl"> {{scenario.created | date:'dd.MM.yyyy HH:mm'}}</span>
 
 <br />
-<span> Created by <a href="/#/profile/{{scenario.author.id}}">{{scenario.author.name}} </a><br /></span><span style="color:green">{{scenario.license}}</span> <span style="color:orange">{{scenario.language}}</span>
+<span> Created by <a href="/#/profile/{{scenario.author.id}}">{{scenario.author.name}} </a><br /></span><span style="color:green">{{scenario.license}}</span> <span style="color:orange">{{scenario.language}} </span>
 
 <br />
 
