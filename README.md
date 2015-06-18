@@ -5,7 +5,7 @@ Tallinn University
 Institute of Informatics
 
 Members:
-Konstantin Tenman manager, testing, documentation
+Konstantin Tenman manager, testing, documentation <br>
 Andre Post development
 Marten Rebane development, design, testing, documentation, translating
 Elinda Tragel design, documentation
