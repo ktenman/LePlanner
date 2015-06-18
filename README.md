@@ -1,9 +1,15 @@
 # LePlanner
-Suvepraktika rühmatöö 2015
+Summer practice 2015
 
-Liikmed:
-Vladislav Minajev / disain; 
-Andre Post / arendus; 
-Marten Rebane / arendus; 
-Konstantin Tenman / arendus, dokumentatsioon; 
-Elinda Tragel / disain, testimine; 
+Tallinn University 
+Institute of Informatics
+
+Members:
+Konstantin Tenman manager, testing, documentation
+Andre Post development
+Marten Rebane development, design, testing, documentation, translating
+Elinda Tragel design, documentation
+Vladislav Minajev design, testing
+
+Installation guide:
+http://www.tlu.ee/~tenman/leplanner/Leplanner_installation_setup_manual.pdf
