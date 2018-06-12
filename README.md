@@ -12,4 +12,4 @@ Elinda Tragel: design, documentation<br />
 Vladislav Minajev: design, testing<br />
 <br />
 Installation guide:<br />
-http://www.tlu.ee/~tenman/leplanner/Leplanner_installation_setup_manual.pdf<br />
+https://github.com/ktenman/LePlanner/blob/master/Leplanner_installation_setup_manual.pdf<br />
